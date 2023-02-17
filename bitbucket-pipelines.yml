@@ -1,0 +1,65 @@
+# Template PHP Build
+
+# This template allows you to validate your PHP application.
+# The workflow allows running tests and code linting on the default branch.
+
+image: php:8.0
+
+definitions:
+  steps:
+    - step: &composer
+        name: "Installing composer"
+        image: composer:2
+        caches:
+          - composer
+        script:
+          - composer install
+        artifacts:
+          - composer.json
+          - composer.lock
+          - config/**
+          - frontend/**
+          - packages/**
+          - private/**
+          - public/**
+          - vendor/**
+
+    - step: &test
+        name: "Testing"
+        image: composer:2
+        caches:
+          - composer
+        script:
+          - docker-php-ext-install pdo_mysql
+          - cp .env.example .env
+          - php artisan key:generate
+          - php artisan migrate --seed
+        services:
+          - mysql
+
+    - step: &deploy-dev
+          name: "Deployment"
+          image: composer:2
+          deployment: develop
+          caches:
+            - composer
+          script:
+            - ls -a
+            - cat composer.json
+            - composer global require laravel/envoy --dev
+            - php vendor/bin/envoy run deploy --commit="$CI_COMMIT_SHA" --branch=develop --env=develop
+  services:
+    mysql:
+      image: mysql
+      environment:
+        MYSQL_DATABASE: laravel_envoy
+        MYSQL_ROOT_PASSWORD: root_user_password
+        MYSQL_USER: test_user
+        MYSQL_PASSWORD: test_user_password
+
+pipelines:
+  branches:
+    develop:
+      - step: *composer
+      - step: *test
+      - step: *deploy-dev
