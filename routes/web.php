@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::middleware(['web'])->group(function () {
     include('v1/web/admin.php');
     include('v1/web/frontend.php');
 });

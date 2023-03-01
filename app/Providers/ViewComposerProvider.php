@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Http\ViewComposers\SidebarComposer;
 use Illuminate\Support\ServiceProvider;
 
 class ViewComposerProvider extends ServiceProvider
@@ -19,6 +20,6 @@ class ViewComposerProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        view()->composer('admin.layouts.partials.sidebar', SidebarComposer::class);
     }
 }
