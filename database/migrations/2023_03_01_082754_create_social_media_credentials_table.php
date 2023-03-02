@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('social_media_credentials', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->foreignId('social_media_id')->constrained();
+            $table->foreignId('social_media_id')->constrained('social_medias');
             $table->json('credentials');
             $table->integer('status')->default(1);
             $table->timestamps();

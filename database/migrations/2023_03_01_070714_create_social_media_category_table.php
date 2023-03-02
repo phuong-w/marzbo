@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('social_media_category', function (Blueprint $table) {
-            $table->foreignId('social_media_id')->constrained();
+            $table->foreignId('social_media_id')->constrained('social_medias');
             $table->foreignId('category_id')->constrained();
             $table->integer('status')->default(1);
             $table->timestamps();
