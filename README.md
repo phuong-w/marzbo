@@ -7,7 +7,7 @@
 This is the project for **Marzbo** by **KHGC**. This project is built with:
 
 -   **[Laravel](https://laravel.com/)**
--   **[Laravel Sanctum](https://github.com/laravel/sanctum/)**
+-   **[Laravel Livewire](https://laravel-livewire.com/)**
 -   **[Spatie Media Library](https://spatie.be/docs/laravel-medialibrary/v9/introduction)**
 -   **[Spatie Laravel Permission](https://spatie.be/docs/laravel-permission/v5/introduction)**
 
@@ -37,6 +37,9 @@ cp .env.example .env
 # Remember to setup your DB settings in .env
 # Migration and DB seeder (after changing your DB settings in .env)
 php artisan migrate --seed
+
+# Run the Vite development server...
+npm run dev
 ```
 
 #### With Docker

@@ -19,11 +19,13 @@
     <div class="col-lg-12">
         <div class="statbox widget box box-shadow">
             <div class="widget-content widget-content-area">
+
                 @can(Acl::PERMISSION_USER_ADD)
                     <div class="layout-top-spacing col-12">
                         <a href="{{ route('admin.user.create') }}" class="btn btn-primary">{{ __('general.button.create') }}</a>
                     </div>
                 @endcan
+                
                 @include('admin.user.partials.dt_user_index_table')
             </div>
         </div>

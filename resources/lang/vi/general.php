@@ -31,6 +31,22 @@ return [
         'title' => 'Categories',
         'menu_title' => 'Categories',
     ],
+    'post' => [
+        'title' => 'Posts',
+        'menu_title' => 'Posts',
+    ],
+    'schedule' => [
+        'title' => 'Schedules',
+        'menu_title' => 'Schedules',
+    ],
+    'social_media' => [
+        'title' => 'Social Media',
+        'menu_title' => 'Social Media',
+    ],
+    'social_media_credential' => [
+        'title' => 'Social Media Credential',
+        'menu_title' => 'Social Media Credential',
+    ],
     'role' => [
         'title' => 'Roles',
         'menu_title' => 'Roles'

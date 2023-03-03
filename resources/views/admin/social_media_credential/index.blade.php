@@ -1,9 +1,9 @@
 @extends('admin.layouts.app')
 
-@section('title', __('general.post.title'))
+@section('title', __('general.social_media_credential.title'))
 
 @section('breadcrumbs')
-    <li class="breadcrumb-item active" aria-current="page"><span>{{ __('general.post.title') }}</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span>{{ __('general.social_media_credential.title') }}</span></li>
 @endsection
 
 @push('styles')
@@ -19,11 +19,13 @@
     <div class="col-lg-12">
         <div class="statbox widget box box-shadow">
             <div class="widget-content widget-content-area">
-                @can(Acl::PERMISSION_POST_ADD)
+
+                @can(Acl::PERMISSION_SOCIAL_MEDIA_CREDENTIAL_ADD)
                     <div class="layout-top-spacing col-12">
                         <a href="{{ route('admin.category.create') }}" class="btn btn-primary">{{ __('general.button.create') }}</a>
                     </div>
                 @endcan
+                
                 @include('admin.social_media_credential.partials.dt_social_media_credential_index_table')
             </div>
         </div>

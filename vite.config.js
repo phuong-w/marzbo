@@ -164,18 +164,7 @@ export default defineConfig({
                 // Tag Input
                 'resources/sass/plugins/tagInput/tags-input.scss'
             ],
-            refresh: true,
+            refresh: true
         }),
-        {
-            name: 'blade',
-            handleHotUpdate({ file, server }) {
-                if (file.endsWith('.blade.php')) {
-                    server.ws.send({
-                        type: 'full-reload',
-                        path: '*',
-                    })
-                }
-            }
-        }
     ],
 });
