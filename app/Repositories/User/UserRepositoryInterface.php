@@ -22,12 +22,4 @@ interface UserRepositoryInterface extends RepositoryInterface
      * @return LengthAwarePaginator
      */
     public function serverPaginationFilteringFor(array $searchParams): LengthAwarePaginator;
-
-    /**
-     * Filter the request from the api
-     *
-     * @param array $searchParams
-     * @return LengthAwarePaginator
-     */
-    public function serverPaginationFilterForApi(array $searchParams): LengthAwarePaginator;
 }

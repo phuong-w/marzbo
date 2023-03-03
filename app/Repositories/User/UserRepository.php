@@ -87,62 +87,47 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     }
   }
 
-    /**
-     * @param $searchParams
-     * @return LengthAwarePaginator
-     */
-    public function serverPaginationFilteringFor($searchParams = null): LengthAwarePaginator
-    {
-        $limit = Arr::get($searchParams, 'limit', self::ITEM_PER_PAGE);
-        $keyword = Arr::get($searchParams, 'search', '');
+  /**
+   * @param $searchParams
+   * @return LengthAwarePaginator
+   */
+  public function serverPaginationFilteringFor($searchParams = null): LengthAwarePaginator
+  {
+    $limit = Arr::get($searchParams, 'limit', self::ITEM_PER_PAGE);
+    $keyword = Arr::get($searchParams, 'search', '');
 
-        $dtColumns = Arr::get($searchParams, 'columns');
-        $dtOrders = Arr::get($searchParams, 'order');
+    $dtColumns = Arr::get($searchParams, 'columns');
+    $dtOrders = Arr::get($searchParams, 'order');
 
-        $query = $this->model->query();
+    $query = $this->model->query();
 
-        if ($keyword) {
-            if (is_array($keyword)) {
-                $keyword = $keyword['value'];
-            }
-            $query->where(
-                function ($q) use ($keyword) {
-                    $q->where('id', 'LIKE', '%' . $keyword . '%');
-                    $q->orWhere('name', 'LIKE', '%' . $keyword . '%');
-                    $q->orWhere('created_at', 'LIKE', '%' . $keyword . '%');
-                }
-            );
+    if ($keyword) {
+      if (is_array($keyword)) {
+        $keyword = $keyword['value'];
+      }
+      $query->where(
+        function ($q) use ($keyword) {
+          $q->where('id', 'LIKE', '%' . $keyword . '%');
+          $q->orWhere('name', 'LIKE', '%' . $keyword . '%');
+          $q->orWhere('created_at', 'LIKE', '%' . $keyword . '%');
         }
-
-        if ($dtColumns && $dtOrders) {
-            foreach ($dtOrders as $dtOrder) {
-                $colIndex = $dtOrder['column'];
-                $col = $dtColumns[$colIndex];
-                if ($col['orderable'] === "true") {
-                    $orderDirection = $dtOrder['dir'];
-                    $orderName = $col['data'];
-                    $query->orderBy($orderName, $orderDirection);
-                }
-            }
-        }
-
-        $query->orderByDesc('created_at');
-
-        return $query->paginate(Arr::get($searchParams, 'per_page', $limit));
+      );
     }
 
-    /**
-     * @param $searchParams
-     * @return LengthAwarePaginator
-     */
-    public function serverPaginationFilterForApi($searchParams): LengthAwarePaginator
-    {
-        $limit = Arr::get($searchParams, 'limit', self::ITEM_PER_PAGE);
-
-        $query = $this->model->query();
-
-        $query->latest();
-
-        return $query->paginate($limit);
+    if ($dtColumns && $dtOrders) {
+      foreach ($dtOrders as $dtOrder) {
+        $colIndex = $dtOrder['column'];
+        $col = $dtColumns[$colIndex];
+        if ($col['orderable'] === "true") {
+          $orderDirection = $dtOrder['dir'];
+          $orderName = $col['data'];
+          $query->orderBy($orderName, $orderDirection);
+        }
+      }
     }
+
+    $query->latest();
+
+    return $query->paginate(Arr::get($searchParams, 'per_page', $limit));
+  }
 }

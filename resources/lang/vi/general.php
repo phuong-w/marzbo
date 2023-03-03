@@ -25,8 +25,11 @@ return [
     'user' => [
         'title' => 'Users',
         'menu_title' => 'Users',
-        'subtitle' => 'Here is a quote to inspire your day',
         'logout' => 'Đăng Xuất',
+    ],
+    'category' => [
+        'title' => 'Categories',
+        'menu_title' => 'Categories',
     ],
     'role' => [
         'title' => 'Roles',
@@ -44,11 +47,17 @@ return [
         'update' => 'Cập nhật',
         'save' => 'Lưu',
     ],
+    'choose' => [
+        'status' => 'Choose status'
+    ],
     'common' => [
         'actions' => 'Thao tác',
+        'disable' => 'Vô hiệu',
+        'dismiss' => 'Bỏ qua',
         'email' => 'Email',
         'empty' => 'Trống',
         'empty_table_message' => 'Chưa có dữ liệu',
+        'enable' => 'Enable',
         'first_name' => 'Tên',
         'last_name' => 'Họ',
         'loading' => 'Đang sử lý...',
@@ -59,6 +68,7 @@ return [
         'phone_number' => 'Phone number',
         'result' => 'Số lượng',
         'roles' => 'Vai trò',
+        'status' => 'Trạng thái',
         'showing_page' => 'Hiển thị trang :page trong :pages trang',
         'search' => 'Tìm kiếm...',
         'sort_by' => 'Sắp xếp',
@@ -73,6 +83,26 @@ return [
             'user' => 'Users',
             'role' => 'Roles',
             'permission' => 'Permissions',
-        ]
+        ],
+        'category_management' => [
+            'title' => 'Manage Categories',
+            'category' => 'Categories',
+        ],
+        'post_management' => [
+            'title' => 'Manage Posts',
+            'post' => 'Posts',
+        ],
+        'schedule_management' => [
+            'title' => 'Manage Schedules',
+            'schedule' => 'Schedules',
+        ],
+        'social_media_management' => [
+            'title' => 'Manage Social Media',
+            'social_media' => 'Social Media',
+        ],
+        'social_media_credential_management' => [
+            'title' => 'Manage Social Media Credential',
+            'social_media_credential' => 'Social Media Credential',
+        ],
     ],
 ];

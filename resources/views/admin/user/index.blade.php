@@ -7,10 +7,12 @@
 @endsection
 
 @push('styles')
-    <link rel="stylesheet" type="text/css" href="{{ asset('plugins/table/datatable/datatables.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/forms/theme-checkbox-radio.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('plugins/table/datatable/dt-global_style.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('plugins/table/datatable/custom_dt_custom.css') }}">
+    @vite([
+    'resources/sass/plugins/table/datatable/datatables.scss',
+    'resources/sass/assets/forms/theme-checkbox-radio.scss',
+    'resources/sass/plugins/table/datatable/dt-global_style.scss',
+    'resources/sass/plugins/table/datatable/custom_dt_custom.scss',
+    ])
 @endpush
 
 @section('content')

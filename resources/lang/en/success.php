@@ -22,7 +22,6 @@ return [
             'description' => "Your file has been deleted."
         ],
     ],
-
     'user' => [
         'register' => 'Register account for :user successfully',
         'login' => 'Logged in successfully'
@@ -41,5 +40,10 @@ return [
     'account' => [
         'store' => 'Create account successfully',
         'delete' => 'Delete account successfully'
-    ]
+    ],
+    'category' => [
+        'store' => 'Create category successfully',
+        'update' => 'Update category successfully',
+        'delete' => 'Delete category successfully'
+    ],
 ];

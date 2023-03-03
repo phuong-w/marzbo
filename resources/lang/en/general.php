@@ -25,8 +25,27 @@ return [
     'user' => [
         'title' => 'Users',
         'menu_title' => 'Users',
-        'subtitle' => 'Here is a quote to inspire your day',
         'logout' => 'Sign Out',
+    ],
+    'category' => [
+        'title' => 'Categories',
+        'menu_title' => 'Categories',
+    ],
+    'post' => [
+        'title' => 'Posts',
+        'menu_title' => 'Posts',
+    ],
+    'schedule' => [
+        'title' => 'Schedules',
+        'menu_title' => 'Schedules',
+    ],
+    'social_media' => [
+        'title' => 'Social Media',
+        'menu_title' => 'Social Media',
+    ],
+    'social_media_credential' => [
+        'title' => 'Social Media Credential',
+        'menu_title' => 'Social Media Credential',
     ],
     'role' => [
         'title' => 'Roles',
@@ -44,11 +63,17 @@ return [
         'update' => 'Update',
         'save' => 'Save',
     ],
+    'choose' => [
+        'status' => 'Choose status'
+    ],
     'common' => [
         'actions' => 'Actions',
+        'disable' => 'Disable',
+        'dismiss' => 'Dismiss',
         'email' => 'Email',
         'empty' => 'Empty',
         'empty_table_message' => 'No data available in table',
+        'enable' => 'Enable',
         'first_name' => 'First name',
         'last_name' => 'Last name',
         'loading' => 'Loading...',
@@ -59,6 +84,7 @@ return [
         'phone_number' => 'Phone number',
         'result' => 'Results',
         'roles' => 'Roles',
+        'status' => 'Status',
         'showing_page' => 'Showing page :page of :pages',
         'search' => 'Search...',
         'sort_by' => 'Sort by',
@@ -73,6 +99,26 @@ return [
             'user' => 'Users',
             'role' => 'Roles',
             'permission' => 'Permissions',
-        ]
+        ],
+        'category_management' => [
+            'title' => 'Manage Categories',
+            'category' => 'Categories',
+        ],
+        'post_management' => [
+            'title' => 'Manage Posts',
+            'post' => 'Posts',
+        ],
+        'schedule_management' => [
+            'title' => 'Manage Schedules',
+            'schedule' => 'Schedules',
+        ],
+        'social_media_management' => [
+            'title' => 'Manage Social Media',
+            'social_media' => 'Social Media',
+        ],
+        'social_media_credential_management' => [
+            'title' => 'Manage Social Media Credential',
+            'social_media_credential' => 'Social Media Credential',
+        ],
     ],
 ];

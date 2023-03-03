@@ -36,4 +36,9 @@ return [
         'store' => 'Tạo tài khoản thành công',
         'delete' => 'Xóa tài khoản thành công'
     ],
+    'category' => [
+        'store' => 'Create category successfully',
+        'update' => 'Update category successfully',
+        'delete' => 'Delete category successfully'
+    ],
 ];

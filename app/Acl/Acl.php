@@ -43,6 +43,36 @@ final class Acl
     const PERMISSION_CUSTOMER_EDIT          = 'customer edit';
     const PERMISSION_CUSTOMER_DELETE        = 'customer delete';
 
+    const PERMISSION_CATEGORY_MANAGE      = 'manage category';
+    const PERMISSION_CATEGORY_LIST        = 'category list';
+    const PERMISSION_CATEGORY_ADD         = 'category add';
+    const PERMISSION_CATEGORY_EDIT        = 'category edit';
+    const PERMISSION_CATEGORY_DELETE      = 'category delete';
+
+    const PERMISSION_POST_MANAGE      = 'manage post';
+    const PERMISSION_POST_LIST        = 'post list';
+    const PERMISSION_POST_ADD         = 'post add';
+    const PERMISSION_POST_EDIT        = 'post edit';
+    const PERMISSION_POST_DELETE      = 'post delete';
+
+    const PERMISSION_SCHEDULE_MANAGE      = 'manage schedule';
+    const PERMISSION_SCHEDULE_LIST        = 'schedule list';
+    const PERMISSION_SCHEDULE_ADD         = 'schedule add';
+    const PERMISSION_SCHEDULE_EDIT        = 'schedule edit';
+    const PERMISSION_SCHEDULE_DELETE      = 'schedule delete';
+
+    const PERMISSION_SOCIAL_MEDIA_MANAGE      = 'manage social media';
+    const PERMISSION_SOCIAL_MEDIA_LIST        = 'social media list';
+    const PERMISSION_SOCIAL_MEDIA_ADD         = 'social media add';
+    const PERMISSION_SOCIAL_MEDIA_EDIT        = 'social media edit';
+    const PERMISSION_SOCIAL_MEDIA_DELETE      = 'social media delete';
+    
+    const PERMISSION_SOCIAL_MEDIA_CREDENTIAL_MANAGE      = 'manage social media credential';
+    const PERMISSION_SOCIAL_MEDIA_CREDENTIAL_LIST        = 'social media credential list';
+    const PERMISSION_SOCIAL_MEDIA_CREDENTIAL_ADD         = 'social media credential add';
+    const PERMISSION_SOCIAL_MEDIA_CREDENTIAL_EDIT        = 'social media credential edit';
+    const PERMISSION_SOCIAL_MEDIA_CREDENTIAL_DELETE      = 'social media credential delete';
+
     /**
      * @param array $exclusives Exclude some permissions from the list
      * @return array

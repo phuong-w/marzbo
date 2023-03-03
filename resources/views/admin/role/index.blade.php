@@ -7,7 +7,12 @@
 @endsection
 
 @push('styles')
-    @vite(['resources/sass/plugins/table/datatable/datatables.scss', 'resources/sass/assets/forms/theme-checkbox-radio.scss', 'resources/sass/plugins/table/datatable/dt-global_style.scss', 'resources/sass/plugins/table/datatable/custom_dt_custom.scss'])
+    @vite([
+        'resources/sass/plugins/table/datatable/datatables.scss', 
+        'resources/sass/assets/forms/theme-checkbox-radio.scss', 
+        'resources/sass/plugins/table/datatable/dt-global_style.scss', 
+        'resources/sass/plugins/table/datatable/custom_dt_custom.scss'
+        ])
 @endpush
 
 @section('content')

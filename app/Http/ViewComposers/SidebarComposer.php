@@ -49,9 +49,49 @@ class SidebarComposer
             'url' => route('admin.role.index'),
             'active' => Route::is('admin.role.*'),
             'show' => auth()->user()->hasAnyPermission([Acl::PERMISSION_VIEW_MENU_ROLE_PERMISSION]),
-          ],
+          ]
         ],
-      ]
+      ],
+      [
+        'title' => __('general.menu.category_management.title'),
+        'url' => route('admin.category.index'),
+        'icon' => 'credit-card',
+        'active' => Route::is(['admin.category.*']),
+        'show' => auth()->user()->hasAnyPermission([Acl::PERMISSION_CATEGORY_LIST]),
+        'child' => []
+      ],
+      [
+        'title' => __('general.menu.post_management.title'),
+        'url' => route('admin.post.index'),
+        'icon' => 'credit-card',
+        'active' => Route::is(['admin.post.*']),
+        'show' => auth()->user()->hasAnyPermission([Acl::PERMISSION_POST_LIST]),
+        'child' => []
+      ],
+      [
+        'title' => __('general.menu.schedule_management.title'),
+        'url' => route('admin.schedule.index'),
+        'icon' => 'credit-card',
+        'active' => Route::is(['admin.schedule.*']),
+        'show' => auth()->user()->hasAnyPermission([Acl::PERMISSION_SCHEDULE_LIST]),
+        'child' => []
+      ],
+      [
+        'title' => __('general.menu.social_media_management.title'),
+        'url' => route('admin.social_media.index'),
+        'icon' => 'credit-card',
+        'active' => Route::is(['admin.social_media.*']),
+        'show' => auth()->user()->hasAnyPermission([Acl::PERMISSION_SOCIAL_MEDIA_LIST]),
+        'child' => []
+      ],
+      [
+        'title' => __('general.menu.social_media_credential_management.title'),
+        'url' => route('admin.social_media_credential.index'),
+        'icon' => 'credit-card',
+        'active' => Route::is(['admin.social_media_credential.*']),
+        'show' => auth()->user()->hasAnyPermission([Acl::PERMISSION_SOCIAL_MEDIA_CREDENTIAL_LIST]),
+        'child' => []
+      ],
     ];
   }
 

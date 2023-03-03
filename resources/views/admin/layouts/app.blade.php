@@ -17,9 +17,11 @@
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
     <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('plugins/notification/snackbar/snackbar.min.css') }}" rel="stylesheet" type="text/css" />
 
     <!-- Styles -->
     @vite(['resources/sass/assets/loader.scss', 'resources/sass/assets/plugins.scss'])
+    <script src="{{ asset('assets/js/loader.js') }}"></script>
     <!-- END GLOBAL MANDATORY STYLES -->
 
     <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM STYLES -->
@@ -72,12 +74,13 @@
     <!-- END MAIN CONTAINER -->
 
     <!-- BEGIN GLOBAL MANDATORY SCRIPTS -->
-    <script src="{{ asset('assets/js/loader.js') }}"></script>
+    
     <script src="{{ asset('assets/js/libs/jquery-3.1.1.min.js') }}"></script>
     <script src="{{ asset('bootstrap/js/popper.min.js') }}"></script>
     <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('plugins/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
     <script src="{{ asset('assets/js/app.js') }}"></script>
+    <script src="{{ asset('plugins/notification/snackbar/snackbar.min.js') }}"></script>
 
     <script>
         $(document).ready(function() {
@@ -86,6 +89,8 @@
     </script>
     <script src="{{ asset('assets/js/custom.js') }}"></script>
     <!-- END GLOBAL MANDATORY SCRIPTS -->
+
+    @include('admin.layouts.partials.notifications')
 
     <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
     @stack('script')

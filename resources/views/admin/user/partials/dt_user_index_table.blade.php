@@ -1,7 +1,7 @@
 <table id="dt-table" class="table style-3  table-hover">
     <thead>
         <tr>
-            <th class="checkbox-column text-center">Id.</th>
+            <th class="checkbox-column text-center">ID</th>
             <th>{{ __('general.common.name') }}</th>
             <th>{{ __('general.common.email') }}</th>
             <th>{{ __('general.common.roles') }}</th>
