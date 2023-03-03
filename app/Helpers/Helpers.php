@@ -27,3 +27,20 @@ if (!function_exists('checkPermissions')) {
     return auth()->user()->hasAnyPermission($permissions);
   }
 }
+
+if (!function_exists('checkOldArray')) {
+
+    /**
+     * Check old input name array from current user
+     *
+     * @param mixed $value
+     * @param string $oldInputName
+     * @param array $default
+     * @return bool
+     */
+    function checkOldArray($value, $oldInputName, $default = null)
+    {
+        $array = old($oldInputName, $default);
+        return $array && in_array($value, $array) ? 'selected' : '';
+    }
+}

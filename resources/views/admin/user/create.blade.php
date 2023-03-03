@@ -12,7 +12,7 @@
 
 @section('content')
     <div id="basic" class="col-lg-8 col-sm-12 col-12 layout-spacing">
-        <form action="{{ route('admin.user.store') }}" method="POST">
+        <form action="{{ route('admin.user.store') }}" enctype="multipart/form-data" method="POST">
             @csrf
             <div class="statbox widget box box-shadow">
                 <div class="widget-content widget-content-area">
@@ -20,56 +20,89 @@
                         <a href="{{ route('admin.user.index') }}" class="btn btn-gray">{{ __('general.button.cancel') }}</a>
                         <button type="submit" class="btn btn-primary">{{ __('general.button.create') }}</button>
                     </div>
-                    <div class="form-group mb-4">
-                        <label for="sName">Name</label>
-                        <input type="text" name="name" class="form-control @error('name') is-invalid @enderror"
-                            id="sName" placeholder="Name" value="{{ old('name') }}">
-                        @error('name')
+                    <div class="row">
+                        <div class="form-group mb-4 col-md-6">
+                            <label for="sFirstName">{{ __('general.common.first_name') }}</label>
+                            <input type="text" name="first_name"
+                                   class="form-control @error('first_name') is-invalid @enderror" id="sFirstName"
+                                   placeholder="{{ __('general.common.first_name') }}" value="{{ old('first_name') }}">
+                            @error('first_name')
                             <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
-                    <div class="form-group mb-4">
-                        <label for="sEmail">Email</label>
-                        <input type="text" name="email" class="form-control @error('email') is-invalid @enderror"
-                            id="sEmail" placeholder="Email" value="{{ old('email') }}">
-                        @error('email')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
-                    <div class="form-group mb-4">
-                        <label for="sPassword">Password</label>
-                        <input type="password" name="password" class="form-control @error('password') is-invalid @enderror"
-                            id="sPassword" placeholder="Password" value="{{ old('password') }}">
-                        @error('password')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
-                    <div class="form-group mb-4">
-                        <label for="sPasswordConfirm">Confirm Password</label>
-                        <input type="password" name="password_confirmation" class="form-control" id="sPasswordConfirm"
-                            placeholder="Password" value="{{ old('password_confirmation') }}">
-                    </div>
-                    <div class="form-group mb-4">
-                        <label for="sRolePicker">User Role</label>
-                        <div>
-                            <select class="selectpicker w-100 @error('role') is-invalid @enderror" id="sRolePicker"
-                                title="Choose role" name="role">
-                                @foreach ($roles as $item)
-                                    <option value="{{ $item->name }}">{{ $item->name }}</option>
-                                @endforeach
-                            </select>
-                            @error('role')
-                                <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
                         </div>
+                        <div class="form-group mb-4 col-md-6">
+                            <label for="sLastName">{{ __('general.common.last_name') }}</label>
+                            <input type="text" name="last_name"
+                                   class="form-control @error('last_name') is-invalid @enderror" id="sLastName"
+                                   placeholder="{{ __('general.common.last_name') }}" value="{{ old('last_name') }}">
+                            @error('last_name')
+                            <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="form-group mb-4">
+                        <label for="sEmail">{{ __('general.common.email') }}</label>
+                        <input type="text" name="email" class="form-control @error('email') is-invalid @enderror"
+                               id="sEmail" placeholder="Email" value="{{ old('email') }}">
+                        @error('email')
+                        <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                    <div class="form-group mb-4">
+                        <label for="sPhone">{{ __('general.common.phone_number') }}</label>
+                        <input type="text" name="phone" class="form-control @error('phone') is-invalid @enderror"
+                               id="sPhone" placeholder="{{ __('general.common.phone_number') }}"
+                               value="{{ old('phone') }}">
+                        @error('phone')
+                        <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                    <div class="form-group mb-4">
+                        <label for="sPassword">{{ __('general.common.password') }}</label>
+                        <input type="password" name="password" class="form-control @error('password') is-invalid @enderror"
+                               id="sPassword" placeholder="{{ __('general.common.password') }}"
+                               value="{{ old('password') }}">
+                        @error('password')
+                        <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                    <div class="form-group mb-4">
+                        <label for="sPasswordConfirm">{{ __('general.common.password_confirm') }}</label>
+                        <input type="password" name="password_confirmation" class="form-control" id="sPasswordConfirm"
+                               placeholder="{{ __('general.common.password_confirm') }}"
+                               value="{{ old('password_confirmation') }}">
+                    </div>
+                    <div class="form-group mb-4">
+                        @if (auth()->user()->can(Acl::PERMISSION_ASSIGNEE))
+                            <label for="sRolePicker">{{ __('general.common.user_role') }}</label>
+                            <div>
+                                <select class="selectpicker w-100 @error('role') is-invalid @enderror" id="sRolePicker"
+                                        title="Choose role" name="role[]" multiple>
+                                    @foreach ($roles as $item)
+                                        <option value="{{ $item->name }}" {{ checkOldArray($item->name, 'role') }}>
+                                            {{ $item->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('role')
+                                <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        @else
+                            <input type="hidden" name="role" value="{{ Acl::ROLE_CUSTOMER }}">
+                        @endif
                     </div>
                 </div>
             </div>
@@ -77,10 +110,10 @@
     </div>
 @endsection
 
-@push('script')
+@prepend('script')
     <script src="{{ asset('plugins/bootstrap-select/bootstrap-select.min.js') }}"></script>
+@endprepend
 
-    <script>
-        $('.selectpicker').selectpicker('val', '{{ @old('role') }}');
-    </script>
+@push('script')
+
 @endpush

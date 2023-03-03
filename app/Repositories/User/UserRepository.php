@@ -4,6 +4,8 @@ namespace App\Repositories\User;
 
 use App\Models\User;
 use App\Repositories\BaseRepository;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -17,6 +19,8 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
    * @inheritdoc
    */
   protected $model;
+
+  const ITEM_PER_PAGE = 50;
 
   /**
    * @inheritdoc
@@ -45,16 +49,18 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
 
       $data['password'] = Hash::make($data['password']);
 
+      $data['name'] = $data['last_name'] . ' ' . $data['first_name'];
+
       $user = $this->model->create($data);
 
-      $user->assignRole($data['role']);
+      $user->syncRoles($data['role']);
 
       DB::commit();
 
-      return true;
+      return $user;
     } catch (\Exception $e) {
       DB::rollBack();
-      return false;
+      return $e->getMessage();
     }
   }
 
@@ -68,14 +74,75 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
 
       $user = $model->update($data);
 
-      $model->syncRoles([$data['role']]);
+      if (isset($data['role'])) {
+        $model->syncRoles([$data['role']]);
+      }
 
       DB::commit();
 
       return $user;
     } catch (\Exception $e) {
       DB::rollBack();
-      return false;
+      return $e->getMessage();
     }
   }
+
+    /**
+     * @param $searchParams
+     * @return LengthAwarePaginator
+     */
+    public function serverPaginationFilteringFor($searchParams = null): LengthAwarePaginator
+    {
+        $limit = Arr::get($searchParams, 'limit', self::ITEM_PER_PAGE);
+        $keyword = Arr::get($searchParams, 'search', '');
+
+        $dtColumns = Arr::get($searchParams, 'columns');
+        $dtOrders = Arr::get($searchParams, 'order');
+
+        $query = $this->model->query();
+
+        if ($keyword) {
+            if (is_array($keyword)) {
+                $keyword = $keyword['value'];
+            }
+            $query->where(
+                function ($q) use ($keyword) {
+                    $q->where('id', 'LIKE', '%' . $keyword . '%');
+                    $q->orWhere('name', 'LIKE', '%' . $keyword . '%');
+                    $q->orWhere('created_at', 'LIKE', '%' . $keyword . '%');
+                }
+            );
+        }
+
+        if ($dtColumns && $dtOrders) {
+            foreach ($dtOrders as $dtOrder) {
+                $colIndex = $dtOrder['column'];
+                $col = $dtColumns[$colIndex];
+                if ($col['orderable'] === "true") {
+                    $orderDirection = $dtOrder['dir'];
+                    $orderName = $col['data'];
+                    $query->orderBy($orderName, $orderDirection);
+                }
+            }
+        }
+
+        $query->orderByDesc('created_at');
+
+        return $query->paginate(Arr::get($searchParams, 'per_page', $limit));
+    }
+
+    /**
+     * @param $searchParams
+     * @return LengthAwarePaginator
+     */
+    public function serverPaginationFilterForApi($searchParams): LengthAwarePaginator
+    {
+        $limit = Arr::get($searchParams, 'limit', self::ITEM_PER_PAGE);
+
+        $query = $this->model->query();
+
+        $query->latest();
+
+        return $query->paginate($limit);
+    }
 }

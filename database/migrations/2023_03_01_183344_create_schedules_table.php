@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->foreignId('category_id')->constrained();
             $table->foreignId('social_media_credential_id')->constrained();
-            $table->dateTime('publish_date')->nullable();
+            $table->timestamp('publish_date')->nullable();
             $table->timestamps();
         });
     }

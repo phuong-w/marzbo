@@ -21,6 +21,7 @@ final class Acl
     const ROLE_SUPPLIER             = 'partner';
     const ROLE_CUSTOMER             = 'customer';
 
+    const PERMISSION_ASSIGNEE     = 'assignee';
     const PERMISSION_VIEW_MENU_PERMISSION       = 'view menu permission';
     const PERMISSION_VIEW_MENU_DASHBOARD        = 'view menu dashboard';
     const PERMISSION_VIEW_MENU_ADMIN            = 'view menu admin';

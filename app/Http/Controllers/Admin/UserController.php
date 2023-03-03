@@ -6,10 +6,10 @@ use App\Acl\Acl;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
+use App\Http\Resources\User\UserResource;
 use App\Models\User;
 use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Http\Request;
-use Spatie\Permission\Exceptions\UnauthorizedException;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
@@ -32,9 +32,12 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = $this->userRepository->allWithRoles();
+        $users = $this->userRepository->serverPaginationFilteringFor($request->all());
+        if ($request->ajax()) {
+            return UserResource::collection($users);
+        }
         return view('admin.user.index', compact('users'));
     }
 
@@ -57,8 +60,8 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        $data = $request->validated();
-        $this->userRepository->create($data);
+        $this->userRepository->create($request->validated());
+        session()->flash(NOTIFICATION_SUCCESS, __('success.account.store'));
         return redirect()->route('admin.user.index');
     }
 
@@ -95,8 +98,8 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        $data = $request->validated();
-        $this->userRepository->update($user, $data);
+        $this->userRepository->update($user, $request->validated());
+        session()->flash(NOTIFICATION_SUCCESS, __('success.account.store'));
         return redirect()->route('admin.user.index');
     }
 

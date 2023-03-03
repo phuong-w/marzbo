@@ -13,7 +13,7 @@
             <h6>{{ __('general.dashboard.subtitle') }}</h6>
 
             <p class="mb-0 mt-3">
-                {{ $quote }}
+                {!! $quote !!}
             </p>
         </div>
     </div>

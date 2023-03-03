@@ -4,14 +4,27 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Image\Manipulations;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+class User extends Authenticatable implements HasMedia
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles, SoftDeletes, InteractsWithMedia;
+
+    const AVATAR_PLACEHOLDER = 'https://ui-avatars.com/api/?background=random&name=';
+    const AVATAR_COLLECTION = 'avatar';
+    const AVATAR_RESIZE_NAME = 'avatar_resize';
+    const CONVERSION_SIZE = [
+        'width' => 200,
+        'height' => 200
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -20,8 +33,12 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'first_name',
+        'last_name',
         'email',
+        'phone',
         'password',
+        'reset_password_at',
     ];
 
     /**
@@ -41,5 +58,53 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'reset_password_at' => 'datetime'
     ];
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['avatar'];
+
+    public $with = ['media'];
+
+    /**
+     * Get the user's first name.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getAvatarAttribute($value)
+    {
+        $avatar = $this->getFirstMediaUrl(self::AVATAR_COLLECTION);
+        if ($avatar) {
+            return $avatar;
+        }
+
+        return self::AVATAR_PLACEHOLDER . trim($this->name);
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this
+            ->addMediaCollection(self::AVATAR_COLLECTION)
+            ->singleFile();
+    }
+
+    /**
+     * @param Media|null $media
+     * @return void
+     * @throws \Spatie\Image\Exceptions\InvalidManipulation
+     */
+    public function registerMediaConversions(Media $media = null): void
+    {
+        $this->addMediaConversion(self::AVATAR_RESIZE_NAME)
+            ->fit(Manipulations::FIT_FILL, self::CONVERSION_SIZE['width'], self::CONVERSION_SIZE['height'])
+            ->background('fff')
+            ->performOnCollections(self::AVATAR_COLLECTION)
+            ->sharpen(10)
+            ->nonQueued();
+    }
 }

@@ -17,10 +17,6 @@ return [
         'title' => 'Sign In',
         'subtitle' => 'Log in to your account to continue.'
     ],
-    'sidebar' => [
-        'user_management' => 'Manage User',
-        'product_management' => 'Manage Product',
-    ],
     'dashboard' => [
         'title' => 'Dashboard',
         'menu_title' => 'Dashboard',
@@ -32,10 +28,6 @@ return [
         'subtitle' => 'Here is a quote to inspire your day',
         'logout' => 'Sign Out',
     ],
-    'brand' => [
-        'title' => 'Brands',
-        'menu_title' => 'Brands'
-    ],
     'role' => [
         'title' => 'Roles',
         'menu_title' => 'Roles'
@@ -45,9 +37,34 @@ return [
         'edit' => 'Edit'
     ],
     'button' => [
-        'update' => 'Update',
+        'cancel' => 'Cancel',
+        'close' => 'Close',
         'create' => 'Create',
-        'cancel' => 'Cancel'
+        'delete' => 'Delete',
+        'update' => 'Update',
+        'save' => 'Save',
+    ],
+    'common' => [
+        'actions' => 'Actions',
+        'email' => 'Email',
+        'empty' => 'Empty',
+        'empty_table_message' => 'No data available in table',
+        'first_name' => 'First name',
+        'last_name' => 'Last name',
+        'loading' => 'Loading...',
+        'name' => 'Name',
+        'user_role' => 'User role',
+        'password' => 'Password',
+        'password_confirm' => 'Passwrod confirm',
+        'phone_number' => 'Phone number',
+        'result' => 'Results',
+        'roles' => 'Roles',
+        'showing_page' => 'Showing page :page of :pages',
+        'search' => 'Search...',
+        'sort_by' => 'Sort by',
+    ],
+    'sidebar' => [
+        'user_management' => 'Manage User',
     ],
     'menu' => [
         'dashboard' => 'Dashboard',
@@ -56,10 +73,6 @@ return [
             'user' => 'Users',
             'role' => 'Roles',
             'permission' => 'Permissions',
-        ],
-        'product_management' => [
-            'title' => 'Manage Products',
-            'brand' => 'Brands',
-        ],
-    ]
+        ]
+    ],
 ];
