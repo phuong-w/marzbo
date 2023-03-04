@@ -51,32 +51,18 @@ npm run dev
 # We need to copy the .env.example file to .env first (!!important)
 cp .env.example .env
 
-# Run the docker services
-docker-compose up -d
+# Run the sail with path
+./vendor/bin/sail up -d
 ```
 
-Install Composer Packages
-
--   Executing into bash
+-   Or You can configuring a shell alias
 
 ```sh
-# Execute into workspace bash
-docker-compose exec workspace bash
+# Run command
+alias sail='[ -f sail ] && sh sail || sh vendor/bin/sail'
 
-# Run the artisan or npm commands here
-/var/www~ composer install
-
-```
-
--   Or you can execute commands without going into bash
-
-```sh
-# Get laravel docker container ID from containers list
-docker ps
-
-# Where <container ID> is the "workspace" container id, ex: c3ecb5baef0b
-docker exec -it <container ID> composer install # or npm run watch
-
+# Run the sail
+sail up -d
 ```
 
 ### Final steps
