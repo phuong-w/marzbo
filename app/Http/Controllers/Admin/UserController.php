@@ -10,6 +10,7 @@ use App\Http\Resources\User\UserResource;
 use App\Models\User;
 use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
@@ -30,26 +31,25 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function index(Request $request)
     {
         $users = $this->userRepository->serverPaginationFilteringFor($request->all());
-        if ($request->ajax()) {
-            return UserResource::collection($users);
-        }
-        return view('admin.user.index', compact('users'));
+        $users = UserResource::collection($users);
+
+        return Inertia::render('User/Index', compact('users'));
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function create()
     {
         $roles = Role::all();
-        return view('admin.user.create', compact('roles'));
+        return Inertia::render('User/Create', compact('roles'));
     }
 
     /**
@@ -73,6 +73,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
+        dd($user);
         //
     }
 
@@ -84,6 +85,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
+        dd($user);
         $user->load('roles');
         $roles = Role::all();
         return view('admin.user.edit', compact('user', 'roles'));

@@ -1,10 +1,13 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
+import vue from '@vitejs/plugin-vue';
 
 export default defineConfig({
     plugins: [
         laravel({
             input: [
+                'resources/js/app.js',
+
                 'resources/sass/assets/plugins.scss',
                 'resources/sass/assets/structure.scss',
                 'resources/sass/assets/loader.scss',
@@ -164,7 +167,8 @@ export default defineConfig({
                 // Tag Input
                 'resources/sass/plugins/tagInput/tags-input.scss'
             ],
-            refresh: ['resources/views/**'],
+            refresh: true,
         }),
-    ],
+        vue()
+    ]
 });
