@@ -164,7 +164,7 @@ export default defineConfig({
                 // Tag Input
                 'resources/sass/plugins/tagInput/tags-input.scss'
             ],
-            refresh: true
+            refresh: ['resources/views/**'],
         }),
     ],
 });
