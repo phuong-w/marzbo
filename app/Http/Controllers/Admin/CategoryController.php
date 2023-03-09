@@ -13,6 +13,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class CategoryController extends Controller
 {
@@ -35,20 +36,19 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         $categories = $this->categoryRepository->serverPaginationFilteringFor($request->all());
-        if ($request->ajax()) {
-            return CategoryResource::collection($categories);
-        }
-        return view('admin.category.index', compact('categories'));
+        $categories = CategoryResource::collection($categories);
+
+        return Inertia::render('Category/Index', compact('categories'));
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return Application|Factory|View
+     * @return \Inertia\Response
      */
     public function create()
     {
-        return view('admin.category.create');
+        return Inertia::render('Category/Create');
     }
 
     /**
@@ -104,7 +104,7 @@ class CategoryController extends Controller
 
     /**
      * Update the specified resource status in storage.
-     * 
+     *
      * @param Category $category
      * @return Category
      */

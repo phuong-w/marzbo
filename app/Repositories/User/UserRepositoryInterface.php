@@ -15,6 +15,11 @@ interface UserRepositoryInterface extends RepositoryInterface
      */
     public function allWithRoles();
 
+    /*
+     * register account user customer
+     */
+    public function registerCustomer($data);
+
     /**
      * Filter the request from the performance
      *

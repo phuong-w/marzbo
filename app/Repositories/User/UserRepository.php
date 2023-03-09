@@ -2,6 +2,7 @@
 
 namespace App\Repositories\User;
 
+use App\Acl\Acl;
 use App\Models\User;
 use App\Repositories\BaseRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -86,6 +87,31 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
       return $e->getMessage();
     }
   }
+
+    /**
+     * @inheritdoc
+     */
+    public function registerCustomer($data)
+    {
+        try {
+            DB::beginTransaction();
+
+            $data['password'] = Hash::make($data['password']);
+
+            $data['name'] = $data['last_name'] . ' ' . $data['first_name'];
+
+            $user = $this->model->create($data);
+
+            $user->assignRole(Acl::ROLE_CUSTOMER);
+
+            DB::commit();
+
+            return $user;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return $e->getMessage();
+        }
+    }
 
   /**
    * @param $searchParams

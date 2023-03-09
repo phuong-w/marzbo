@@ -3,48 +3,51 @@
 namespace App\Http\Controllers\Admin\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class LoginController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
-
-    use AuthenticatesUsers;
-
     /**
      * Show the application's login form.
      *
-     * @return \Illuminate\View\View
+     * @return Response
      */
-    public function showLoginForm()
+    public function showLoginForm(): Response
     {
-        return view('admin.auth.login');
+        return Inertia::render('Auth/Login');
     }
 
     /**
-     * Where to redirect users after login.
-     *
-     * @var string
+     * Handle an incoming authentication request.
+     * @throws ValidationException
      */
-    protected $redirectTo = RouteServiceProvider::ADMIN;
+    public function login(LoginRequest $request): RedirectResponse
+    {
+        $request->authenticate();
+
+        $request->session()->regenerate();
+
+        return redirect()->intended(RouteServiceProvider::ADMIN);
+    }
 
     /**
-     * Create a new controller instance.
-     *
-     * @return void
+     * Destroy an authenticated session.
      */
-    public function __construct()
+    public function logout(Request $request): RedirectResponse
     {
-        $this->middleware('guest')->except('logout');
+        Auth::guard('web')->logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect()->route('home');
     }
 }
