@@ -6,7 +6,7 @@ use App\Acl\Acl;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
-use App\Http\Resources\User\UserResource;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Http\Request;
@@ -36,9 +36,10 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $users = $this->userRepository->serverPaginationFilteringFor($request->all());
-        $users = UserResource::collection($users);
 
-        return Inertia::render('User/Index', compact('users'));
+        return Inertia::render('Admin/User/Index', [
+            'users' => UserResource::collection($users)
+        ]);
     }
 
     /**
@@ -49,7 +50,7 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::all();
-        return Inertia::render('User/Create', compact('roles'));
+        return Inertia::render('Admin/User/Create', compact('roles'));
     }
 
     /**

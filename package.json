@@ -13,8 +13,9 @@
     "dependencies": {
         "@inertiajs/vue3": "^1.0.2",
         "@vitejs/plugin-vue": "^4.0.0",
-        "vue": "^3.2.36",
+        "vue": "^3.2.47",
         "vue-feather": "^2.0.0",
+        "vue-multiselect": "^3.0.0-beta.1",
         "ziggy-js": "^1.5.0"
     }
 }

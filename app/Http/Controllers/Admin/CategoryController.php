@@ -6,7 +6,7 @@ use App\Acl\Acl;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Category\StoreCategoryRequest;
 use App\Http\Requests\Category\UpdateCategoryRequest;
-use App\Http\Resources\Category\CategoryResource;
+use App\Http\Resources\CategoryResource;
 use App\Models\Category;
 use App\Repositories\Category\CategoryRepositoryInterface;
 use Illuminate\Contracts\Foundation\Application;
@@ -36,9 +36,10 @@ class CategoryController extends Controller
     public function index(Request $request)
     {
         $categories = $this->categoryRepository->serverPaginationFilteringFor($request->all());
-        $categories = CategoryResource::collection($categories);
 
-        return Inertia::render('Category/Index', compact('categories'));
+        return Inertia::render('Admin/Category/Index', [
+            'categories' => CategoryResource::collection($categories)
+        ]);
     }
 
     /**
@@ -48,7 +49,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Category/Create');
+        return Inertia::render('Admin/Category/Create');
     }
 
     /**

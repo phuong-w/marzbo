@@ -12,7 +12,7 @@ class DashboardController extends Controller
     public function index()
     {
         $quote = Inspiring::quote();
-//        return view('admin.dashboard.index', compact('quote'));
-        return Inertia::render('Dashboard', compact('quote'));
+
+        return Inertia::render('Admin/Dashboard', compact('quote'));
     }
 }
