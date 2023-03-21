@@ -1,5 +1,5 @@
 <script setup>
-import AuthLayout from '@/Layouts/Auth.vue'
+import AuthLayout from '@/Layouts/AuthLayout.vue'
 import InputError from '@/components/InputError.vue'
 import { Head, Link, useForm } from '@inertiajs/vue3'
 
