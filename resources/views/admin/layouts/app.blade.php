@@ -18,16 +18,33 @@
                 border: none;
                 background-color: inherit;
             }
+
+            .bubble p {
+                color: inherit !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            .bubble pre {
+                background-color: lavender;
+                padding: 16px;
+            }
         </style>
         <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
         <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('plugins/notification/snackbar/snackbar.min.css') }}" rel="stylesheet" type="text/css" />
+
+        <!-- Style chat -->
+        <link href="{{ asset('assets/css/apps/mailing-chat.css') }}" rel="stylesheet" type="text/css" />
 
         <!-- Styles -->
         @vite([
         'resources/js/app.js',
 
         'resources/sass/assets/authentication/form-2.scss',
+
+        'resources/sass/plugins/lightbox/custom-photswipe.scss',
+        'resources/sass/plugins/lightbox/photoswipe.scss',
 
         'resources/sass/assets/loader.scss',
         'resources/sass/assets/plugins.scss',

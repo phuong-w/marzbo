@@ -9,7 +9,6 @@ const Acl = inject('Acl')
 const menuItems = [
     {
         title: 'Dashboard',
-        component: 'Dashboard',
         url: route('admin.dashboard'),
         icon: 'home',
         active: route().current('admin.dashboard'),
@@ -17,23 +16,27 @@ const menuItems = [
     },
     {
         title: 'Categories',
-        component: 'Category',
         url: route('admin.category.index'),
-        icon: 'credit-card',
+        icon: 'sidebar',
         active: route().current('admin.category.*'),
         show: hasPermission(Acl.PERMISSION_CATEGORY_LIST)
     },
     {
         title: 'Posts',
-        component: 'Post',
         url: route('admin.post.index'),
-        icon: 'credit-card',
+        icon: 'file-text',
         active: route().current('admin.post.*'),
         show: hasPermission(Acl.PERMISSION_POST_LIST)
     },
     {
+        title: 'Chat GPT',
+        url: route('admin.chat_gpt.index'),
+        icon: 'message-square',
+        active: route().current('admin.chat_gpt.*'),
+        show: hasPermission(Acl.PERMISSION_CHATGPT_MANAGE)
+    },
+    {
         title: 'Users',
-        component: 'User',
         url: route('admin.user.index'),
         icon: 'users',
         active: route().current('admin.user.*'),
@@ -41,7 +44,6 @@ const menuItems = [
     },
     {
         title: 'Roles',
-        component: 'Role',
         url: route('admin.role.index'),
         icon: 'settings',
         active: route().current('admin.role.*'),
@@ -49,12 +51,11 @@ const menuItems = [
     },
     {
         title: 'Permissions',
-        component: 'Permission',
         url: route('admin.permission.index'),
         icon: 'anchor',
         active: route().current('admin.permission.*'),
         show: hasPermission(Acl.PERMISSION_VIEW_MENU_ROLE_PERMISSION)
-    },
+    }
 ];
 </script>
 

@@ -156,4 +156,12 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
 
     return $query->paginate(Arr::get($searchParams, 'per_page', $limit));
   }
+
+  /**
+   * Add your api key openai
+   */
+  public function addApiKeyOpenai($data)
+  {
+      return auth()->user()->update($data);
+  }
 }

@@ -56,4 +56,6 @@ export const Acl = {
     PERMISSION_SOCIAL_MEDIA_CREDENTIAL_ADD        : 'social media credential add',
     PERMISSION_SOCIAL_MEDIA_CREDENTIAL_EDIT       : 'social media credential edit',
     PERMISSION_SOCIAL_MEDIA_CREDENTIAL_DELETE     : 'social media credential delete',
+
+    PERMISSION_CHATGPT_MANAGE      : 'manage chat gpt',
 }
