@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\ChatGpt;
 
+use App\Rules\CheckOpenaiApiKey;
 use Illuminate\Foundation\Http\FormRequest;
 
 class AddApiKeyRequest extends FormRequest
@@ -22,7 +23,7 @@ class AddApiKeyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'openai_api_key' => ['required']
+            'openai_api_key' => ['required', new CheckOpenaiApiKey]
         ];
     }
 }

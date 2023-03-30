@@ -31,33 +31,39 @@ class ChatGptRepository extends BaseRepository implements ChatGptRepositoryInter
      */
     public function updateOrCreate($data, $model)
     {
-        $messages = [];
-        if ($model) {
-            $messages = $model->context;
+        try {
+            $messages = [];
+            if ($model) {
+                $messages = $model->context;
+            }
+            $messages[] = [
+                'role' => 'user',
+                'content' => $data['promt']
+            ];
+
+            $client = auth()->user()->getOpenaiApiKey();
+
+            $response = $client->chat()->create([
+                'model' => 'gpt-3.5-turbo',
+                'messages' => $messages
+            ]);
+
+            $messages[] = [
+                'role' => 'assistant',
+                'content' => $response->choices[0]->message->content
+            ];
+
+            return $this->model->updateOrCreate([
+                'id' => $model ? $model->id : null,
+                'user_id' => auth()->id()
+            ], [
+                'uuid' => (string) Str::uuid(),
+                'context' => $messages
+            ]);
+        } catch (\Exception $e) {
+            session()->flash(NOTIFICATION_ERROR, __('error.message', ['message' => $e->getMessage()]));
+            return;
         }
-        $messages[] = [
-            'role' => 'user',
-            'content' => $data['promt']
-        ];
 
-        $client = auth()->user()->getOpenaiApiKey();
-
-        $response = $client->chat()->create([
-            'model' => 'gpt-3.5-turbo',
-            'messages' => $messages
-        ]);
-
-        $messages[] = [
-            'role' => 'assistant',
-            'content' => $response->choices[0]->message->content
-        ];
-
-        return $this->model->updateOrCreate([
-            'id' => $model ? $model->id : null,
-            'user_id' => auth()->id()
-        ], [
-            'uuid' => (string) Str::uuid(),
-            'context' => $messages
-        ]);
     }
 }

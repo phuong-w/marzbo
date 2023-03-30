@@ -11,10 +11,8 @@ use App\Repositories\ChatGpt\ChatGptRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
-use OpenAI\Laravel\Facades\OpenAI;
 
 class ChatGptController extends Controller
 {
@@ -62,14 +60,16 @@ class ChatGptController extends Controller
     public function store(StoreChatGptRequest $request, ChatGpt $chatGpt = null): RedirectResponse
     {
         $chatGpt = $this->chatGptRepository->updateOrCreate($request->validated(), $chatGpt);
-
-        return to_route('admin.chat_gpt.index', $chatGpt->uuid);
+        if ($chatGpt) {
+            return to_route('admin.chat_gpt.index', $chatGpt->uuid);
+        }
+        return to_route('admin.chat_gpt.index');
     }
 
     /**
      * Add api key openai of the current account
      */
-    public function addApiKey(AddApiKeyRequest $request)
+    public function addApiKey(AddApiKeyRequest $request): RedirectResponse
     {
         $this->userRepository->addApiKeyOpenai($request->validated());
         return to_route('admin.chat_gpt.index');
