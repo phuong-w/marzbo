@@ -6,21 +6,28 @@ use App\Acl\Acl;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Post\StorePostRequest;
 use App\Http\Requests\Post\UpdatePostRequest;
-use App\Http\Resources\Post\PostResource;
+use App\Http\Resources\CategoryResource;
+use App\Http\Resources\PostResource;
 use App\Models\Post;
+use App\Repositories\Category\CategoryRepositoryInterface;
 use App\Repositories\Post\PostRepositoryInterface;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class PostController extends Controller
 {
     private $postRepository;
+    private $categoryRepository;
 
-    public function __construct(PostRepositoryInterface $postRepository)
-    {
+    public function __construct(
+        PostRepositoryInterface $postRepository,
+        CategoryRepositoryInterface $categoryRepository
+    ) {
         // Permissions validations
         $this->middleware('permission:' . Acl::PERMISSION_POST_LIST)->only(['index', 'show']);
         $this->middleware('permission:' . Acl::PERMISSION_POST_ADD)->only(['create', 'store']);
@@ -28,39 +35,41 @@ class PostController extends Controller
         $this->middleware('permission:' . Acl::PERMISSION_POST_DELETE)->only('destroy');
 
         $this->postRepository = $postRepository;
+        $this->categoryRepository = $categoryRepository;
     }
 
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request): Response
     {
         $posts = $this->postRepository->serverPaginationFilteringFor($request->all());
-//        if ($request->ajax()) {
-//            return PostResource::collection($posts);
-//        }
-//        return view('admin.post.index', compact('posts'));
-        return Inertia::render('Admin/Post/Index', compact('posts'));
+
+        return Inertia::render('Admin/Post/Index', [
+            'posts' => PostResource::collection($posts)
+        ]);
     }
 
     /**
      * Show the form for creating a new resource.
-     *
-     * @return Application|Factory|View
      */
-    public function create()
+    public function create(): Response
     {
-        return view('admin.post.create');
+        $categories = $this->categoryRepository->all();
+
+        return Inertia::render('Admin/Post/Create', [
+            'categories' => CategoryResource::collection($categories)
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StorePostRequest $request)
+    public function store(StorePostRequest $request): RedirectResponse
     {
         $this->postRepository->create($request->validated());
         session()->flash(NOTIFICATION_SUCCESS, __('success.post.store'));
-        return redirect()->route('admin.post.index');
+        return to_route('admin.post.index');
     }
 
     /**
@@ -73,13 +82,12 @@ class PostController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param Post $post
-     * @return Application|Factory|View
      */
-    public function edit(Post $post)
+    public function edit(Post $post): Response
     {
-        return view('admin.post.edit', compact('post'));
+        return Inertia::render('Admin/Post/Edit', [
+            'post' => new PostResource($post)
+        ]);
     }
 
     /**
@@ -89,18 +97,20 @@ class PostController extends Controller
      * @param Post $post
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(UpdatePostRequest $request, Post $post)
+    public function update(UpdatePostRequest $request, Post $post): RedirectResponse
     {
         $this->postRepository->update($post, $request->validated());
         session()->flash(NOTIFICATION_SUCCESS, __('success.post.update'));
-        return redirect()->route('admin.post.index');
+        return to_route('admin.post.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Post $post): RedirectResponse
     {
-        //
+        $this->postRepository->destroy($post);
+        session()->flash(NOTIFICATION_SUCCESS, __('success.post.delete'));
+        return back();
     }
 }

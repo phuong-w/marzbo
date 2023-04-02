@@ -266,3 +266,7 @@ onMounted(() => {
     </div>
     </AdminLayout>
 </template>
+
+<style src="/resources/sass/plugins/table/datatable/datatables.scss" lang="scss"></style>
+<style src="/resources/sass/plugins/table/datatable/dt-global_style.scss" lang="scss"></style>
+<style src="/resources/sass/plugins/table/datatable/custom_dt_custom.scss" lang="scss"></style>
