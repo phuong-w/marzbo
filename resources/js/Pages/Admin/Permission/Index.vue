@@ -1,13 +1,120 @@
 <script setup>
 import AdminLayout from '@/Layouts/AdminLayout.vue'
-import { Head, Link } from '@inertiajs/vue3'
-import { inject } from 'vue'
+import {Head, Link, router} from '@inertiajs/vue3'
+import {inject, onMounted, onUpdated} from 'vue'
 import { hasRole, hasPermission} from '@/composables/helpers'
+import DataTable from 'datatables.net-vue3'
+import DataTablesCore from 'datatables.net'
+
+DataTable.use(DataTablesCore)
 
 const Acl = inject('Acl')
 
 defineProps({
     permissions: Object,
+})
+
+DataTable.use(DataTablesCore)
+
+const options = {
+    dom: "<'dt--top-section'<'row'<'col-12 col-sm-6 d-flex justify-content-sm-start justify-content-center'l><'col-12 col-sm-6 d-flex justify-content-sm-end justify-content-center mt-sm-0 mt-3'f>>>" +
+        "<'table-responsive'tr>" +
+        "<'dt--bottom-section d-sm-flex justify-content-sm-between text-center'<'dt--pages-count  mb-sm-0 mb-3'i><'dt--pagination'p>>",
+    oLanguage: {
+        "oPaginate": {
+            "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>',
+            "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>'
+        },
+        "sEmptyTable": "No data available in table",
+        "sInfo": "Showing page _PAGE_ of _PAGES_",
+        "sInfoEmpty": "Showing page _PAGE_ of _PAGES_",
+        "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
+        "sSearchPlaceholder": "Search...",
+        "sLengthMenu": "Results :  _MENU_",
+    },
+    lengthMenu: [5, 10, 20, 50],
+    pageLength: 50,
+    processing: true,
+    ordering: true,
+    order: [[0, 'desc']],
+}
+const columns = [
+    {
+        data: 'id',
+        class: 'text-center'
+    },
+    {data: 'name'},
+    {
+        data: 'id',
+        class: 'text-center',
+        render: function (data, type, full) {
+            let canEdit = hasPermission(Acl.PERMISSION_PERMISSION_MANAGE)
+            let canDelete = hasPermission(Acl.PERMISSION_PERMISSION_MANAGE)
+
+            let html = `<ul class="table-controls">`
+            if (canEdit) {
+                html += `<li>
+                    <a href="javascript:" class="bs-tooltip btn-edit" data-id="${data}"
+                          data-toggle="tooltip" data-placement="top" title=""
+                          data-original-title="edit">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                             viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                             class="feather feather-edit-2 p-1 br-6 mb-1">
+                            <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z">
+                            </path>
+                        </svg>
+                    </a>
+                </li>`
+            }
+            if (canDelete) {
+                html += `<li>
+                    <a href="javascript:" class="bs-tooltip btn-delete" data-id="${data}" data-toggle="tooltip" data-placement="top"
+                       title=""
+                       data-original-title="delete">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                             viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                             class="feather feather-trash p-1 br-6 mb-1">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path
+                                d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                            </path>
+                        </svg>
+                    </a>
+                </li>`
+            }
+            html += `</ul>`
+
+            return html
+        }
+    }
+]
+
+const handleCickOnPage = () => {
+    // Button edit onclick
+    const editElts = document.querySelectorAll('.btn-edit')
+    editElts.forEach((elt) => {
+        elt.addEventListener('click', function() {
+            router.get(route('admin.permission.edit', elt.dataset.id))
+        })
+    })
+
+    // Button delete onclick
+    const deleteElts = document.querySelectorAll('.btn-delete')
+    deleteElts.forEach((elt) => {
+        elt.addEventListener('click', function() {
+            router.delete(route('admin.permission.destroy', elt.dataset.id))
+        })
+    })
+}
+
+onMounted(() => {
+    handleCickOnPage()
+})
+
+onUpdated(() => {
+    handleCickOnPage()
 })
 </script>
 
@@ -22,7 +129,7 @@ defineProps({
                         <Link :href="route('admin.permission.create')" class="btn btn-primary">Create</Link>
                     </div>
 
-                    <table id="dt-table" class="table style-3  table-hover">
+                    <DataTable :data="permissions.data" :columns="columns" :options="options" class="display table style-3 table-hover">
                         <thead>
                         <tr>
                             <th class="checkbox-column text-center">ID</th>
@@ -30,52 +137,7 @@ defineProps({
                             <th class="text-center dt-no-sorting">Action</th>
                         </tr>
                         </thead>
-                        <tbody>
-                        <tr v-for="(item, index) in permissions.data" :key="index">
-                            <td class="checkbox-column text-center">
-                                {{ item.id }}
-                            </td>
-                            <td>
-                                {{ item.name }}
-                            </td>
-                            <td class="text-center">
-                                <ul class="table-controls">
-
-                                    <li v-if="hasPermission(Acl.PERMISSION_PERMISSION_MANAGE)">
-                                        <Link :href="route('admin.permission.edit', item.id)" class="bs-tooltip"
-                                              data-toggle="tooltip" data-placement="top" title=""
-                                              data-original-title="edit">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                 class="feather feather-edit-2 p-1 br-6 mb-1">
-                                                <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z">
-                                                </path>
-                                            </svg>
-                                        </Link>
-                                    </li>
-
-                                    <li v-if="hasPermission(Acl.PERMISSION_PERMISSION_MANAGE)">
-                                        <Link :href="route('admin.permission.destroy', item.id)" method="DELETE" as="button"
-                                            class="bs-tooltip delete as-button" data-toggle="tooltip" data-placement="top"
-                                           title=""
-                                           data-original-title="delete">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                 class="feather feather-trash p-1 br-6 mb-1">
-                                                <polyline points="3 6 5 6 21 6"></polyline>
-                                                <path
-                                                    d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
-                                                </path>
-                                            </svg>
-                                        </Link>
-                                    </li>
-                                </ul>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    </DataTable>
                 </div>
             </div>
         </div>
