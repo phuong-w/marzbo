@@ -18,7 +18,7 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
      */
     protected $model;
 
-    const ITEM_PER_PAGE = 50;
+    const ITEM_PER_PAGE = 5;
 
     /**
      * @inheritdoc

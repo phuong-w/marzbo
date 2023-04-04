@@ -1,101 +1,79 @@
-<!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
+        <!-- CSRF Token -->
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+        <link rel="icon" type="image/x-icon" href="{{ asset('storage/img/favicon.ico') }}" />
+        <!-- Fonts -->
+        <link rel="dns-prefetch" href="//fonts.gstatic.com">
 
-    <title>Marzbo @yield('title', 'Marzbo')</title>
-    <link rel="icon" type="image/x-icon" href="{{ asset('storage/img/favicon.ico') }}" />
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+        <!-- BEGIN GLOBAL MANDATORY STYLES -->
+        <style>
+            .as-button {
+                border: none;
+                background-color: inherit;
+            }
 
-    <!-- BEGIN GLOBAL MANDATORY STYLES -->
-    <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
-    <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('plugins/notification/snackbar/snackbar.min.css') }}" rel="stylesheet" type="text/css" />
+            .bubble p {
+                color: inherit !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
 
-    <!-- Styles -->
-    @vite(['resources/sass/assets/loader.scss', 'resources/sass/assets/plugins.scss'])
-    <script src="{{ asset('assets/js/loader.js') }}"></script>
-    <!-- END GLOBAL MANDATORY STYLES -->
+            .bubble pre {
+                background-color: lavender;
+                padding: 16px;
+            }
+        </style>
+        <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
+        <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('plugins/notification/snackbar/snackbar.min.css') }}" rel="stylesheet" type="text/css" />
 
-    <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM STYLES -->
-    @stack('styles')
-    <!-- END PAGE LEVEL PLUGINS/CUSTOM STYLES -->
-</head>
+        <!-- Style chat -->
+        <link href="{{ asset('assets/css/apps/mailing-chat.css') }}" rel="stylesheet" type="text/css" />
 
-<body @yield('body-class')>
+        <!-- Styles -->
+        @vite([
+        'resources/js/app.js',
 
-    <!-- BEGIN LOADER -->
-    @include('admin.layouts.partials.loader')
-    <!--  END LOADER -->
+        'resources/sass/assets/authentication/form-2.scss',
 
-    <!--  BEGIN NAVBAR  -->
-    @include('admin.layouts.partials.navbar')
-    <!--  END NAVBAR  -->
+        'resources/sass/plugins/lightbox/custom-photswipe.scss',
+        'resources/sass/plugins/lightbox/photoswipe.scss',
 
-    <!--  BEGIN BREADCRUMBS  -->
-    @include('admin.layouts.partials.subnav')
-    <!--  END BREADCRUMBS  -->
+        'resources/sass/assets/loader.scss',
+        'resources/sass/assets/plugins.scss',
+        'resources/sass/plugins/perfect-scrollbar/perfect-scrollbar.scss',
+        'resources/sass/plugins/table/datatable/datatables.scss',
+        'resources/sass/assets/forms/theme-checkbox-radio.scss',
+//        'resources/sass/plugins/table/datatable/dt-global_style.scss',
+        'resources/sass/plugins/table/datatable/custom_dt_custom.scss',
+        ])
+{{--        <script src="{{ asset('assets/js/loader.js') }}"></script>--}}
+        @routes
+        @inertiaHead
+    </head>
+    <body>
+        @inertia
 
-    <!--  BEGIN MAIN CONTAINER  -->
-    <div class="main-container" id="container">
+        <script src="{{ asset('assets/js/libs/jquery-3.1.1.min.js') }}"></script>
+        <script src="{{ asset('bootstrap/js/popper.min.js') }}"></script>
+        <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
+{{--        <script src="{{ asset('plugins/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>--}}
+{{--        <script src="{{ asset('assets/js/app.js') }}"></script>--}}
+        <script src="{{ asset('plugins/notification/snackbar/snackbar.min.js') }}"></script>
 
-        <div class="overlay"></div>
-        <div class="search-overlay"></div>
+        <script>
+            // $(document).ready(function() {
+            //     App.init();
+            // });
+        </script>
+        <script src="{{ asset('assets/js/custom.js') }}"></script>
 
-        <!--  BEGIN SIDEBAR  -->
-        @include('admin.layouts.partials.sidebar')
-        <!--  END SIDEBAR  -->
-
-        <!--  BEGIN CONTENT PART  -->
-        <div id="content" class="main-content">
-            <div class="layout-px-spacing">
-                <div class="row layout-top-spacing layout-spacing">
-                    <div class="col-12">
-                        <h1>
-                            @yield('title', 'Default title')
-                        </h1>
-                    </div>
-
-                    @yield('content')
-                </div>
-            </div>
-
-            @include('admin.layouts.partials.footer')
-        </div>
-        <!--  END CONTENT PART  -->
-    </div>
-    <!-- END MAIN CONTAINER -->
-
-    <!-- BEGIN GLOBAL MANDATORY SCRIPTS -->
-
-    <script src="{{ asset('assets/js/libs/jquery-3.1.1.min.js') }}"></script>
-    <script src="{{ asset('bootstrap/js/popper.min.js') }}"></script>
-    <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('plugins/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
-    <script src="{{ asset('assets/js/app.js') }}"></script>
-    <script src="{{ asset('plugins/notification/snackbar/snackbar.min.js') }}"></script>
-
-    <script>
-        $(document).ready(function() {
-            App.init();
-        });
-    </script>
-    <script src="{{ asset('assets/js/custom.js') }}"></script>
-    <!-- END GLOBAL MANDATORY SCRIPTS -->
-
-    @include('admin.layouts.partials.notifications')
-
-    <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
-    @stack('script')
-    <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
-
-</body>
-
+    </body>
 </html>

@@ -21,7 +21,7 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
    */
   protected $model;
 
-  const ITEM_PER_PAGE = 50;
+  const ITEM_PER_PAGE = 5;
 
   /**
    * @inheritdoc
@@ -155,5 +155,13 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     $query->latest();
 
     return $query->paginate(Arr::get($searchParams, 'per_page', $limit));
+  }
+
+  /**
+   * Add your api key openai
+   */
+  public function addApiKeyOpenai($data)
+  {
+      return auth()->user()->update($data);
   }
 }

@@ -2,8 +2,12 @@
 
 namespace App\Providers;
 
+use App\Repositories\ChatGpt\ChatGptRepository;
+use App\Repositories\ChatGpt\ChatGptRepositoryInterface;
 use App\Repositories\Role\RoleRepository;
 use App\Repositories\Role\RoleRepositoryInterface;
+use App\Repositories\Permission\PermissionRepository;
+use App\Repositories\Permission\PermissionRepositoryInterface;
 use App\Repositories\User\UserRepository;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Repositories\Category\CategoryRepository;
@@ -27,11 +31,13 @@ class RepositoryServiceProvider extends ServiceProvider
     {
         $this->app->singleton(UserRepositoryInterface::class, UserRepository::class);
         $this->app->singleton(RoleRepositoryInterface::class, RoleRepository::class);
+        $this->app->singleton(PermissionRepositoryInterface::class, PermissionRepository::class);
         $this->app->singleton(CategoryRepositoryInterface::class, CategoryRepository::class);
         $this->app->singleton(PostRepositoryInterface::class, PostRepository::class);
         $this->app->singleton(ScheduleRepositoryInterface::class, ScheduleRepository::class);
         $this->app->singleton(SocialMediaRepositoryInterface::class, SocialMediaRepository::class);
         $this->app->singleton(SocialMediaCredentialRepositoryInterface::class, SocialMediaCredentialRepository::class);
+        $this->app->singleton(ChatGptRepositoryInterface::class, ChatGptRepository::class);
     }
 
     /**

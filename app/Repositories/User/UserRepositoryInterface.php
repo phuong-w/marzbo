@@ -27,4 +27,9 @@ interface UserRepositoryInterface extends RepositoryInterface
      * @return LengthAwarePaginator
      */
     public function serverPaginationFilteringFor(array $searchParams): LengthAwarePaginator;
+
+    /**
+     * Add your api key openai
+     */
+    public function addApiKeyOpenai($data);
 }

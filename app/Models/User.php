@@ -8,11 +8,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use OpenAI;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable implements HasMedia
 {
@@ -39,6 +41,7 @@ class User extends Authenticatable implements HasMedia
         'phone',
         'password',
         'reset_password_at',
+        'openai_api_key'
     ];
 
     /**
@@ -69,6 +72,22 @@ class User extends Authenticatable implements HasMedia
     protected $appends = ['avatar'];
 
     public $with = ['media'];
+
+    /**
+     * Get the chatGPT for the user.
+     */
+    public function chatGpts(): HasMany
+    {
+        return $this->hasMany(ChatGpt::class)->latest('updated_at');
+    }
+
+    /**
+     * Get api key of openai
+     */
+    public function getOpenaiApiKey()
+    {
+        return $this->openai_api_key ? OpenAI::client($this->openai_api_key) : null;
+    }
 
     /**
      * Get the user's first name.

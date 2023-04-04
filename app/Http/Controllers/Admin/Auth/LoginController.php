@@ -21,7 +21,7 @@ class LoginController extends Controller
      */
     public function showLoginForm(): Response
     {
-        return Inertia::render('Auth/Login');
+        return Inertia::render('Admin/Auth/Login');
     }
 
     /**
@@ -48,6 +48,6 @@ class LoginController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect()->route('home');
+        return to_route('home');
     }
 }

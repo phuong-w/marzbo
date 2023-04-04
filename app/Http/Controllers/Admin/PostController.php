@@ -40,7 +40,7 @@ class PostController extends Controller
 //            return PostResource::collection($posts);
 //        }
 //        return view('admin.post.index', compact('posts'));
-        return Inertia::render('Post/Index', compact('posts'));
+        return Inertia::render('Admin/Post/Index', compact('posts'));
     }
 
     /**

@@ -10,10 +10,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
         include('admin/dashboard.php');
         include('admin/user.php');
         include('admin/role.php');
+        include('admin/permission.php');
         include('admin/category.php');
         include('admin/post.php');
         include('admin/schedule.php');
         include('admin/social-media.php');
         include('admin/social-media-credential.php');
+        include('admin/chat-gpt.php');
     });
 });

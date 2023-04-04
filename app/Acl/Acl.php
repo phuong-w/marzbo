@@ -66,12 +66,14 @@ final class Acl
     const PERMISSION_SOCIAL_MEDIA_ADD         = 'social media add';
     const PERMISSION_SOCIAL_MEDIA_EDIT        = 'social media edit';
     const PERMISSION_SOCIAL_MEDIA_DELETE      = 'social media delete';
-    
+
     const PERMISSION_SOCIAL_MEDIA_CREDENTIAL_MANAGE      = 'manage social media credential';
     const PERMISSION_SOCIAL_MEDIA_CREDENTIAL_LIST        = 'social media credential list';
     const PERMISSION_SOCIAL_MEDIA_CREDENTIAL_ADD         = 'social media credential add';
     const PERMISSION_SOCIAL_MEDIA_CREDENTIAL_EDIT        = 'social media credential edit';
     const PERMISSION_SOCIAL_MEDIA_CREDENTIAL_DELETE      = 'social media credential delete';
+
+    const PERMISSION_CHATGPT_MANAGE      = 'manage chat gpt';
 
     /**
      * @param array $exclusives Exclude some permissions from the list

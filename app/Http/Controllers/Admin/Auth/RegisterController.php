@@ -29,7 +29,7 @@ class RegisterController extends Controller
      */
     public function showRegisterForm(): Response
     {
-        return Inertia::render('Auth/Register');
+        return Inertia::render('Admin/Auth/Register');
     }
 
     /**
