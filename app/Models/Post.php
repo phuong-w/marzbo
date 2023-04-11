@@ -5,10 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Post extends Model
+class Post extends Model implements HasMedia
 {
-    use HasFactory;
+    use HasFactory, InteractsWithMedia;
+
+    const POST_IMAGES_COLLECTION = 'post_images';
+    const POST_VIDEOS_COLLECTION = 'post_videos';
 
     protected $table = 'posts';
 
@@ -18,6 +23,8 @@ class Post extends Model
         'content',
         'status'
     ];
+
+    public $with = ['media'];
 
     /**
      * Get the user that owns the post.

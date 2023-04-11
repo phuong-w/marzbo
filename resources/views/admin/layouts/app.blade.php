@@ -19,6 +19,10 @@
                 background-color: inherit;
             }
 
+            .ql-align {
+                line-height: initial;
+            }
+
             .bubble p {
                 color: inherit !important;
                 margin: 0 !important;
@@ -34,9 +38,6 @@
         <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('plugins/notification/snackbar/snackbar.min.css') }}" rel="stylesheet" type="text/css" />
 
-        <!-- Style chat -->
-        <link href="{{ asset('assets/css/apps/mailing-chat.css') }}" rel="stylesheet" type="text/css" />
-
         <!-- Styles -->
         @vite([
         'resources/js/app.js',
@@ -49,7 +50,6 @@
         'resources/sass/assets/loader.scss',
         'resources/sass/assets/plugins.scss',
         'resources/sass/plugins/perfect-scrollbar/perfect-scrollbar.scss',
-        'resources/sass/plugins/table/datatable/datatables.scss',
         'resources/sass/assets/forms/theme-checkbox-radio.scss',
         'resources/sass/plugins/table/datatable/dt-global_style.scss',
         'resources/sass/plugins/table/datatable/custom_dt_custom.scss',
@@ -67,6 +67,10 @@
 {{--        <script src="{{ asset('plugins/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>--}}
 {{--        <script src="{{ asset('assets/js/app.js') }}"></script>--}}
         <script src="{{ asset('plugins/notification/snackbar/snackbar.min.js') }}"></script>
+        <script src="{{ asset('plugins/bootstrap-select/bootstrap-select.min.js') }}"></script>
+        <script src="{{ asset('plugins/editors/quill/quill.js') }}"></script>
+        <script src="{{ asset('plugins/editors/quill/image-resize.min.js') }}"></script>
+        <script src="{{ asset('plugins/select2/select2.min.js') }}"></script>
 
         <script>
             // $(document).ready(function() {
