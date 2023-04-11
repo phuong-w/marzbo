@@ -26,8 +26,7 @@ class UpdateCategoryRequest extends FormRequest
                 'required',
                 'string',
                 'max:255'
-            ],
-            'status' => 'required'
+            ]
         ];
     }
 }

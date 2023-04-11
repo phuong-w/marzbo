@@ -12,8 +12,10 @@ use App\Repositories\Category\CategoryRepositoryInterface;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Inertia\Response;
 
 class CategoryController extends Controller
 {
@@ -76,31 +78,31 @@ class CategoryController extends Controller
      * @param Category $category
      * @return Application|Factory|View
      */
-    public function edit(Category $category)
+    public function edit(Category $category): Response
     {
-        return view('admin.category.edit', compact('category'));
+        return Inertia::render('Admin/Category/Edit', [
+            'category' => new CategoryResource($category)
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param UpdateCategoryRequest $request
-     * @param Category $category
-     * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(UpdateCategoryRequest $request, Category $category)
+    public function update(UpdateCategoryRequest $request, Category $category): RedirectResponse
     {
         $this->categoryRepository->update($category, $request->validated());
         session()->flash(NOTIFICATION_SUCCESS, __('success.category.update'));
-        return redirect()->route('admin.category.index');
+        return to_route('admin.category.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Category $category): RedirectResponse
     {
-        //
+        $this->categoryRepository->destroy($category);
+        session()->flash(NOTIFICATION_SUCCESS, __('success.category.delete'));
+        return back();
     }
 
     /**

@@ -75,12 +75,9 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
         $limit = Arr::get($searchParams, 'limit', self::ITEM_PER_PAGE);
         $keyword = Arr::get($searchParams, 'search', '');
 
-        $dtColumns = Arr::get($searchParams, 'columns');
-        $dtOrders = Arr::get($searchParams, 'order');
-
         $query = $this->model->query();
 
-        if ($keyword) {
+        if (isset($keyword)) {
             if (is_array($keyword)) {
                 $keyword = $keyword['value'];
             }
@@ -93,21 +90,9 @@ class CategoryRepository extends BaseRepository implements CategoryRepositoryInt
             );
         }
 
-        if ($dtColumns && $dtOrders) {
-            foreach ($dtOrders as $dtOrder) {
-                $colIndex = $dtOrder['column'];
-                $col = $dtColumns[$colIndex];
-                if ($col['orderable'] === "true") {
-                    $orderDirection = $dtOrder['dir'];
-                    $orderName = $col['data'];
-                    $query->orderBy($orderName, $orderDirection);
-                }
-            }
-        }
-
         $query->latest();
 
-        return $query->paginate(Arr::get($searchParams, 'per_page', $limit));
+        return $query->paginate($limit);
     }
 
     /**
