@@ -72,6 +72,10 @@
         <script src="{{ asset('plugins/editors/quill/image-resize.min.js') }}"></script>
         <script src="{{ asset('plugins/select2/select2.min.js') }}"></script>
 
+        <script src="{{ asset('plugins/dropify/dropify.min.js') }}"></script>
+        <script src="{{ asset('plugins/blockui/jquery.blockUI.min.js') }}"></script>
+        <script src="{{ asset('assets/js/users/account-settings.js') }}"></script>
+
         <script>
             // $(document).ready(function() {
             //     App.init();

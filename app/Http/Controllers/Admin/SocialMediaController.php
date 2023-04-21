@@ -6,13 +6,15 @@ use App\Acl\Acl;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SocialMedia\StoreSocialMediaRequest;
 use App\Http\Requests\SocialMedia\UpdateSocialMediaRequest;
-use App\Http\Resources\SocialMedia\SocialMediaResource;
+use App\Http\Resources\SocialMediaResource;
 use App\Models\SocialMedia;
 use App\Repositories\SocialMedia\SocialMediaRepositoryInterface;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class SocialMediaController extends Controller
 {
@@ -32,13 +34,13 @@ class SocialMediaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request): Response
     {
         $socialMedias = $this->socialMediaRepository->serverPaginationFilteringFor($request->all());
-        if ($request->ajax()) {
-            return SocialMediaResource::collection($socialMedias);
-        }
-        return view('admin.social_media.index', compact('socialMedias'));
+
+        return Inertia::render('Admin/SocialMedia/Index', [
+            'socialMedias' => SocialMediaResource::collection($socialMedias)
+        ]);
     }
 
     /**

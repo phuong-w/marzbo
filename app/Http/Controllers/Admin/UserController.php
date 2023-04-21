@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Inertia\Response;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
@@ -116,5 +117,10 @@ class UserController extends Controller
     {
         $this->userRepository->destroy($user);
         return redirect()->route('admin.user.index');
+    }
+
+    public function setting(): Response
+    {
+        return Inertia::render('Admin/User/Setting');
     }
 }

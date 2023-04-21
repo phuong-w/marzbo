@@ -15,6 +15,9 @@ Route::middleware('guest')->group(function () {
     Route::post('login', [LoginController::class, 'login'])->name('login');
 });
 
+Route::get('auth/{social}', [LoginController::class, 'redirectToProvider'])->name('social.connect');
+Route::get('auth/{social}/callback', [LoginController::class, 'handleProviderCallback'])->name('social.callback');
+
 Route::middleware('auth')->group(function () {
     Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 });

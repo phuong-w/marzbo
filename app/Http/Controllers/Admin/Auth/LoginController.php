@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
+use Laravel\Socialite\Facades\Socialite;
+use Throwable;
 
 class LoginController extends Controller
 {
@@ -49,5 +51,18 @@ class LoginController extends Controller
         $request->session()->regenerateToken();
 
         return to_route('home');
+    }
+
+    public function redirectToProvider($provider)
+    {
+        return Socialite::driver('facebook')->redirect();
+
+    }
+
+    public function handleProviderCallback($provider)
+    {
+        $user = Socialite::driver($provider)->user();
+        return $user;
+//        dd($user);
     }
 }
