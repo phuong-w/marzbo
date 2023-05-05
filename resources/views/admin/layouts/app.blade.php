@@ -12,6 +12,8 @@
         <!-- Fonts -->
         <link rel="dns-prefetch" href="//fonts.gstatic.com">
 
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/highlight.js/latest/styles/github.min.css">
+
         <!-- BEGIN GLOBAL MANDATORY STYLES -->
         <style>
             .as-button {
@@ -68,19 +70,20 @@
 {{--        <script src="{{ asset('assets/js/app.js') }}"></script>--}}
         <script src="{{ asset('plugins/notification/snackbar/snackbar.min.js') }}"></script>
         <script src="{{ asset('plugins/bootstrap-select/bootstrap-select.min.js') }}"></script>
-        <script src="{{ asset('plugins/editors/quill/quill.js') }}"></script>
-        <script src="{{ asset('plugins/editors/quill/image-resize.min.js') }}"></script>
+        <script src="{{ asset('plugins/editors/markdown/simplemde.min.js') }}"></script>
+        <script src="{{ asset('plugins/editors/markdown/custom-markdown.js') }}"></script>
         <script src="{{ asset('plugins/select2/select2.min.js') }}"></script>
 
         <script src="{{ asset('plugins/dropify/dropify.min.js') }}"></script>
         <script src="{{ asset('plugins/blockui/jquery.blockUI.min.js') }}"></script>
         <script src="{{ asset('assets/js/users/account-settings.js') }}"></script>
 
-        <script>
-            // $(document).ready(function() {
-            //     App.init();
-            // });
-        </script>
+{{--        <script>--}}
+{{--            $(document).ready(function() {--}}
+{{--                App.init();--}}
+{{--            });--}}
+{{--        </script>--}}
+        <script src="https://cdn.jsdelivr.net/highlight.js/latest/highlight.min.js"></script>
         <script src="{{ asset('assets/js/custom.js') }}"></script>
 
     </body>

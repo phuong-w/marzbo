@@ -46,9 +46,9 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface
             ]);
 
             foreach ($data['content'] as $key => $value) {
-                $images = json_decode($data['images'][$key]);
-                $videos = json_decode($data['videos'][$key]);
-                $data['content'][$key] = $this->replaceTypeImagesVideosForContent($post, $images, $videos, $data['content'][$key]);
+//                $images = json_decode($data['images'][$key]);
+//                $videos = json_decode($data['videos'][$key]);
+//                $data['content'][$key] = $this->replaceTypeImagesVideosForContent($post, $images, $videos, $data['content'][$key]);
 
                 // Handle for post articles on social media
                 // Facebook

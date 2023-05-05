@@ -49,14 +49,14 @@ const handleSubmit = () => {
     if (objData.value) {
         const entries = Object.entries(objData.value)
         for (const [idSocial, social] of entries) {
-            form.content[idSocial] = social.quill.root.innerHTML
-            form.images[idSocial] = JSON.stringify(social.images)
-            form.videos[idSocial] = JSON.stringify(social.videos)
+            form.content[idSocial] = social.simplemde.value()
+            // form.images[idSocial] = JSON.stringify(social.images)
+            // form.videos[idSocial] = JSON.stringify(social.videos)
         }
     }
     form.facebook_pages = selectedFacebookPageIds
     form.facebook_groups = selectedFacebookGroupIds
-    // console.log(form);
+    console.log(form);
     form.post(route('admin.post.store'), {
         onSuccess: () => emit('form-submitted'),
         onError: (response) => emit('form-submitted', response)
@@ -64,121 +64,39 @@ const handleSubmit = () => {
 }
 
 const toolbarOptions = [
-    ['bold', 'italic', 'underline', 'strike'],
-    ['blockquote', 'code-block'],
-
-    [{ 'font': [] }],
-    [{ 'indent': '-1'}, { 'indent': '+1' }, { 'align': [] }],
-
-    [{ 'size': ['small', false, 'large', 'huge'] }],
-    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-    [{ 'color': [] }, { 'background': [] }],
-
-    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-    ['image', 'video'],
-    [{ 'script': 'sub'}, { 'script': 'super' }],
-    [{ 'direction': 'rtl' }],
-
-    ['clean']
+    'bold', 'italic', 'strikethrough', 'heading',
+    '|',
+    'quote', 'unordered-list', 'ordered-list',
+    '|',
+    'link', 'code', 'clean-block',
+    '|',
+    'preview', 'side-by-side',
+    '|',
+    'guide'
 ]
 
-const handleFormQuillFollowSocial = (social) => {
-    let tempImages = []
-    let tempVideos = []
-    const quill = new Quill(`#editor-container-${social}`, {
-        modules: {
-            imageResize: {
-                displaySize: true
-            },
-            toolbar: toolbarOptions
+const handleFormMarkdownFollowSocial = (social) => {
+    const simplemde = new SimpleMDE({
+        element: document.getElementById(`editor-container-${social}`),
+        forceSync: true,
+        parsingConfig: {
+            allowAtxHeaderWithoutSpace: true,
+            strikethrough: false,
+            underscoresBreakWords: true,
         },
-        placeholder: 'Compose an epic...',
-        theme: 'snow'
+        placeholder: 'Type here...',
+        promptURLs: true,
+        renderingConfig: {
+            singleLineBreaks: false,
+            codeSyntaxHighlighting: true,
+        },
+        spellChecker: false,
+        status: ['lines', 'words', 'cursor'],
+        tabSize: 4,
+        toolbar: toolbarOptions,
     })
 
-    const imageHandler = (value) => {
-        if (value) {
-            $(`#sPostImages${social}`).trigger('click')
-        } else {
-            quill.format('image', false)
-        }
-    }
-    const videoHandler = (value) => {
-        if (value) {
-            $(`#sPostvideos${social}`).trigger('click')
-        } else {
-            quill.format('video', false)
-        }
-    }
-
-    let toolbar = quill.getModule('toolbar')
-    toolbar.addHandler('image', imageHandler)
-    toolbar.addHandler('video', videoHandler)
-
-    $(`#sPostImages${social}`).change(function(e) {
-        if (e.target.files.length !== 0) {
-            let reader = new FileReader()
-
-            reader.readAsDataURL(e.target.files[0])
-
-            reader.onloadend = () => {
-                let base64data = reader.result
-                tempImages.push(base64data)
-
-                // Get cursor location
-                let length = quill.getSelection().index
-
-                // Insert image at cursor location
-                quill.insertEmbed(length, 'image', base64data)
-
-                // Set cursor to the end
-                quill.setSelection(length + 1)
-            }
-        }
-        return {
-            quill,
-            images: tempImages,
-            videos: tempVideos
-        }
-    })
-
-    $(`#sPostvideos${social}`).change(function(e) {
-        if (e.target.files.length !== 0) {
-            let reader = new FileReader()
-
-            reader.readAsDataURL(e.target.files[0])
-
-            reader.onloadend = (event) => {
-                let base64data = reader.result
-                tempVideos.push(base64data)
-                console.log('upload video')
-
-                // Get cursor location
-                let length = quill.getSelection().index
-
-                // Insert image at cursor location
-                quill.insertEmbed(length, 'video', base64data)
-
-                $('iframe[src="about:blank"].ql-video').each(function () {
-                    $(this).attr('src', base64data)
-                })
-
-                // Set cursor to the end
-                quill.setSelection(length + 1)
-            }
-        }
-        return {
-            quill,
-            images: tempImages,
-            videos: tempVideos
-        }
-    })
-
-    return {
-        quill,
-        images: tempImages,
-        videos: tempVideos
-    }
+    return { simplemde }
 }
 
 watch(
@@ -192,7 +110,7 @@ watch(
             nextTick(() => {
                 socialMediaSelectedValue.forEach((elt) => {
                     if (!oldSocialMediaSelectedValue.some(item => item.id === elt.id)) {
-                        objData.value[elt.id] = handleFormQuillFollowSocial(elt.name)
+                        objData.value[elt.id] = handleFormMarkdownFollowSocial(elt.name)
 
                         $('#sFacebookGroupsSelected').select2({
                             placeholder: 'Choose groups here...'
@@ -200,6 +118,7 @@ watch(
                         $('#sFacebookPagesSelected').select2({
                             placeholder: 'Choose pages here...'
                         })
+
                     }
                 })
             })
@@ -276,7 +195,7 @@ onMounted(() => {
 
                     <div class="form-group mb-4 pt-2">
                         <div class="widget-content widget-content-area">
-                            <div :id="`editor-container-${item.name}`"></div>
+                            <textarea :id="`editor-container-${item.name}`"></textarea>
                             <InputError class="mt-2" :message="form.errors.content"/>
                         </div>
                         <input class="d-none" :id="`sPostImages${item.name}`" type="file" accept="image/*">
@@ -290,6 +209,6 @@ onMounted(() => {
 
 <style src="/resources/sass/plugins/bootstrap-select/bootstrap-select.min.scss" lang="scss"></style>
 <style src="/resources/sass/plugins/jquery-step/jquery.steps.scss" lang="scss"></style>
-<style src="/resources/sass/plugins/editors/quill/quill.snow.scss" lang="scss"></style>
+<style src="/resources/sass/plugins/editors/markdown/simplemde.min.scss" lang="scss"></style>
 <style src="/resources/sass/assets/components/tabs-accordian/custom-tabs.scss" lang="scss"></style>
 <style src="/resources/sass/plugins/select2/select2.min.scss" lang="scss"></style>
