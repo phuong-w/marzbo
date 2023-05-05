@@ -2,10 +2,14 @@
 
 namespace App\Repositories\Post;
 
+use App\Models\FacebookGroup;
 use App\Models\Post;
+use App\Models\SocialMedia;
 use App\Repositories\BaseRepository;
+use App\Services\SocialMedia\FacebookService;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 
 /**
@@ -34,7 +38,6 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface
      */
     public function create($data)
     {
-        dd($data); //Đang đợi data thật từ social media để xử lý thêm
         try {
             $post = $this->model->create([
                 'user_id' => auth()->id(),
@@ -42,11 +45,18 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface
                 'content' => 'placeholder'
             ]);
 
-            $images = json_decode($data['images']);
-            $videos = json_decode($data['videos']);
-            $content = $this->replaceTypeImagesVideosForContent($post, $images, $videos, $data['content']);
+            foreach ($data['content'] as $key => $value) {
+                $images = json_decode($data['images'][$key]);
+                $videos = json_decode($data['videos'][$key]);
+                $data['content'][$key] = $this->replaceTypeImagesVideosForContent($post, $images, $videos, $data['content'][$key]);
 
-            $post->update(['content' => $content]);
+                // Handle for post articles on social media
+                // Facebook
+                $facebookService = new FacebookService();
+                $facebookService->sharePost($data);
+            }
+
+            $post->update(['content' => $data['content']]);
 
             return $post;
         } catch (\Exception $e) {
@@ -64,7 +74,7 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface
         return $model->update($data);
     }
 
-    function replaceTypeImagesVideosForContent($model, $images, $videos, $dataContent)
+    private function replaceTypeImagesVideosForContent($model, $images, $videos, $dataContent)
     {
         if ($images) {
             foreach ($images as $image) {
@@ -81,7 +91,7 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface
         return $dataContent;
     }
 
-    public function replaceTypeBase64($model, $item, $collection, $dataContent): array|string
+    private function replaceTypeBase64($model, $item, $collection, $dataContent): array|string
     {
         // Get extension
         $data = explode(',', $item);

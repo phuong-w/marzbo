@@ -17,4 +17,6 @@ interface SocialMediaCredentialRepositoryInterface extends RepositoryInterface
      * @return LengthAwarePaginator
      */
     public function serverPaginationFilteringFor(array $searchParams): LengthAwarePaginator;
+
+    public function updateOrCreate($userSocialConnected, $provider);
 }

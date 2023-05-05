@@ -197,6 +197,7 @@ return [
         App\Providers\RepositoryServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\ViewComposerProvider::class,
+        App\Providers\ObserverServiceProvider::class
 
     ],
 

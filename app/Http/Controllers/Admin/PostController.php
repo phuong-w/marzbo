@@ -7,10 +7,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Post\StorePostRequest;
 use App\Http\Requests\Post\UpdatePostRequest;
 use App\Http\Resources\CategoryResource;
+use App\Http\Resources\Facebook\FacebookGroupResource;
 use App\Http\Resources\PostResource;
+use App\Http\Resources\SocialMediaResource;
 use App\Models\Post;
 use App\Repositories\Category\CategoryRepositoryInterface;
 use App\Repositories\Post\PostRepositoryInterface;
+use App\Repositories\SocialMedia\SocialMediaRepository;
+use App\Repositories\SocialMedia\SocialMediaRepositoryInterface;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -23,10 +27,12 @@ class PostController extends Controller
 {
     private $postRepository;
     private $categoryRepository;
+    private $socialMediaRepository;
 
     public function __construct(
         PostRepositoryInterface $postRepository,
-        CategoryRepositoryInterface $categoryRepository
+        CategoryRepositoryInterface $categoryRepository,
+        SocialMediaRepositoryInterface $socialMediaRepository
     ) {
         // Permissions validations
         $this->middleware('permission:' . Acl::PERMISSION_POST_LIST)->only(['index', 'show']);
@@ -36,6 +42,7 @@ class PostController extends Controller
 
         $this->postRepository = $postRepository;
         $this->categoryRepository = $categoryRepository;
+        $this->socialMediaRepository = $socialMediaRepository;
     }
 
     /**
@@ -56,9 +63,13 @@ class PostController extends Controller
     public function create(): Response
     {
         $categories = $this->categoryRepository->all();
+        $socialMedias = auth()->user()->socialMedias;
+        $facebookGroups = auth()->user()->facebookGroups;
 
         return Inertia::render('Admin/Post/Create', [
-            'categories' => CategoryResource::collection($categories)
+            'categories' => CategoryResource::collection($categories),
+            'socialMedias' => SocialMediaResource::collection($socialMedias),
+            'facebookGroups' => $facebookGroups ? FacebookGroupResource::collection($facebookGroups) : ''
         ]);
     }
 

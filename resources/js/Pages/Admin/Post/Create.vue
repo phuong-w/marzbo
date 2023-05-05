@@ -5,27 +5,20 @@ import SecondStep from './Partials/Steps/Create/SecondStep.vue'
 import { Head, Link, useForm, usePage } from '@inertiajs/vue3'
 import { computed, onMounted, ref, watch } from 'vue'
 
-defineProps({
+const props = defineProps({
     categories: {
+        type: Object,
+        required: true
+    },
+    socialMedias: {
+        type: Object,
+        required: true
+    },
+    facebookGroups: {
         type: Object,
         required: true
     }
 })
-
-const socialMedia = ref([
-    {
-        id: 1,
-        name: 'Facebook'
-    },
-    {
-        id: 2,
-        name: 'Instagram'
-    },
-    {
-        id: 3,
-        name: 'TikTok'
-    }
-])
 
 const messageRequired = ref('Please select at least one social media.')
 const socialMediaSelected = ref([])
@@ -51,7 +44,7 @@ const backToFirstStep = () => {
 
 const nextToSecondStep = () => {
     const selectedOptionIds = $('#socialMediaSelected').val().map(item => parseInt(item))
-    const selectedOptionsToAdd = socialMedia.value.filter(option => selectedOptionIds.includes(option.id))
+    const selectedOptionsToAdd = props.socialMedias.data.filter(option => selectedOptionIds.includes(option.id))
 
     if (selectedOptionsToAdd.length !== 0) {
         socialMediaSelected.value = []
@@ -117,9 +110,9 @@ onMounted(() => {
                         </div>
 
                         <div class="pill wizard clearfix">
-                            <FirstStep v-show="showFirstStep" :socialMedia="socialMedia" :showMessage="showMessage" :messageRequired="messageRequired"/>
+                            <FirstStep v-show="showFirstStep" :socialMedias="socialMedias" :showMessage="showMessage" :messageRequired="messageRequired"/>
 
-                            <SecondStep v-show="showSecondStep" :socialMediaSelected="socialMediaSelected" :categories="categories" :submitForm="processing" @form-submitted="handleSubmitForm"/>
+                            <SecondStep v-show="showSecondStep" :socialMediaSelected="socialMediaSelected" :categories="categories" :facebookGroups="facebookGroups" :submitForm="processing" @form-submitted="handleSubmitForm"/>
                         </div>
 
                         <div class="actions clearfix">

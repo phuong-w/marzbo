@@ -27,6 +27,28 @@ class Post extends Model implements HasMedia
     public $with = ['media'];
 
     /**
+     * Set the content attribute as JSON.
+     *
+     * @param  mixed  $value
+     * @return void
+     */
+    public function setContentAttribute($value)
+    {
+        $this->attributes['content'] = json_encode($value);
+    }
+
+    /**
+     * Get the content attribute as JSON.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public function getContentAttribute($value)
+    {
+        return json_decode($value, true);
+    }
+
+    /**
      * Get the user that owns the post.
      */
     public function user(): BelongsTo

@@ -1,9 +1,12 @@
 <?php
 
+
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -79,6 +82,57 @@ class User extends Authenticatable implements HasMedia
     public function chatGpts(): HasMany
     {
         return $this->hasMany(ChatGpt::class)->latest('updated_at');
+    }
+
+    /**
+     * Get the social media for the user.
+     */
+    public function socialMedias(): belongsToMany
+    {
+        return $this->belongsToMany(SocialMedia::class, SocialMediaCredential::class);
+    }
+
+    /**
+     * Get the social media credentials for the user.
+     */
+    public function socialMediaCredentials(): hasMany
+    {
+        return $this->hasMany(SocialMediaCredential::class);
+    }
+
+    /**
+     * The social media credential is Facebook
+     */
+    public function facebookCredential(): hasOne
+    {
+        return $this->hasOne(SocialMediaCredential::class)->socialMedia(FACEBOOK);
+    }
+
+    /**
+     * Get credential of Facebook
+     */
+    public function getFacebookCredential()
+    {
+        return $this->facebookCredential ? $this->facebookCredential->credentials : '';
+    }
+
+    /**
+     * Get the "facebook access_token" attribute from credentials.
+     *
+     * @param $value
+     * @return mixed
+     */
+    public function getFacebookAccessTokenAttribute($value)
+    {
+        return $this->facebookCredential ? $this->facebookCredential->credentials->token : '';
+    }
+
+    /**
+     * Get the facebook groups for the user.
+     */
+    public function facebookGroups(): HasMany
+    {
+        return $this->hasMany(FacebookGroup::class);
     }
 
     /**

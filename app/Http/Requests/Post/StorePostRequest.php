@@ -25,7 +25,8 @@ class StorePostRequest extends FormRequest
             'category_id' => ['required'],
             'content' => ['required'],
             'images' => ['sometimes'],
-            'videos' => ['sometimes']
+            'videos' => ['sometimes'],
+            'facebook_groups' => ['sometimes']
         ];
     }
 }

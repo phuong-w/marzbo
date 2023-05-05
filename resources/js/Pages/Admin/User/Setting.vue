@@ -1,10 +1,12 @@
 <script setup>
 import AdminLayout from '@/Layouts/AdminLayout.vue'
-import { Head, Link } from '@inertiajs/vue3'
+import { Head, Link, usePage } from '@inertiajs/vue3'
 
 defineProps({
     users: Object,
 })
+
+const user = usePage().props.auth.user.data
 </script>
 
 <template>
@@ -233,7 +235,7 @@ defineProps({
                                                         <div class="input-group-prepend mr-3">
                                                             <span class="input-group-text" id="tweet"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-twitter"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg></span>
                                                         </div>
-                                                        <input type="text" class="form-control" placeholder="Twitter Username" aria-label="Username" aria-describedby="tweet" value="@jTurner">
+                                                        <input type="text" class="form-control" placeholder="Twitter Username" aria-label="Username" aria-describedby="tweet" value="">
                                                     </div>
                                                 </div>
                                             </div>
@@ -243,10 +245,10 @@ defineProps({
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="input-group social-fb mb-3">
-                                                        <Link :href="route('admin.social.connect', 'facebook')" class="input-group-prepend mr-3">
+                                                        <a :href="route('social.connect', 'facebook')" class="input-group-prepend mr-3">
                                                             <span class="input-group-text" id="fb"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-facebook"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></span>
-                                                        </Link>
-                                                        <input type="text" class="form-control" placeholder="Facebook Username" aria-label="Username" aria-describedby="fb" value="Jimmy Turner">
+                                                        </a>
+                                                        <input type="text" class="form-control" :class="{active: user.facebook_credential}" placeholder="Facebook Username" aria-label="Username" aria-describedby="fb" :value="user.facebook_credential?.name" readonly>
                                                     </div>
                                                 </div>
 
@@ -255,7 +257,7 @@ defineProps({
                                                         <div class="input-group-prepend mr-3">
                                                             <span class="input-group-text" id="github"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></span>
                                                         </div>
-                                                        <input type="text" class="form-control" placeholder="Github Username" aria-label="Username" aria-describedby="github" value="@TurnerJimmy">
+                                                        <input type="text" class="form-control" placeholder="Github Username" aria-label="Username" aria-describedby="github" value="">
                                                     </div>
                                                 </div>
                                             </div>
@@ -288,3 +290,11 @@ defineProps({
 
 <style src="/resources/sass/plugins/dropify/dropify.min.scss" lang="scss"></style>
 <style src="/resources/sass/assets/users/account-setting.scss" lang="scss"></style>
+
+<style scoped>
+.form-control.active {
+    box-shadow: 0 0 5px 2px rgba(194, 213, 255, 0.6196078431);
+    border-color: #4361ee;
+    color: #3b3f5c;
+}
+</style>

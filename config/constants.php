@@ -2,12 +2,22 @@
 
 use App\Models\User;
 use App\Models\Post;
+use App\Models\SocialMedia;
 
 //Global const
 if (!defined('CONST_ENABLE')) define('CONST_ENABLE', 1);
 if (!defined('CONST_DISABLE')) define('CONST_DISABLE', 0);
 if (!defined('NOTIFICATION_SUCCESS')) define('NOTIFICATION_SUCCESS', 'success');
 if (!defined('NOTIFICATION_ERROR')) define('NOTIFICATION_ERROR', 'error');
+
+/**
+ * SOCIAL MEDIA
+ */
+if (!defined('FACEBOOK')) define('FACEBOOK', SocialMedia::FACEBOOK);
+if (!defined('INSTAGRAM')) define('INSTAGRAM', SocialMedia::INSTAGRAM);
+if (!defined('TIKTOK')) define('TIKTOK', SocialMedia::TIKTOK);
+if (!defined('YOUTUBE')) define('YOUTUBE', SocialMedia::YOUTUBE);
+if (!defined('TWITTER')) define('TWITTER', SocialMedia::TWITTER);
 
 /**
  * MEDIA COLLECTIONS

@@ -7,19 +7,25 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Http\Resources\UserResource;
+use App\Models\SocialMediaCredential;
 use App\Models\User;
+use App\Repositories\SocialMediaCredential\SocialMediaCredentialRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
+use Laravel\Socialite\Facades\Socialite;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
     private $userRepository;
+    private $socialMediaCredentialRepository;
 
-    public function __construct(UserRepositoryInterface $userRepository)
-    {
+    public function __construct(
+        UserRepositoryInterface $userRepository,
+        SocialMediaCredentialRepositoryInterface $socialMediaCredentialRepository
+    ) {
         // Permissions validations
         $this->middleware('permission:' . Acl::PERMISSION_USER_LIST)->only(['index', 'show']);
         $this->middleware('permission:' . Acl::PERMISSION_USER_ADD)->only(['create', 'store']);
@@ -27,14 +33,13 @@ class UserController extends Controller
         $this->middleware('permission:' . Acl::PERMISSION_USER_DELETE)->only('destroy');
 
         $this->userRepository = $userRepository;
+        $this->socialMediaCredentialRepository = $socialMediaCredentialRepository;
     }
 
     /**
      * Display a listing of the resource.
-     *
-     * @return \Inertia\Response
      */
-    public function index(Request $request)
+    public function index(Request $request): Response
     {
         $users = $this->userRepository->serverPaginationFilteringFor($request->all());
 
@@ -122,5 +127,35 @@ class UserController extends Controller
     public function setting(): Response
     {
         return Inertia::render('Admin/User/Setting');
+    }
+
+    /**
+     * Connect to social media by socialite
+     *
+     * @param $provider
+     * @return \Illuminate\Http\RedirectResponse|\Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function redirectToProvider($provider)
+    {
+        return Socialite::driver($provider)->redirect();
+    }
+
+    /**
+     * Return callback from social media through socialite
+     *
+     * @param $provider
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function handleProviderCallback($provider)
+    {
+        $user = Socialite::driver($provider)->user();
+
+        $result = $this->socialMediaCredentialRepository->updateOrCreate($user, $provider);
+
+        if (!$result) {
+            return response()->json(['error' => 'Có lỗi xảy ra'], 500);
+        }
+
+        return to_route('admin.setting');
     }
 }
