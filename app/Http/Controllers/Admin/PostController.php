@@ -15,6 +15,7 @@ use App\Repositories\Category\CategoryRepositoryInterface;
 use App\Repositories\Post\PostRepositoryInterface;
 use App\Repositories\SocialMedia\SocialMediaRepository;
 use App\Repositories\SocialMedia\SocialMediaRepositoryInterface;
+use App\Services\PostService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -28,11 +29,14 @@ class PostController extends Controller
     private $postRepository;
     private $categoryRepository;
     private $socialMediaRepository;
+    private $postService;
 
     public function __construct(
         PostRepositoryInterface $postRepository,
         CategoryRepositoryInterface $categoryRepository,
-        SocialMediaRepositoryInterface $socialMediaRepository
+        SocialMediaRepositoryInterface $socialMediaRepository,
+
+        PostService $postService
     ) {
         // Permissions validations
         $this->middleware('permission:' . Acl::PERMISSION_POST_LIST)->only(['index', 'show']);
@@ -43,6 +47,8 @@ class PostController extends Controller
         $this->postRepository = $postRepository;
         $this->categoryRepository = $categoryRepository;
         $this->socialMediaRepository = $socialMediaRepository;
+
+        $this->postService = $postService;
     }
 
     /**
@@ -76,11 +82,13 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StorePostRequest $request): RedirectResponse
+    public function store(StorePostRequest $request)
     {
-        $this->postRepository->create($request->validated());
-        session()->flash(NOTIFICATION_SUCCESS, __('success.post.store'));
-        return to_route('admin.post.index');
+        $result = $this->postService->create($request->validated());
+        if ($result) {
+            session()->flash(NOTIFICATION_SUCCESS, __('success.post.store'));
+            return to_route('admin.post.index');
+        }
     }
 
     /**

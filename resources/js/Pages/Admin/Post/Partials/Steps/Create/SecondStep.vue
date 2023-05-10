@@ -70,7 +70,14 @@ const toolbarOptions = [
     '|',
     'link', 'code', 'clean-block',
     '|',
-    'preview', 'side-by-side',
+    {
+        name: "emojiable",
+        action: function customFunction(editor) {
+            console.log(editor)
+        },
+        className: "fa fa-smile-o",
+        title: "Emoji",
+    }, 'preview', 'side-by-side',
     '|',
     'guide'
 ]
@@ -198,8 +205,8 @@ onMounted(() => {
                             <textarea :id="`editor-container-${item.name}`"></textarea>
                             <InputError class="mt-2" :message="form.errors.content"/>
                         </div>
-                        <input class="d-none" :id="`sPostImages${item.name}`" type="file" accept="image/*">
-                        <input class="d-none" :id="`sPostvideos${item.name}`" type="file" accept="video/*">
+<!--                        <input class="d-none" :id="`sPostImages${item.name}`" type="file" accept="image/*">-->
+<!--                        <input class="d-none" :id="`sPostvideos${item.name}`" type="file" accept="video/*">-->
                     </div>
                 </div>
             </div>

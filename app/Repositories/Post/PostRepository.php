@@ -33,47 +33,6 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface
         parent::__construct($model);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function create($data)
-    {
-        try {
-            $post = $this->model->create([
-                'user_id' => auth()->id(),
-                'category_id' => $data['category_id'],
-                'content' => 'placeholder'
-            ]);
-
-            foreach ($data['content'] as $key => $value) {
-//                $images = json_decode($data['images'][$key]);
-//                $videos = json_decode($data['videos'][$key]);
-//                $data['content'][$key] = $this->replaceTypeImagesVideosForContent($post, $images, $videos, $data['content'][$key]);
-
-                // Handle for post articles on social media
-                // Facebook
-                $facebookService = new FacebookService();
-                $facebookService->sharePost($data);
-            }
-
-            $post->update(['content' => $data['content']]);
-
-            return $post;
-        } catch (\Exception $e) {
-            return false;
-        }
-
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function update($model, $data)
-    {
-        $data['slug'] = $this->generateSlug($data['name'], $model->id);
-        return $model->update($data);
-    }
-
     private function replaceTypeImagesVideosForContent($model, $images, $videos, $dataContent)
     {
         if ($images) {

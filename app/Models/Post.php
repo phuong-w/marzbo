@@ -18,34 +18,22 @@ class Post extends Model implements HasMedia
     protected $table = 'posts';
 
     protected $fillable = [
+        'group_id',
         'user_id',
         'category_id',
         'content',
+        'social_media_id',
         'status'
     ];
 
     public $with = ['media'];
 
     /**
-     * Set the content attribute as JSON.
-     *
-     * @param  mixed  $value
-     * @return void
+     * Get the latest post.
      */
-    public function setContentAttribute($value)
+    public function latestPost()
     {
-        $this->attributes['content'] = json_encode($value);
-    }
-
-    /**
-     * Get the content attribute as JSON.
-     *
-     * @param  string  $value
-     * @return string
-     */
-    public function getContentAttribute($value)
-    {
-        return json_decode($value, true);
+        return $this->orderBy('created_at', 'desc')->first();
     }
 
     /**
