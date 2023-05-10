@@ -170,5 +170,8 @@ export default defineConfig({
             refresh: true,
         }),
         vue()
-    ]
+    ],
+    build: {
+        chunkSizeWarningLimit: 1000
+    }
 });
