@@ -1,6 +1,7 @@
 <script setup>
 import HomeLayout from '@/Layouts/HomeLayout.vue'
 import { Head } from '@inertiajs/vue3'
+import Image from '@/components/Image.vue'
 </script>
 
 <template>
@@ -22,7 +23,9 @@ import { Head } from '@inertiajs/vue3'
                         <div class="row">
                             <div class="col-12">
                                 <div class="image_frame image_item no_link scale-with-grid no_border">
-                                    <div class="image_wrapper"><img class="scale-with-grid" src="frontend-assets/agency7/images/agency7-icon1.webp" alt="agency7-icon1" width="135" height="135" /> </div>
+                                    <div class="image_wrapper">
+                                        <Image src="frontend-assets/agency7/images/agency7-icon1.webp" alt="agency7-icon1" width="135" height="135"/>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-10">
@@ -40,7 +43,8 @@ import { Head } from '@inertiajs/vue3'
                         <div class="row">
                             <div class="col-12">
                                 <div class="image_frame image_item no_link scale-with-grid no_border">
-                                    <div class="image_wrapper"><img class="scale-with-grid" src="frontend-assets/agency7/images/agency7-icon2.webp" alt="agency7-icon2" width="135" height="135" /> </div>
+                                    <div class="image_wrapper">
+                                    <Image class="scale-with-grid" src="frontend-assets/agency7/images/agency7-icon2.webp" alt="agency7-icon2" width="135" height="135" /> </div>
                                 </div>
                             </div>
                             <div class="col-md-10">
@@ -58,7 +62,8 @@ import { Head } from '@inertiajs/vue3'
                         <div class="row">
                             <div class="col-12">
                                 <div class="image_frame image_item no_link scale-with-grid no_border">
-                                    <div class="image_wrapper"><img class="scale-with-grid" src="frontend-assets/agency7/images/agency7-icon3.webp" alt="agency7-icon3" width="135" height="135" /> </div>
+                                    <div class="image_wrapper">
+                                    <Image class="scale-with-grid" src="frontend-assets/agency7/images/agency7-icon3.webp" alt="agency7-icon3" width="135" height="135" /> </div>
                                 </div>
                             </div>
                             <div class="col-md-10">
@@ -100,7 +105,8 @@ import { Head } from '@inertiajs/vue3'
                 <div class="row">
                     <div class="col-12">
                         <div class="image_frame image_item no_link scale-with-grid aligncenter stretch no_border">
-                            <div class="image_wrapper"><img class="scale-with-grid" src="frontend-assets/agency7/images/agency7-sep1.webp" alt="agency7-sep1" width="1920" height="140" /> </div>
+                            <div class="image_wrapper">
+                            <Image class="scale-with-grid" src="frontend-assets/agency7/images/agency7-sep1.webp" alt="agency7-sep1" width="1920" height="140" /> </div>
                         </div>
                     </div>
                 </div>
@@ -124,10 +130,12 @@ import { Head } from '@inertiajs/vue3'
                         <div class="offer">
                             <ul class="offer_ul">
                                 <li class="offer_li">
-                                    <div class="image_wrapper"><img width="780" height="700" src="frontend-assets/agency7/images/agency7-products-pic1.webp" class="scale-with-grid wp-post-image" /> </div>
+                                    <div class="image_wrapper">
+                                    <Image width="780" height="700" src="frontend-assets/agency7/images/agency7-products-pic1.webp" class="scale-with-grid wp-post-image" /> </div>
                                     <div class="desc_wrapper align_left no-link">
                                         <div class="desc">
-                                            <p><img loading="lazy" class="size-full wp-image-61 alignleft" src="frontend-assets/agency7/images/agency7-offer-pic1.png" width="141" height="47" /> </p>
+                                            <p>
+                                            <Image loading="lazy" class="size-full wp-image-61 alignleft" src="frontend-assets/agency7/images/agency7-offer-pic1.png" width="141" height="47" /> </p>
                                             <h3></h3>
                                             <hr class="no_line" style="margin: 0 auto 15px auto" />
                                             <h3>Start from $9.90/mo.</h3>
@@ -137,10 +145,12 @@ import { Head } from '@inertiajs/vue3'
                                     </div>
                                 </li>
                                 <li class="offer_li">
-                                    <div class="image_wrapper"><img width="780" height="700" src="frontend-assets/agency7/images/agency7-products-pic2.webp" class="scale-with-grid wp-post-image" loading="lazy" /> </div>
+                                    <div class="image_wrapper">
+                                    <Image width="780" height="700" src="frontend-assets/agency7/images/agency7-products-pic2.webp" class="scale-with-grid wp-post-image" loading="lazy" /> </div>
                                     <div class="desc_wrapper align_left no-link">
                                         <div class="desc">
-                                            <p><img loading="lazy" class="wp-image-62 size-full alignleft" src="frontend-assets/agency7/images/agency7-offer-pic2.png" width="107" height="47" /> </p>
+                                            <p>
+                                            <Image loading="lazy" class="wp-image-62 size-full alignleft" src="frontend-assets/agency7/images/agency7-offer-pic2.png" width="107" height="47" /> </p>
                                             <p>&nbsp;  </p>
                                             <p>&nbsp;  </p>
                                             <hr class="no_line" style="margin: 0 auto 15px auto" />
@@ -151,10 +161,12 @@ import { Head } from '@inertiajs/vue3'
                                     </div>
                                 </li>
                                 <li class="offer_li">
-                                    <div class="image_wrapper"><img width="780" height="700" src="frontend-assets/agency7/images/agency7-products-pic3.webp" class="scale-with-grid wp-post-image" loading="lazy" /> </div>
+                                    <div class="image_wrapper">
+                                    <Image width="780" height="700" src="frontend-assets/agency7/images/agency7-products-pic3.webp" class="scale-with-grid wp-post-image" loading="lazy" /> </div>
                                     <div class="desc_wrapper align_left no-link">
                                         <div class="desc">
-                                            <p><img loading="lazy" class="wp-image-63 size-full alignleft" src="frontend-assets/agency7/images/agency7-offer-pic3.png" width="107" height="47" /> </p>
+                                            <p>
+                                            <Image loading="lazy" class="wp-image-63 size-full alignleft" src="frontend-assets/agency7/images/agency7-offer-pic3.png" width="107" height="47" /> </p>
                                             <p>&nbsp;  </p>
                                             <p>&nbsp;  </p>
                                             <hr class="no_line" style="margin: 0 auto 15px auto" />
@@ -187,7 +199,8 @@ import { Head } from '@inertiajs/vue3'
                         <div class="row">
                             <div class="col-12">
                                 <div class="image_frame image_item no_link scale-with-grid aligncenter no_border">
-                                    <div class="image_wrapper"><img class="scale-with-grid" src="frontend-assets/agency7/images/agency7-about-pic2.webp" alt="agency7-about-pic2" width="500" height="500" /> </div>
+                                    <div class="image_wrapper">
+                                    <Image class="scale-with-grid" src="frontend-assets/agency7/images/agency7-about-pic2.webp" alt="agency7-about-pic2" width="500" height="500" /> </div>
                                 </div>
                             </div>
                             <div class="col-12">
@@ -204,7 +217,8 @@ import { Head } from '@inertiajs/vue3'
                         <div class="row">
                             <div class="col-12">
                                 <div class="image_frame image_item no_link scale-with-grid aligncenter no_border">
-                                    <div class="image_wrapper"><img class="scale-with-grid" src="frontend-assets/agency7/images/agency7-about-pic3.webp" alt="agency7-about-pic3" width="500" height="500" /> </div>
+                                    <div class="image_wrapper">
+                                    <Image class="scale-with-grid" src="frontend-assets/agency7/images/agency7-about-pic3.webp" alt="agency7-about-pic3" width="500" height="500" /> </div>
                                 </div>
                             </div>
                             <div class="col-12">
@@ -221,7 +235,8 @@ import { Head } from '@inertiajs/vue3'
                         <div class="row">
                             <div class="col-12">
                                 <div class="image_frame image_item no_link scale-with-grid aligncenter no_border">
-                                    <div class="image_wrapper"><img class="scale-with-grid" src="frontend-assets/agency7/images/agency7-about-pic4.webp" alt="agency7-about-pic4" width="500" height="500" /> </div>
+                                    <div class="image_wrapper">
+                                    <Image class="scale-with-grid" src="frontend-assets/agency7/images/agency7-about-pic4.webp" alt="agency7-about-pic4" width="500" height="500" /> </div>
                                 </div>
                             </div>
                             <div class="col-12">
@@ -238,7 +253,8 @@ import { Head } from '@inertiajs/vue3'
                         <div class="row">
                             <div class="col-12">
                                 <div class="image_frame image_item no_link scale-with-grid aligncenter no_border">
-                                    <div class="image_wrapper"><img class="scale-with-grid" src="frontend-assets/agency7/images/agency7-about-pic5.webp" alt="agency7-about-pic5" width="500" height="500" /> </div>
+                                    <div class="image_wrapper">
+                                    <Image class="scale-with-grid" src="frontend-assets/agency7/images/agency7-about-pic5.webp" alt="agency7-about-pic5" width="500" height="500" /> </div>
                                 </div>
                             </div>
                             <div class="col-12">
@@ -273,7 +289,8 @@ import { Head } from '@inertiajs/vue3'
                             <ul class="ul-first">
                                 <li class="post">
                                     <div class="photo">
-                                        <a href="frontend-assets/agency7/post.html"><img width="960" height="720" src="frontend-assets/agency7/images/agency7-blog-pic5-960x720.webp" class="scale-with-grid wp-post-image" loading="lazy" /></a>
+                                        <a href="frontend-assets/agency7/post.html">
+                                        <Image width="960" height="720" src="frontend-assets/agency7/images/agency7-blog-pic5-960x720.webp" class="scale-with-grid wp-post-image" loading="lazy" /></a>
                                     </div>
                                     <div class="desc">
                                         <h4><a href="frontend-assets/agency7/post.html">Design advices</a></h4>
@@ -286,7 +303,8 @@ import { Head } from '@inertiajs/vue3'
                             <ul class="ul-second">
                                 <li class="post">
                                     <div class="photo">
-                                        <a href="frontend-assets/agency7/social-media.html"><img width="960" height="720" src="frontend-assets/agency7/images/agency7-blog-pic4-960x720.webp" class="scale-with-grid wp-post-image" loading="lazy" /></a>
+                                        <a href="frontend-assets/agency7/social-media.html">
+                                        <Image width="960" height="720" src="frontend-assets/agency7/images/agency7-blog-pic4-960x720.webp" class="scale-with-grid wp-post-image" loading="lazy" /></a>
                                     </div>
                                     <div class="desc">
                                         <h5><a href="frontend-assets/agency7/social-media.html">Social media</a></h5>
@@ -297,7 +315,8 @@ import { Head } from '@inertiajs/vue3'
                                 </li>
                                 <li class="post">
                                     <div class="photo">
-                                        <a href="frontend-assets/agency7/post.html"><img width="960" height="720" src="frontend-assets/agency7/images/agency7-blog-pic1-960x720.webp" class="scale-with-grid wp-post-image" loading="lazy" /></a>
+                                        <a href="frontend-assets/agency7/post.html">
+                                        <Image width="960" height="720" src="frontend-assets/agency7/images/agency7-blog-pic1-960x720.webp" class="scale-with-grid wp-post-image" loading="lazy" /></a>
                                     </div>
                                     <div class="desc">
                                         <h5><a href="frontend-assets/agency7/post.html">Application designed
@@ -310,7 +329,8 @@ import { Head } from '@inertiajs/vue3'
                                 </li>
                                 <li class="post">
                                     <div class="photo">
-                                        <a href="frontend-assets/agency7/post.html"><img width="960" height="720" src="frontend-assets/agency7/images/agency7-blog-pic6-960x720.webp" class="scale-with-grid wp-post-image" loading="lazy" /></a>
+                                        <a href="frontend-assets/agency7/post.html">
+                                        <Image width="960" height="720" src="frontend-assets/agency7/images/agency7-blog-pic6-960x720.webp" class="scale-with-grid wp-post-image" loading="lazy" /></a>
                                     </div>
                                     <div class="desc">
                                         <h5><a href="frontend-assets/agency7/post.html">Project pricing calculation</a></h5>
@@ -345,7 +365,8 @@ import { Head } from '@inertiajs/vue3'
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="image_frame image_item no_link scale-with-grid aligncenter no_border">
-                                    <div class="image_wrapper"><img class="scale-with-grid" src="frontend-assets/agency7/images/agency7-icon4.webp" alt="agency7-icon4" width="115" height="115" /> </div>
+                                    <div class="image_wrapper">
+                                    <Image class="scale-with-grid" src="frontend-assets/agency7/images/agency7-icon4.webp" alt="agency7-icon4" width="115" height="115" /> </div>
                                 </div>
                             </div>
                             <div class="col-md-8">
@@ -359,7 +380,8 @@ import { Head } from '@inertiajs/vue3'
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="image_frame image_item no_link scale-with-grid aligncenter no_border">
-                                    <div class="image_wrapper"><img class="scale-with-grid" src="frontend-assets/agency7/images/agency7-icon5.webp" alt="agency7-icon5" width="115" height="115" /> </div>
+                                    <div class="image_wrapper">
+                                    <Image class="scale-with-grid" src="frontend-assets/agency7/images/agency7-icon5.webp" alt="agency7-icon5" width="115" height="115" /> </div>
                                 </div>
                             </div>
                             <div class="col-md-8">
