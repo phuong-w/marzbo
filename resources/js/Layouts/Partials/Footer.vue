@@ -1,3 +1,7 @@
+<script setup>
+import Image from '@/components/Image.vue'
+</script>
+
 <template>
     <footer id="Footer" class="clearfix">
         <div class="container">
@@ -8,7 +12,11 @@
                     <h4>Our products</h4>
                     <div style="height:30px" aria-hidden="true" class="wp-block-spacer"></div>
                     <div class="wp-block-columns">
-                        <div class="wp-block-column"> <img src="content/agency7/images/agency7-offer-pic1.png" style="margin-right:15px;"><img src="content/agency7/images/agency7-offer-pic2.png" style="margin-right:15px;"><img src="content/agency7/images/agency7-offer-pic3.png" style="margin-right:15px;"> </div>
+                        <div class="wp-block-column">
+                            <Image src="content/agency7/images/agency7-offer-pic1.png" style="margin-right:15px;" />
+                            <Image src="content/agency7/images/agency7-offer-pic2.png" style="margin-right:15px;" />
+                            <Image src="content/agency7/images/agency7-offer-pic3.png" style="margin-right:15px;" />
+                        </div>
                     </div>
                     <p> Voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia. </p>
                 </div>
