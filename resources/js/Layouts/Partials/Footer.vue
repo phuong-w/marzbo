@@ -13,9 +13,9 @@ import Image from '@/components/Image.vue'
                     <div style="height:30px" aria-hidden="true" class="wp-block-spacer"></div>
                     <div class="wp-block-columns">
                         <div class="wp-block-column">
-                            <Image src="content/agency7/images/agency7-offer-pic1.png" style="margin-right:15px;" />
-                            <Image src="content/agency7/images/agency7-offer-pic2.png" style="margin-right:15px;" />
-                            <Image src="content/agency7/images/agency7-offer-pic3.png" style="margin-right:15px;" />
+                            <Image src="frontend-assets/agency7/images/agency7-offer-pic1.png" style="margin-right:15px;" />
+                            <Image src="frontend-assets/agency7/images/agency7-offer-pic2.png" style="margin-right:15px;" />
+                            <Image src="frontend-assets/agency7/images/agency7-offer-pic3.png" style="margin-right:15px;" />
                         </div>
                     </div>
                     <p> Voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia. </p>
