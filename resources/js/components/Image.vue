@@ -12,7 +12,7 @@ const props = defineProps({
     },
 })
 
-const imageUrl = computed(() => `${import.meta.env.BASE_URL}${props.src}`)
+const imageUrl = computed(() => `/${props.src}`)
 const altText = ref(props.alt)
 </script>
 
