@@ -4,7 +4,7 @@ namespace App\Services\SocialMedia;
 
 class InstagramService extends SocialMediaService
 {
-    public function fetchData()
+    public function request($method, $endpoint, $params = [])
     {
         // TODO: Implement fetchData() method.
     }
