@@ -50,14 +50,6 @@ class SocialMediaCredential extends Model
     }
 
     /**
-     * Get the facebook groups for the social media credential.
-     */
-    public function facebookGroups(): HasMany
-    {
-        return $this->hasMany(FacebookGroup::class);
-    }
-
-    /**
      * Scope a query to only include social media id.
      *
      * @param $query

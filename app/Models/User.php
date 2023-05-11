@@ -118,21 +118,10 @@ class User extends Authenticatable implements HasMedia
 
     /**
      * Get the "facebook access_token" attribute from credentials.
-     *
-     * @param $value
-     * @return mixed
      */
-    public function getFacebookAccessTokenAttribute($value)
+    public function getFacebookAccessTokenAttribute()
     {
         return $this->facebookCredential ? $this->facebookCredential->credentials->token : '';
-    }
-
-    /**
-     * Get the facebook groups for the user.
-     */
-    public function facebookGroups(): HasMany
-    {
-        return $this->hasMany(FacebookGroup::class);
     }
 
     /**

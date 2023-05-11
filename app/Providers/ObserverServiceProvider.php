@@ -2,8 +2,6 @@
 
 namespace App\Providers;
 
-use App\Models\SocialMediaCredential;
-use App\Observers\SocialMediaCredentialObserver;
 use Illuminate\Support\ServiceProvider;
 
 class ObserverServiceProvider extends ServiceProvider
@@ -21,6 +19,6 @@ class ObserverServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        SocialMediaCredential::observe(SocialMediaCredentialObserver::class);
+        //
     }
 }

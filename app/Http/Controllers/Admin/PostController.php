@@ -16,6 +16,7 @@ use App\Repositories\Post\PostRepositoryInterface;
 use App\Repositories\SocialMedia\SocialMediaRepository;
 use App\Repositories\SocialMedia\SocialMediaRepositoryInterface;
 use App\Services\PostService;
+use App\Services\SocialMedia\FacebookService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -30,13 +31,15 @@ class PostController extends Controller
     private $categoryRepository;
     private $socialMediaRepository;
     private $postService;
+    private $facebookService;
 
     public function __construct(
         PostRepositoryInterface $postRepository,
         CategoryRepositoryInterface $categoryRepository,
         SocialMediaRepositoryInterface $socialMediaRepository,
 
-        PostService $postService
+        PostService $postService,
+        FacebookService $facebookService
     ) {
         // Permissions validations
         $this->middleware('permission:' . Acl::PERMISSION_POST_LIST)->only(['index', 'show']);
@@ -49,6 +52,7 @@ class PostController extends Controller
         $this->socialMediaRepository = $socialMediaRepository;
 
         $this->postService = $postService;
+        $this->facebookService = $facebookService;
     }
 
     /**
@@ -70,7 +74,7 @@ class PostController extends Controller
     {
         $categories = $this->categoryRepository->all();
         $socialMedias = auth()->user()->socialMedias;
-        $facebookGroups = auth()->user()->facebookGroups;
+        $facebookGroups = $this->facebookService->getGroups(auth()->user()->facebook_access_token);
 
         return Inertia::render('Admin/Post/Create', [
             'categories' => CategoryResource::collection($categories),

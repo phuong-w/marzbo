@@ -35,19 +35,15 @@ class FacebookService extends SocialMediaService
     {
         if ($data['facebook_groups']) {
             foreach ($data['facebook_groups'] as $groupId) {
-                $facebookGroup = FacebookGroup::where('group_id', $groupId);
+                $params = [
+                    'access_token' => auth()->user()->facebook_access_token,
+                    'message' => $data['content'][FACEBOOK],
+                    'formatting' => 'MARKDOWN'
+                ];
 
-                if ($facebookGroup) {
-                    $params = [
-                        'access_token' => auth()->user()->facebook_access_token,
-                        'message' => $data['content'][FACEBOOK],
-                        'formatting' => 'MARKDOWN'
-                    ];
+                $endpoint = "{$groupId}/feed";
 
-                    $endpoint = "{$groupId}/feed";
-
-                    $response = $this->request('POST', $endpoint, $params);
-                }
+                $response = $this->request('POST', $endpoint, $params);
             }
         }
     }
@@ -58,13 +54,26 @@ class FacebookService extends SocialMediaService
      * @param $accessToken
      * @return mixed
      */
-    public function getGroups($accessToken)
+    public function getGroups($accessToken, $after = null, $groups = [])
     {
-        $response = Http::get("https://graph.facebook.com/me/groups", [
-            'access_token' => $accessToken,
-        ]);
+        $endpoint = 'me/groups';
+        $params = ['access_token' => $accessToken];
 
-        return $response->json()['data'];
+        if ($after) {
+            $params['after'] = $after;
+        }
+
+        $data = $this->request('GET', $endpoint, $params);
+
+        // Merge data in to groups array
+        $groups = array_merge($groups, $data['data']);
+
+        if (isset($data['paging']['cursors']['after'])) {
+            // Recursive call to load next page
+            return $this->getGroups($accessToken, $data['paging']['cursors']['after'], $groups);
+        }
+
+        return $groups;
     }
 
     /**
@@ -75,10 +84,7 @@ class FacebookService extends SocialMediaService
      */
     public function getPages($accessToken)
     {
-        $response = Http::get("https://graph.facebook.com/me/accounts", [
-            'access_token' => $accessToken,
-        ]);
-
-        return $response->json()['data'];
+        $endpoint = 'me/accounts';
+        return $this->request('GET', $endpoint, ['access_token' => $accessToken]);
     }
 }

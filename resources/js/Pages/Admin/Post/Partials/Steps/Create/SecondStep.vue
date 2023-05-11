@@ -193,7 +193,7 @@ onMounted(() => {
                             <InputLabel for="sFacebookGroupsSelected" value="Groups"/>
 
                             <select id="sFacebookGroupsSelected" class="form-control" multiple="multiple">
-                                <option v-for="item in facebookGroups.data" :key="item.group_id" :value="item.group_id">{{ item.group_name }}</option>
+                                <option v-for="group in facebookGroups.data" :key="group.id" :value="group.id">{{ group.name }}</option>
                             </select>
 
                             <InputError class="mt-2" :message="form.errors.groups"/>
