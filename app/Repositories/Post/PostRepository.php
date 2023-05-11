@@ -105,6 +105,7 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface
         $dtOrders = Arr::get($searchParams, 'order');
 
         $query = $this->model->query();
+        $query->whereColumn('id', '=', 'group_id');
 
         if ($keyword) {
             if (is_array($keyword)) {

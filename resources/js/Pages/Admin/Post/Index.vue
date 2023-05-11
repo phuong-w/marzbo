@@ -44,50 +44,64 @@ const columns = [
         data: 'id',
         class: 'text-center'
     },
-    {data: 'content'},
-    {data: 'created_at'},
     {
-        data: 'id',
-        class: 'text-center',
+        data: 'social_posts',
         render: function (data, type, full) {
             let canEdit = hasPermission(Acl.PERMISSION_POST_EDIT)
             let canDelete = hasPermission(Acl.PERMISSION_POST_DELETE)
 
-            let html = `<ul class="table-controls">`
-            if (canEdit) {
-                html += `<li>
-                    <a href="javascript:" class="bs-tooltip btn-edit" data-id="${data}"
-                          data-toggle="tooltip" data-placement="top" title=""
-                          data-original-title="edit">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                             viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                             class="feather feather-edit-2 p-1 br-6 mb-1">
-                            <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z">
-                            </path>
-                        </svg>
-                    </a>
-                </li>`
-            }
-            if (canDelete) {
-                html += `<li>
-                    <a href="javascript:" class="bs-tooltip btn-delete" data-id="${data}" data-toggle="tooltip" data-placement="top"
-                       title=""
-                       data-original-title="delete">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                             viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                             class="feather feather-trash p-1 br-6 mb-1">
-                            <polyline points="3 6 5 6 21 6"></polyline>
-                            <path
-                                d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
-                            </path>
-                        </svg>
-                    </a>
-                </li>`
-            }
-            html += `</ul>`
+            let html = ``
+            for (const post of data) {
+                let button = `<ul class="table-controls">`
 
+                if (canEdit) {
+                    button += `<li>
+                        <a href="javascript:" class="bs-tooltip btn-edit" data-id="${data}"
+                              data-toggle="tooltip" data-placement="top" title=""
+                              data-original-title="edit">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                 viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                 class="feather feather-edit-2 p-1 br-6 mb-1">
+                                <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z">
+                                </path>
+                            </svg>
+                        </a>
+                    </li>`
+                }
+                if (canDelete) {
+                    button += `<li>
+                        <a href="javascript:" class="bs-tooltip btn-delete" data-id="${data}" data-toggle="tooltip" data-placement="top"
+                           title=""
+                           data-original-title="delete">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                 viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                 class="feather feather-trash p-1 br-6 mb-1">
+                                <polyline points="3 6 5 6 21 6"></polyline>
+                                <path
+                                    d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                                </path>
+                            </svg>
+                        </a>
+                    </li>`
+                }
+                button += `</ul>`
+
+                html += `<table style="width: 100%">
+                    <tr style="border: none">
+                        <th style="border: none; width: 90%">${post.social_media_name}</th>
+                        <th style="border: none; width: 10%"></th>
+                    </tr>
+                    <tr style="border: none">
+                        <td style="border: none; padding-left: 28px">${post.content}</td>
+                        <td style="border: none">
+                            ${button}
+                        </td>
+                    </tr>
+                </table>`
+            }
+            // console.log(data)
             return html
         }
     }
@@ -252,10 +266,10 @@ onMounted(() => {
                     <DataTable ref="table" :data="data" :columns="columns" :options="options" class="display table style-3 table-hover">
                         <thead>
                         <tr>
-                            <th class="checkbox-column text-center">ID</th>-->
-                            <th>Content</th>
-                            <th>Created At</th>
-                            <th class="text-center dt-no-sorting">Action</th>
+                            <th class="checkbox-column text-center" style="width: 5%">ID</th>-->
+                            <th style="width: 95%">Content</th>
+<!--                            <th>Created At</th>-->
+<!--                            <th class="text-center dt-no-sorting">Action</th>-->
                         </tr>
                         </thead>
                     </DataTable>

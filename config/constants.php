@@ -13,6 +13,7 @@ if (!defined('NOTIFICATION_ERROR')) define('NOTIFICATION_ERROR', 'error');
 /**
  * SOCIAL MEDIA
  */
+if (!defined('SOCIAL_MEDIAS')) define('SOCIAL_MEDIAS', SocialMedia::$socialMedias);
 if (!defined('FACEBOOK')) define('FACEBOOK', SocialMedia::FACEBOOK);
 if (!defined('INSTAGRAM')) define('INSTAGRAM', SocialMedia::INSTAGRAM);
 if (!defined('TIKTOK')) define('TIKTOK', SocialMedia::TIKTOK);

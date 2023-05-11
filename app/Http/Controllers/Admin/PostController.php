@@ -8,6 +8,7 @@ use App\Http\Requests\Post\StorePostRequest;
 use App\Http\Requests\Post\UpdatePostRequest;
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\Facebook\FacebookGroupResource;
+use App\Http\Resources\PostGroupResource;
 use App\Http\Resources\PostResource;
 use App\Http\Resources\SocialMediaResource;
 use App\Models\Post;
@@ -63,7 +64,7 @@ class PostController extends Controller
         $posts = $this->postRepository->serverPaginationFilteringFor($request->all());
 
         return Inertia::render('Admin/Post/Index', [
-            'posts' => PostResource::collection($posts)
+            'posts' => PostGroupResource::collection($posts)
         ]);
     }
 

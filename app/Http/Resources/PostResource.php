@@ -16,6 +16,9 @@ class PostResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'user' => new UserResource($this->user),
+            'social_media_id' => $this->social_media_id,
+            'social_media_name' => SOCIAL_MEDIAS[$this->social_media_id],
             'content' => $this->content,
             'status' => $this->status,
             'created_at' => $this->created_at,

@@ -2,7 +2,6 @@
 
 namespace App\Services\SocialMedia;
 
-use App\Models\FacebookGroup;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
