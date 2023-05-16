@@ -30,7 +30,9 @@ class UserResource extends JsonResource
             'avatar' => $this->avatar,
             'reset_password_at' => $this->reset_password_at,
             'openai_api_key' => $this->openai_api_key ? true : false,
-            'created_at' => $this->created_at
+            'created_at' => $this->created_at,
+
+            'facebook_credential' => $this->getFacebookCredential()
         ];
     }
 }

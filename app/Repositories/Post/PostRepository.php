@@ -2,10 +2,14 @@
 
 namespace App\Repositories\Post;
 
+use App\Models\FacebookGroup;
 use App\Models\Post;
+use App\Models\SocialMedia;
 use App\Repositories\BaseRepository;
+use App\Services\SocialMedia\FacebookService;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 
 /**
@@ -18,7 +22,7 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface
      */
     protected $model;
 
-    const ITEM_PER_PAGE = 50;
+    const ITEM_PER_PAGE = 10;
 
     /**
      * @inheritdoc
@@ -29,42 +33,7 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface
         parent::__construct($model);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function create($data)
-    {
-        dd($data); //Đang đợi data thật từ social media để xử lý thêm
-        try {
-            $post = $this->model->create([
-                'user_id' => auth()->id(),
-                'category_id' => $data['category_id'],
-                'content' => 'placeholder'
-            ]);
-
-            $images = json_decode($data['images']);
-            $videos = json_decode($data['videos']);
-            $content = $this->replaceTypeImagesVideosForContent($post, $images, $videos, $data['content']);
-
-            $post->update(['content' => $content]);
-
-            return $post;
-        } catch (\Exception $e) {
-            return false;
-        }
-
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function update($model, $data)
-    {
-        $data['slug'] = $this->generateSlug($data['name'], $model->id);
-        return $model->update($data);
-    }
-
-    function replaceTypeImagesVideosForContent($model, $images, $videos, $dataContent)
+    private function replaceTypeImagesVideosForContent($model, $images, $videos, $dataContent)
     {
         if ($images) {
             foreach ($images as $image) {
@@ -81,7 +50,7 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface
         return $dataContent;
     }
 
-    public function replaceTypeBase64($model, $item, $collection, $dataContent): array|string
+    private function replaceTypeBase64($model, $item, $collection, $dataContent): array|string
     {
         // Get extension
         $data = explode(',', $item);
@@ -135,7 +104,18 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface
         $dtColumns = Arr::get($searchParams, 'columns');
         $dtOrders = Arr::get($searchParams, 'order');
 
+        $notPublished = Arr::get($searchParams, 'not_published', false);
+
         $query = $this->model->query();
+        $query->where('user_id', auth()->id());
+
+        if ($notPublished) {
+            $query->where('status', POST_STT_UNPUBLISHED);
+        } else {
+            $query->where('status', POST_STT_PUBLISHED);
+        }
+
+        $query->whereColumn('id', '=', 'group_id');
 
         if ($keyword) {
             if (is_array($keyword)) {

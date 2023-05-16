@@ -32,15 +32,6 @@ class ScheduleRepository extends BaseRepository implements ScheduleRepositoryInt
     /**
      * @inheritdoc
      */
-    public function create($data)
-    {
-        $data['slug'] = $this->generateSlug($data['name']);
-        return $this->model->create($data);
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function update($model, $data)
     {
         $data['slug'] = $this->generateSlug($data['name'], $model->id);

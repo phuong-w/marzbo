@@ -19,3 +19,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         include('admin/chat-gpt.php');
     });
 });
+
+Route::middleware(['auth.admin', 'role_or_permission:' . Acl::ROLE_SUPER_ADMIN . '|' . Acl::ROLE_ADMIN . '|' . Acl::ROLE_STAFF . '|' . Acl::ROLE_CUSTOMER . '|' . Acl::PERMISSION_VIEW_MENU_ADMIN])
+    ->group(function () {
+        include('admin/social-setting.php');
+});

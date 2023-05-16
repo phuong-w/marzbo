@@ -5,7 +5,7 @@ import InputError from '@/components/InputError.vue'
 import { useForm } from '@inertiajs/vue3'
 
 defineProps({
-    socialMedia: {
+    socialMedias: {
         type: Object,
         required: true
     },
@@ -32,7 +32,7 @@ onMounted(() => {
         <InputLabel for="socialMediaSelected" value="Choose social media"/>
 
         <select id="socialMediaSelected" class="form-control tagging" multiple="multiple">
-            <option v-for="item in socialMedia" :key="item.id" :value="item.id">{{ item.name }}</option>
+            <option v-for="item in socialMedias.data" :key="item.id" :value="item.id">{{ item.name }}</option>
         </select>
 
         <InputError v-if="showMessage" class="mt-2" :message="messageRequired"/>

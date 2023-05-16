@@ -12,6 +12,8 @@
         <!-- Fonts -->
         <link rel="dns-prefetch" href="//fonts.gstatic.com">
 
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/highlight.js/latest/styles/github.min.css">
+
         <!-- BEGIN GLOBAL MANDATORY STYLES -->
         <style>
             .as-button {
@@ -37,6 +39,7 @@
         <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
         <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('plugins/notification/snackbar/snackbar.min.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('plugins/flatpickr/flatpickr.css') }}" rel="stylesheet" type="text/css">
 
         <!-- Styles -->
         @vite([
@@ -51,8 +54,6 @@
         'resources/sass/assets/plugins.scss',
         'resources/sass/plugins/perfect-scrollbar/perfect-scrollbar.scss',
         'resources/sass/assets/forms/theme-checkbox-radio.scss',
-        'resources/sass/plugins/table/datatable/dt-global_style.scss',
-        'resources/sass/plugins/table/datatable/custom_dt_custom.scss',
         ])
 {{--        <script src="{{ asset('assets/js/loader.js') }}"></script>--}}
         @routes
@@ -64,19 +65,25 @@
         <script src="{{ asset('assets/js/libs/jquery-3.1.1.min.js') }}"></script>
         <script src="{{ asset('bootstrap/js/popper.min.js') }}"></script>
         <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
-{{--        <script src="{{ asset('plugins/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>--}}
+        <script src="{{ asset('plugins/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
 {{--        <script src="{{ asset('assets/js/app.js') }}"></script>--}}
         <script src="{{ asset('plugins/notification/snackbar/snackbar.min.js') }}"></script>
         <script src="{{ asset('plugins/bootstrap-select/bootstrap-select.min.js') }}"></script>
-        <script src="{{ asset('plugins/editors/quill/quill.js') }}"></script>
-        <script src="{{ asset('plugins/editors/quill/image-resize.min.js') }}"></script>
+        <script src="{{ asset('plugins/editors/markdown/simplemde.min.js') }}"></script>
+        <script src="{{ asset('plugins/editors/markdown/custom-markdown.js') }}"></script>
         <script src="{{ asset('plugins/select2/select2.min.js') }}"></script>
 
-        <script>
-            // $(document).ready(function() {
-            //     App.init();
-            // });
-        </script>
+        <script src="{{ asset('plugins/dropify/dropify.min.js') }}"></script>
+        <script src="{{ asset('plugins/blockui/jquery.blockUI.min.js') }}"></script>
+        <script src="{{ asset('assets/js/users/account-settings.js') }}"></script>
+        <script src="{{ asset('plugins/flatpickr/flatpickr.js') }}"></script>
+
+{{--        <script>--}}
+{{--            $(document).ready(function() {--}}
+{{--                App.init();--}}
+{{--            });--}}
+{{--        </script>--}}
+        <script src="https://cdn.jsdelivr.net/highlight.js/latest/highlight.min.js"></script>
         <script src="{{ asset('assets/js/custom.js') }}"></script>
 
     </body>

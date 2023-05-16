@@ -2,10 +2,12 @@
 
 namespace App\Repositories\SocialMediaCredential;
 
+use App\Models\SocialMedia;
 use App\Models\SocialMediaCredential;
 use App\Repositories\BaseRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 /**
@@ -108,5 +110,25 @@ class SocialMediaCredentialRepository extends BaseRepository implements SocialMe
         $query->latest();
 
         return $query->paginate(Arr::get($searchParams, 'per_page', $limit));
+    }
+
+    public function updateOrCreate($userSocialConnected, $provider)
+    {
+        try {
+            $socialMedia = SocialMedia::where('name', $provider)->first();
+
+            return $this->model->updateOrCreate(
+                [
+                    'user_id' => auth()->id(),
+                    'social_media_id' => $socialMedia->id
+                ],
+                [
+                    'credentials' => $userSocialConnected
+                ]
+            );
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            return false;
+        }
     }
 }

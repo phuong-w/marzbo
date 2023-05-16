@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('schedules', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->foreignId('category_id')->constrained();
-            $table->foreignId('social_media_credential_id')->constrained();
+            $table->foreignId('social_media_id')->constrained('social_medias');
+            $table->foreignId('post_id')->nullable()->constrained();
             $table->timestamp('publish_date')->nullable();
+            $table->integer('status')->default(1);
             $table->timestamps();
         });
     }
