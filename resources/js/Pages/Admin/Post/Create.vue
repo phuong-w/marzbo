@@ -84,7 +84,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <Head title="Category" />
+    <Head title="Post" />
     <AdminLayout>
         <div class="col-12">
             <h1>Create post</h1>

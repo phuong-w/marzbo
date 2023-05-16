@@ -22,7 +22,7 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface
      */
     protected $model;
 
-    const ITEM_PER_PAGE = 50;
+    const ITEM_PER_PAGE = 10;
 
     /**
      * @inheritdoc
@@ -104,7 +104,17 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface
         $dtColumns = Arr::get($searchParams, 'columns');
         $dtOrders = Arr::get($searchParams, 'order');
 
+        $notPublished = Arr::get($searchParams, 'not_published', false);
+
         $query = $this->model->query();
+        $query->where('user_id', auth()->id());
+
+        if ($notPublished) {
+            $query->where('status', POST_STT_UNPUBLISHED);
+        } else {
+            $query->where('status', POST_STT_PUBLISHED);
+        }
+
         $query->whereColumn('id', '=', 'group_id');
 
         if ($keyword) {

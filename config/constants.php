@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Schedule;
 use App\Models\User;
 use App\Models\Post;
 use App\Models\SocialMedia;
@@ -31,3 +32,12 @@ if (!defined('USER_AVATAR_RESIZE_NAME')) define('USER_AVATAR_RESIZE_NAME', User:
 // Post collections
 if (!defined('POST_IMAGES_COLLECTION')) define('POST_IMAGES_COLLECTION', Post::POST_IMAGES_COLLECTION);
 if (!defined('POST_VIDEOS_COLLECTION')) define('POST_VIDEOS_COLLECTION', Post::POST_VIDEOS_COLLECTION);
+
+//Post status
+if (!defined('POST_STT_UNPUBLISHED')) define('POST_STT_UNPUBLISHED', Post::STT_UNPUBLISHED);
+if (!defined('POST_STT_PUBLISHED')) define('POST_STT_PUBLISHED', Post::STT_PUBLISHED);
+
+//Schedule status
+if (!defined('SCHEDULE_STT_PENDING')) define('SCHEDULE_STT_PENDING', Schedule::STT_PENDING);
+if (!defined('SCHEDULE_STT_SUCCESS')) define('SCHEDULE_STT_SUCCESS', Schedule::STT_SUCCESS);
+if (!defined('SCHEDULE_STT_ERROR')) define('SCHEDULE_STT_ERROR', Schedule::STT_ERROR);

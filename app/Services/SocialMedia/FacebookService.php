@@ -35,7 +35,7 @@ class FacebookService extends SocialMediaService
         if ($data['facebook_groups']) {
             foreach ($data['facebook_groups'] as $groupId) {
                 $params = [
-                    'access_token' => auth()->user()->facebook_access_token,
+                    'access_token' => $data['access_token'],
                     'message' => $data['content'][FACEBOOK],
                     'formatting' => 'MARKDOWN'
                 ];
@@ -64,12 +64,14 @@ class FacebookService extends SocialMediaService
 
         $data = $this->request('GET', $endpoint, $params);
 
-        // Merge data in to groups array
-        $groups = array_merge($groups, $data['data']);
+        if (isset($data['data'])) {
+            // Merge data in to groups array
+            $groups = array_merge($groups, $data['data']);
 
-        if (isset($data['paging']['cursors']['after'])) {
-            // Recursive call to load next page
-            return $this->getGroups($accessToken, $data['paging']['cursors']['after'], $groups);
+            if (isset($data['paging']['cursors']['after'])) {
+                // Recursive call to load next page
+                return $this->getGroups($accessToken, $data['paging']['cursors']['after'], $groups);
+            }
         }
 
         return $groups;
@@ -86,4 +88,5 @@ class FacebookService extends SocialMediaService
         $endpoint = 'me/accounts';
         return $this->request('GET', $endpoint, ['access_token' => $accessToken]);
     }
+
 }

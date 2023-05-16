@@ -25,16 +25,14 @@ const props = defineProps({
 
 const emit = defineEmits(['form-submitted'])
 
-const showTab = ref(false)
-
 const objData = ref({})
-const content = ref(null)
 const images = ref([])
 const videos = ref([])
 
 
 const form = useForm({
     category_id: '',
+    scheduled_time: '',
     facebook_pages: [],
     facebook_groups: [],
     content: {},
@@ -56,7 +54,7 @@ const handleSubmit = () => {
     }
     form.facebook_pages = selectedFacebookPageIds
     form.facebook_groups = selectedFacebookGroupIds
-    console.log(form);
+    // console.log(form)
     form.post(route('admin.post.store'), {
         onSuccess: () => emit('form-submitted'),
         onError: (response) => emit('form-submitted', response)
@@ -126,6 +124,14 @@ watch(
                             placeholder: 'Choose pages here...'
                         })
 
+                        const fp = flatpickr(document.getElementById('sSchedule'), {
+                            dateFormat: "Y-m-d H:i",
+                            minDate: 'today',
+                            enableTime: true,
+                            time_24hr: true,
+                            defaultHour: 12
+                        });
+
                     }
                 })
             })
@@ -165,6 +171,11 @@ onMounted(() => {
             </select>
             <InputError class="mt-2" :message="form.errors.category_id"/>
         </div>
+
+        <div class="form-group col-xl-2 col-lg-3 col-12 mb-5 float-right">
+            <input type="text" class="form-control flatpickr flatpickr-input active form-control-sm" id="sSchedule" placeholder="Scheduled Time" v-model="form.scheduled_time">
+        </div>
+        <div class="clearfix"></div>
 
         <div class="col-12">
             <InputLabel for="sContent" value="Content"/>
@@ -214,8 +225,12 @@ onMounted(() => {
     </div>
 </template>
 
-<style src="/resources/sass/plugins/bootstrap-select/bootstrap-select.min.scss" lang="scss"></style>
-<style src="/resources/sass/plugins/jquery-step/jquery.steps.scss" lang="scss"></style>
-<style src="/resources/sass/plugins/editors/markdown/simplemde.min.scss" lang="scss"></style>
-<style src="/resources/sass/assets/components/tabs-accordian/custom-tabs.scss" lang="scss"></style>
-<style src="/resources/sass/plugins/select2/select2.min.scss" lang="scss"></style>
+<style lang="scss">
+@import "/resources/sass/plugins/bootstrap-select/bootstrap-select.min.scss";
+@import "/resources/sass/plugins/jquery-step/jquery.steps.scss";
+@import "/resources/sass/plugins/editors/markdown/simplemde.min.scss";
+@import "/resources/sass/assets/components/tabs-accordian/custom-tabs.scss";
+@import "/resources/sass/plugins/select2/select2.min.scss";
+@import "/resources/sass/plugins/flatpickr/custom-flatpickr.scss";
+@import "/resources/sass/assets/apps/todolist.scss";
+</style>

@@ -1,10 +1,13 @@
 <script setup>
 import AdminLayout from '@/Layouts/AdminLayout.vue'
+import EditPostModal from './Partials/Modal/EditPostModal.vue'
+
 import { Head, Link, router } from '@inertiajs/vue3'
 import { computed, inject, ref, onMounted } from 'vue'
 import { hasRole, hasPermission} from '@/composables/helpers'
 import DataTable from 'datatables.net-vue3'
 import DataTablesCore from 'datatables.net'
+import { handleDataTableOnMounted } from '@/composables/dataTableHandle'
 
 const Acl = inject('Acl')
 
@@ -56,7 +59,7 @@ const columns = [
 
                 if (canEdit) {
                     button += `<li>
-                        <a href="javascript:" class="bs-tooltip btn-edit" data-id="${data}"
+                        <a href="javascript:" class="bs-tooltip btn-edit" data-id="${post.id}" data-post-description="${post.content}" data-social-media-name="${post.social_media_name}"
                               data-toggle="tooltip" data-placement="top" title=""
                               data-original-title="edit">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -107,98 +110,53 @@ const columns = [
     }
 ]
 
-const customDataTable = () => {
-    // LengthPage
-    dt.page.len(props.posts.meta.per_page)
+const toolbarOptions = [
+    'bold', 'italic', 'strikethrough', 'heading',
+    '|',
+    'quote', 'unordered-list', 'ordered-list',
+    '|',
+    'link', 'code', 'clean-block',
+    '|',
+    {
+        name: "emojiable",
+        action: function customFunction(editor) {
+            console.log(editor)
+        },
+        className: "fa fa-smile-o",
+        title: "Emoji",
+    }, 'preview',
+    '|',
+    'guide'
+]
 
-    // Showing page
-    const language = dt.settings()[0].oLanguage
-    language.sInfo = `Showing page ${props.posts.meta.current_page} of ${props.posts.meta.last_page}`
-
-    // Box select + box input
-    const selectPage = dt.table().container().querySelector('.dataTables_length>label>select')
-    const inputSearch = dt.table().container().querySelector('input[type="search"]')
-    selectPage.classList.add('form-control')
-    inputSearch.classList.add('form-control')
-
-    dt.on('draw', function () {
-        // Pagination custom
-        const pagination = dt.table().container().querySelector('.dataTables_paginate')
-        const links = props.posts.meta.links
-        let page = 0
-        let newPagination = `<ul class="pagination">`
-        for (const [index, value] of links.entries()) {
-            if (value.url) {
-                let urlParams = new URL(value.url)
-                page = urlParams.searchParams.get('page')
-            }
-
-            if (index === 0) {
-                newPagination += `
-                <li class="paginate_button page-item previous ${value.url ? '' : 'disabled'}" id="dt-table_previous">
-                    <a href="javascript:" data-page="${page}" aria-controls="dt-table" data-dt-idx="0" tabindex="0" class="page-link">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left">
-                            <line x1="19" y1="12" x2="5" y2="12"></line>
-                            <polyline points="12 19 5 12 12 5"></polyline>
-                        </svg>
-                    </a>
-                </li>`
-            } else if (index === links.length - 1) {
-                newPagination += `
-                <li class="paginate_button page-item next ${value.url ? '' : 'disabled'}" id="dt-table_next">
-                    <a href="javascript:" data-page="${page}" aria-controls="dt-table" data-dt-idx="2" tabindex="0" class="page-link">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right">
-                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                            <polyline points="12 5 19 12 12 19"></polyline>
-                        </svg>
-                    </a>
-                </li>`
-            } else {
-                newPagination += `
-                <li class="paginate_button page-item ${value.active ? 'active' : ''}">
-                    <a href="javascript:" data-page="${page}" aria-controls="dt-table" data-dt-idx="1" tabindex="0" class="page-link">${value.label}</a>
-                </li>`
-            }
-        }
-        newPagination += `</ul>`
-
-        pagination.innerHTML = newPagination
-    })
-}
-
-const handleCickOnPage = () => {
+const handleCickOnPage = (simplemde) => {
     // Button edit onclick
-    const editElts = dt.table().container().querySelectorAll('.btn-edit')
-    editElts.forEach((elt) => {
-        elt.addEventListener('click', function() {
-            router.get(route('admin.post.edit', elt.dataset.id))
-        })
-    })
+    // const editElts = dt.table().container().querySelectorAll('.btn-edit')
+    // editElts.forEach((elt) => {
+    //     elt.addEventListener('click', function() {
+    //         router.get(route($routeNameEdit, elt.dataset.id))
+    //     })
+    // })
+
+    // $(document).on('click', '.btn-edit', function (e) {
+    //     e.preventDefault()
+    //     let $this = $(this)
+    //
+    //     let postText = $this.data('posttext')
+    //
+    //     simplemde.value(postText)
+    //     $('#editPostModal').modal('show')
+    //     console.log(simplemde)
+    // })
 
     // Button delete onclick
     const deleteElts = dt.table().container().querySelectorAll('.btn-delete')
     deleteElts.forEach((elt) => {
         elt.addEventListener('click', function() {
             removeRow(elt)
-            router.delete(route('admin.post.destroy', elt.dataset.id))
+            router.delete(route('admin.post.edit', elt.dataset.id))
         })
     })
-
-    //Button pagination
-    const paginationElts = dt.table().container().querySelectorAll('.page-link')
-    paginationElts.forEach((elt) => {
-        elt.addEventListener('click', function() {
-            const page = elt.dataset.page
-            if (page) {
-                params.page = page
-                redirectToThisPage()
-            }
-        })
-    })
-}
-
-const redirectToThisPage = () => {
-    router.get(route('admin.post.index'), params)
 }
 
 const removeRow = (elt) => {
@@ -208,59 +166,65 @@ const removeRow = (elt) => {
 }
 
 onMounted(() => {
-    const url = new URL(window.location)
-    const keyword = url.searchParams.get('search')
-
     data.value = props.posts.data
     dt = table.value.dt
 
-    if (keyword) {
-        dt.search(keyword)
-        const input = dt.table().container().querySelector('input[type="search"]')
-        input?.focus()
-    }
+    handleDataTableOnMounted(dt, props.posts, params, 'admin.post.index')
 
-    if (props.posts.meta.current_page > props.posts.meta.last_page) {
-        delete params.page
-        redirectToThisPage()
-    }
-
-    customDataTable()
-
-    dt.on('draw', function () {
-        handleCickOnPage()
+    const simplemde = new SimpleMDE({
+        element: document.getElementById(`postDescription`),
+        forceSync: true,
+        parsingConfig: {
+            allowAtxHeaderWithoutSpace: true,
+            strikethrough: false,
+            underscoresBreakWords: true,
+        },
+        placeholder: 'Type here...',
+        promptURLs: true,
+        renderingConfig: {
+            codeSyntaxHighlighting: true,
+        },
+        spellChecker: false,
+        tabSize: 4,
+        toolbar: toolbarOptions,
     })
 
-    dt.on('search', (e, settings) => {
-        const searchValue = settings.oPreviousSearch.sSearch
+    $(document).on('click', '.btn-edit', function (e) {
+        e.preventDefault()
+        let $this = $(this)
 
-        if (searchValue != keyword && searchValue) {
-            params.search = searchValue
-            redirectToThisPage()
-        } else if (searchValue != keyword && !searchValue && url.searchParams.has('search')) {
-            delete params.search
-            redirectToThisPage()
-        }
+        let socialMediaName = $this.data('social-media-name')
+        let postDescription = $this.data('post-description')
+
+        $('#sSocialMediaName').text(socialMediaName)
+        simplemde.value(postDescription)
+
+        $('#editPostModal').modal('show')
     })
 
-    dt.on('length', (e, settings, length) => {
-        params.limit = length
-        redirectToThisPage()
-    })
+    $('#editPostModal').on('hidden.bs.modal', function (e) {
+        $(this)
+            .find("input,textarea,select")
+            .val('')
+            .end()
 
+        simplemde.value('')
+    })
 })
 
 </script>
 
 <template>
-    <Head title="Category" />
+    <Head title="Post" />
     <AdminLayout>
         <div class="col-lg-12">
             <div class="statbox widget box box-shadow">
                 <div class="widget-content widget-content-area">
 
-                    <div v-if="hasPermission(Acl.PERMISSION_POST_ADD)" class="layout-top-spacing col-12">
-                        <Link :href="route('admin.post.create')" class="btn btn-primary">Create</Link>
+                    <div class="layout-top-spacing col-12">
+                        <Link v-if="hasPermission(Acl.PERMISSION_POST_ADD)" :href="route('admin.post.create')" class="btn btn-primary mr-2">Create</Link>
+                        <Link :href="route('admin.post.index')" class="btn btn-primary mr-2">Published</Link>
+                        <Link :href="route('admin.post.index', { not_published: true })" class="btn btn-primary">Not published</Link>
                     </div>
 
                     <DataTable ref="table" :data="data" :columns="columns" :options="options" class="display table style-3 table-hover">
@@ -276,9 +240,12 @@ onMounted(() => {
                 </div>
             </div>
         </div>
+        <EditPostModal />
     </AdminLayout>
 </template>
 
-<style src="/resources/sass/plugins/table/datatable/datatables.scss" lang="scss"></style>
-<style src="/resources/sass/plugins/table/datatable/dt-global_style.scss" lang="scss"></style>
-<style src="/resources/sass/plugins/table/datatable/custom_dt_custom.scss" lang="scss"></style>
+<style lang="scss">
+@import "/resources/sass/plugins/table/datatable/datatables.scss";
+@import "/resources/sass/plugins/table/datatable/dt-global_style.scss";
+@import "/resources/sass/plugins/table/datatable/custom_dt_custom.scss";
+</style>

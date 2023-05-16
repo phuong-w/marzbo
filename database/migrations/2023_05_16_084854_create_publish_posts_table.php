@@ -11,13 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('schedules', function (Blueprint $table) {
+        Schema::create('publish_posts', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('post_id')->constrained();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('social_media_id')->constrained('social_medias');
-            $table->foreignId('post_id')->nullable()->constrained();
-            $table->timestamp('publish_date')->nullable();
-            $table->integer('status')->default(1);
+            $table->json('context');
+            $table->integer('total_react')->default(0);
+            $table->integer('total_comment')->default(0);
+            $table->integer('total_view')->default(0);
             $table->timestamps();
         });
     }
@@ -27,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('schedules');
+        Schema::dropIfExists('publish_posts');
     }
 };

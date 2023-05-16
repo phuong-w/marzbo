@@ -22,6 +22,7 @@ class StorePostRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'scheduled_time' => ['sometimes'],
             'category_id' => ['required'],
             'content' => ['required'],
             'images' => ['sometimes'],

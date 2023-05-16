@@ -23,6 +23,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -61,6 +62,12 @@ class PostController extends Controller
      */
     public function index(Request $request): Response
     {
+//        $scheduledTime = '2023-05-13 18:40:00';
+//
+//        $carbon = Carbon::parse($scheduledTime);
+//
+//        $timestamp = $carbon->timestamp;
+//        dd($timestamp);
         $posts = $this->postRepository->serverPaginationFilteringFor($request->all());
 
         return Inertia::render('Admin/Post/Index', [
@@ -75,6 +82,7 @@ class PostController extends Controller
     {
         $categories = $this->categoryRepository->all();
         $socialMedias = auth()->user()->socialMedias;
+//        $facebookGroups = false;
         $facebookGroups = $this->facebookService->getGroups(auth()->user()->facebook_access_token);
 
         return Inertia::render('Admin/Post/Create', [

@@ -16,6 +16,9 @@ class Post extends Model implements HasMedia
     const POST_IMAGES_COLLECTION = 'post_images';
     const POST_VIDEOS_COLLECTION = 'post_videos';
 
+    const STT_UNPUBLISHED    = 1;
+    const STT_PUBLISHED      = 2;
+
     protected $table = 'posts';
 
     protected $fillable = [
@@ -28,6 +31,11 @@ class Post extends Model implements HasMedia
     ];
 
     public $with = ['media'];
+
+    public function scopePublished($query)
+    {
+        return $query->where('status', self::STT_PUBLISHED);
+    }
 
     /**
      * Get list posts on social.

@@ -90,4 +90,20 @@ return [
         'table' => 'failed_jobs',
     ],
 
+    'names' => [
+        'facebook' => [
+            'publish' => 'facebook-publish',
+            'report' => 'facebook-report'
+        ],
+        'instagram' => [
+            'publish' => 'instagram-publish',
+            'report' => 'instagram-report'
+        ],
+        'tiktok' => [
+            'publish' => 'tiktok-publish',
+            'report' => 'tiktok-report'
+        ]
+
+    ]
+
 ];

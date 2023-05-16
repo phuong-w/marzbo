@@ -10,15 +10,26 @@ class Schedule extends Model
 {
     use HasFactory;
 
-    protected $table = 'posts';
+    const STT_PENDING    = 1;
+    const STT_SUCCESS    = 2;
+    const STT_ERROR      = 3;
 
+    protected $table = 'posts';
     protected $fillable = [
         'user_id',
         'post_id',
-        'category_id',
-        'social_media_credential_id',
+        'post_group_id',
         'publish_date',
         'status'
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'publish_date' => 'datetime',
     ];
 
     /**
