@@ -32,7 +32,7 @@ class FacebookService extends SocialMediaService
 
     public function sharePost($data)
     {
-        if ($data['facebook_groups']) {
+        if ($data['facebook_group']) {
             foreach ($data['facebook_groups'] as $groupId) {
                 $params = [
                     'access_token' => $data['access_token'],

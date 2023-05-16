@@ -29,20 +29,24 @@ const objData = ref({})
 const images = ref([])
 const videos = ref([])
 
+const selectedFacebookPageIds = ref({})
+const selectedFacebookGroupIds = ref({})
+const selectedFacebookGroup = ref([])
+
 
 const form = useForm({
     category_id: '',
     scheduled_time: '',
-    facebook_pages: [],
-    facebook_groups: [],
+    facebook_pages: {},
+    facebook_group: {},
     content: {},
     images: {},
     videos: {}
 })
 
 const handleSubmit = () => {
-    const selectedFacebookPageIds = $('#sFacebookPagesSelected').val().map(item => parseInt(item))
-    const selectedFacebookGroupIds = $('#sFacebookGroupsSelected').val().map(item => parseInt(item))
+    // const selectedFacebookPageIds = $('#sFacebookPagesSelected').val().map(item => parseInt(item))
+    // const selectedFacebookGroupIds = $('#sFacebookGroupsSelected').val().map(item => parseInt(item))
 
     if (objData.value) {
         const entries = Object.entries(objData.value)
@@ -52,8 +56,9 @@ const handleSubmit = () => {
             // form.videos[idSocial] = JSON.stringify(social.videos)
         }
     }
-    form.facebook_pages = selectedFacebookPageIds
-    form.facebook_groups = selectedFacebookGroupIds
+
+    form.facebook_pages = selectedFacebookPageIds.value
+    form.facebook_group = selectedFacebookGroup.value
     // console.log(form)
     form.post(route('admin.post.store'), {
         onSuccess: () => emit('form-submitted'),
@@ -117,11 +122,17 @@ watch(
                     if (!oldSocialMediaSelectedValue.some(item => item.id === elt.id)) {
                         objData.value[elt.id] = handleFormMarkdownFollowSocial(elt.name)
 
-                        $('#sFacebookGroupsSelected').select2({
-                            placeholder: 'Choose groups here...'
-                        })
-                        $('#sFacebookPagesSelected').select2({
-                            placeholder: 'Choose pages here...'
+                        // $('#sFacebookGroupsSelected').select2({
+                        //     placeholder: 'Choose groups here...'
+                        // })
+                        $('#sFacebookGroupsSelected').selectpicker()
+
+                        $('#sFacebookGroupsSelected').on('change', function() {
+                            const selectedOptions = $(this).find('option:selected')
+                            const id = parseInt($(this).val())
+                            const name = selectedOptions.data('group-name')
+
+                            selectedFacebookGroup.value.push({'id': id, 'name': name})
                         })
 
                         const fp = flatpickr(document.getElementById('sSchedule'), {
@@ -130,7 +141,7 @@ watch(
                             enableTime: true,
                             time_24hr: true,
                             defaultHour: 12
-                        });
+                        })
 
                     }
                 })
@@ -165,8 +176,8 @@ onMounted(() => {
             <InputLabel for="sCategory" value="Category"/>
             <select id="sCategory" class="selectpicker form-control" data-live-search="true" data-size="6" :class="{'is-invalid': form.errors.category_id}" v-model="form.category_id">
                 <option value="" disabled>-- Choose the category --</option>
-                <template v-for="item in categories.data" :key="item.id">
-                    <option :value="item.id">{{ item.name }}</option>
+                <template >
+                    <option v-for="item in categories.data" :key="item.id" :value="item.id">{{ item.name }}</option>
                 </template>
             </select>
             <InputError class="mt-2" :message="form.errors.category_id"/>
@@ -190,24 +201,27 @@ onMounted(() => {
             <div class="tab-content">
                 <div v-for="(item, index) in socialMediaSelected" :key="item.id" class="tab-pane fade" :class="{'show active': index === 0}" :id="item.name" role="tabpanel" :aria-labelledby="`${item.name}-tab`">
                     <template v-if="item.name.toLowerCase() == 'facebook'">
-                        <div class="layout-top-spacing">
-                            <InputLabel for="sFacebookPagesSelected" value="Pages"/>
+<!--                        <div class="layout-top-spacing">-->
+<!--                            <InputLabel for="sFacebookPagesSelected" value="Pages"/>-->
 
-                            <select id="sFacebookPagesSelected" class="form-control" multiple="multiple">
-                                <option v-for="item in pages" :key="item.id" :value="item.id">{{ item.name }}</option>
+<!--                            <select id="sFacebookPagesSelected" class="form-control" multiple="multiple">-->
+<!--                                <option v-for="item in pages" :key="item.id" :value="item.id">{{ item.name }}</option>-->
+<!--                            </select>-->
+
+<!--                            <InputError class="mt-2" :message="form.errors.pages"/>-->
+<!--                        </div>-->
+
+                        <div class="layout-top-spacing mb-5">
+                            <InputLabel for="sFacebookGroupsSelected" value="Group"/>
+
+                            <select id="sFacebookGroupsSelected" class="selectpicker form-control " data-live-search="true" data-size="6" :class="{'is-invalid': form.errors.facebook_group}">
+                                <option value="" disabled>-- Choose a group --</option>
+                                <template v-for="item in facebookGroups.data" :key="item.id">
+                                    <option :value="item.id" :data-group-name="item.name">{{ item.name }}</option>
+                                </template>
                             </select>
 
-                            <InputError class="mt-2" :message="form.errors.pages"/>
-                        </div>
-
-                        <div class="layout-top-spacing">
-                            <InputLabel for="sFacebookGroupsSelected" value="Groups"/>
-
-                            <select id="sFacebookGroupsSelected" class="form-control" multiple="multiple">
-                                <option v-for="group in facebookGroups.data" :key="group.id" :value="group.id">{{ group.name }}</option>
-                            </select>
-
-                            <InputError class="mt-2" :message="form.errors.groups"/>
+                            <InputError class="mt-2" :message="form.errors.facebook_group"/>
                         </div>
                     </template>
 

@@ -35,6 +35,7 @@ class PostService
     public function create($data)
     {
         try {
+            dd($data['facebook_group']);
             $firstIteration = true;
             $groupId = null;
 
@@ -73,13 +74,13 @@ class PostService
                     // Instagram
                     if ($socialMediaId === INSTAGRAM) {
                         $data['access_token'] = '';
-                        dd(2);
+//                        dd(2);
                     }
 
                     // Instagram
                     if ($socialMediaId === TIKTOK) {
                         $data['access_token'] = '';
-                        dd(3);
+//                        dd(3);
                     }
 
                     $post->update(['status' => POST_STT_PUBLISHED]);
