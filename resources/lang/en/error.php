@@ -16,7 +16,4 @@ return [
     'message' => 'There is an error: :message',
     'exception' => 'There is an exception error, please try again later!',
 
-    'chat_gpt' => [
-        'incorrect_api_key' => 'There is an error: Incorrect API key provided: :key.'
-    ]
 ];

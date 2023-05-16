@@ -16,7 +16,4 @@ return [
     'message' => 'Có lỗi: :message',
     'exception' => 'Có lỗi hệ thống, xin vui lòng thử lại sau!',
 
-    'chat_gpt' => [
-        'incorrect_api_key' => 'Đã xảy ra lỗi: Đã cung cấp khóa API không chính xác: :key.'
-    ]
 ];

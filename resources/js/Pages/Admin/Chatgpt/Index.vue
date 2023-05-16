@@ -4,7 +4,7 @@ import { Head, Link, usePage, useForm } from '@inertiajs/vue3'
 import { inject, ref, onMounted, computed } from 'vue'
 import VueFeather from 'vue-feather'
 import { hasRole, hasPermission} from '@/composables/helpers'
-import ChatContent from '@/Pages/Admin/ChatGpt/Partials/ChatContent.vue'
+import ChatContent from '@/Pages/Admin/Chatgpt/Partials/ChatContent.vue'
 import Skeleton from '@/components/Skeleton.vue'
 
 const Acl = inject('Acl')
@@ -15,7 +15,7 @@ const showConfirmDelete = ref(false)
 
 const props = defineProps({
     messages: Array,
-    chatGpt: null | Object
+    chatgpt: null | Object
 })
 
 const form = useForm({
@@ -23,14 +23,14 @@ const form = useForm({
 })
 
 const submit = () => {
-    const url = props.chatGpt ? route('admin.chat_gpt.store', props.chatGpt.uuid) : route('admin.chat_gpt.store')
+    const url = props.chatgpt ? route('admin.chatgpt.store', props.chatgpt.uuid) : route('admin.chatgpt.store')
     form.post(url, {
         onFinish: () => clear()
     })
 }
 
 const scrollToBottom = () => {
-    if (props.chatGpt) {
+    if (props.chatgpt) {
         const el = chatContainer.value
         el.scrollTop = el.scrollHeight
     }
@@ -47,27 +47,27 @@ onMounted(() => {
 })
 
 const user = computed(() => usePage().props.auth.user.data)
-const title = computed(() => props.chatGpt?.context[0].content ?? 'New Chat')
+const title = computed(() => props.chatgpt?.context[0].content ?? 'New Chat')
 
 </script>
 
 <template>
-    <Head :title="`${title} - Chat GPT`" />
+    <Head :title="`${title} - ChatGPT`" />
     <AdminLayout>
         <div class="col-xl-12 col-lg-12 col-md-12">
         <div class="chat-system">
             <div class="hamburger"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu mail-menu d-lg-none"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></div>
-            <div class="user-list-box" v-if="user.openai_api_key">
+            <div class="user-list-box">
                 <div class="search">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                    <Link :href="route('admin.chat_gpt.index')" class="btn-new-chat">
+                    <Link :href="route('admin.chatgpt.index')" class="btn-new-chat">
                         New chat
                     </Link>
                 </div>
                 <div class="people">
                     <template v-for="(message, index) in messages" :key="message.id">
-                        <Link :href="route('admin.chat_gpt.index', message.uuid)">
-                            <div class="person item-question" :class="{'active' : route().current('admin.chat_gpt.index', message.uuid), 'border-none' : index == messages.length - 1}">
+                        <Link :href="route('admin.chatgpt.index', message.uuid)">
+                            <div class="person item-question" :class="{'active' : route().current('admin.chatgpt.index', message.uuid), 'border-none' : index == messages.length - 1}">
                                 <div class="user-info d-flex align-items-center">
                                     <div class="f-head d-flex">
                                         <VueFeather type="message-square" size="16" class="pr-2 mb-1" />
@@ -79,14 +79,14 @@ const title = computed(() => props.chatGpt?.context[0].content ?? 'New Chat')
                                         <!--                                </div>-->
                                         <span class="preview">{{ message.context[0].content }}</span>
                                     </div>
-                                    <template v-if="route().current('admin.chat_gpt.index', message.uuid)">
+                                    <template v-if="route().current('admin.chatgpt.index', message.uuid)">
                                         <div v-if="!showConfirmDelete" class="d-flex">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2 s-task-edit"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>
 
                                             <svg @click.stop.prevent="showConfirmDelete = !showConfirmDelete" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2 s-task-delete"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
                                         </div>
                                         <div v-if="showConfirmDelete" class="d-flex">
-                                            <Link :href="route('admin.chat_gpt.destroy', chatGpt?.uuid)" method="DELETE" as="button" class="as-button d-flex p-0 b-0">
+                                            <Link :href="route('admin.chatgpt.destroy', chatgpt?.uuid)" method="DELETE" as="button" class="as-button d-flex p-0 b-0">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check"><polyline points="20 6 9 17 4 12"></polyline></svg>
                                             </Link>
 
@@ -102,13 +102,7 @@ const title = computed(() => props.chatGpt?.context[0].content ?? 'New Chat')
             </div>
             <div class="chat-box">
 
-                <div class="chat-not-selected" v-if="!user.openai_api_key">
-                    <Link :href="route('admin.chat_gpt.create')" class="d-flex">
-                        <p> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-key"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path></svg> Add Your Api Key</p>
-                    </Link>
-                </div>
-
-                <div class="chat-box-inner d-block" v-if="user.openai_api_key">
+                <div class="chat-box-inner d-block">
                     <div class="chat-conversation-box" ref="chatContainer">
                         <!-- Chat content -->
                         <div class="chat-conversation-box-scroll">
@@ -117,7 +111,7 @@ const title = computed(() => props.chatGpt?.context[0].content ?? 'New Chat')
                                     <!--                                    <span>Today, 6:48 AM</span>-->
                                 </div>
 
-                                <template v-for="(content, index) in chatGpt?.context" :key="index">
+                                <template v-for="(content, index) in chatgpt?.context" :key="index">
                                     <ChatContent :content="content" />
                                 </template>
                                 <Skeleton v-show="form.processing" />
@@ -143,6 +137,10 @@ const title = computed(() => props.chatGpt?.context[0].content ?? 'New Chat')
     </div>
     </AdminLayout>
 </template>
+
+<style>
+@import '/public/assets/css/apps/mailing-chat.css';
+</style>
 
 <style scoped>
 

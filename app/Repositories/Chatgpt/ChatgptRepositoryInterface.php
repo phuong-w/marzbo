@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Repositories\ChatGpt;
+namespace App\Repositories\Chatgpt;
 
 use App\Repositories\RepositoryInterface;
 
 /**
  * The repository interface for the User Model
  */
-interface ChatGptRepositoryInterface extends RepositoryInterface
+interface ChatgptRepositoryInterface extends RepositoryInterface
 {
     /**
      * @inheritdoc

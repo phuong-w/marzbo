@@ -1,16 +1,17 @@
 <?php
 
-namespace App\Repositories\ChatGpt;
+namespace App\Repositories\Chatgpt;
 
-use App\Models\ChatGpt;
+use App\Models\Chatgpt;
 use App\Repositories\BaseRepository;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use OpenAI\Laravel\Facades\OpenAI;
 
 /**
  * The repository for User Model
  */
-class ChatGptRepository extends BaseRepository implements ChatGptRepositoryInterface
+class ChatgptRepository extends BaseRepository implements ChatgptRepositoryInterface
 {
     /**
      * @inheritdoc
@@ -20,7 +21,7 @@ class ChatGptRepository extends BaseRepository implements ChatGptRepositoryInter
     /**
      * @inheritdoc
      */
-    public function __construct(ChatGpt $model)
+    public function __construct(Chatgpt $model)
     {
         $this->model = $model;
         parent::__construct($model);
@@ -41,10 +42,8 @@ class ChatGptRepository extends BaseRepository implements ChatGptRepositoryInter
                 'content' => $data['promt']
             ];
 
-            $client = auth()->user()->getOpenaiApiKey();
-
-            $response = $client->chat()->create([
-                'model' => 'gpt-3.5-turbo',
+            $response = OpenAI::chat()->create([
+                'model' => $this->model::GPT_MODEL,// 'gpt-3.5-turbo'
                 'messages' => $messages
             ]);
 
@@ -62,6 +61,7 @@ class ChatGptRepository extends BaseRepository implements ChatGptRepositoryInter
             ]);
         } catch (\Exception $e) {
             session()->flash(NOTIFICATION_ERROR, __('error.message', ['message' => $e->getMessage()]));
+            Log::error($e->getMessage());
             return;
         }
 
