@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -11,7 +10,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use OpenAI;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -43,8 +41,7 @@ class User extends Authenticatable implements HasMedia
         'email',
         'phone',
         'password',
-        'reset_password_at',
-        'openai_api_key'
+        'reset_password_at'
     ];
 
     /**
@@ -79,7 +76,7 @@ class User extends Authenticatable implements HasMedia
     /**
      * Get the chatGPT for the user.
      */
-    public function chatGpts(): HasMany
+    public function chatgpts(): HasMany
     {
         return $this->hasMany(ChatGpt::class)->latest('updated_at');
     }

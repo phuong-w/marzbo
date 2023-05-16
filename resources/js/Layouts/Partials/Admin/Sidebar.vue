@@ -29,10 +29,10 @@ const menuItems = [
         show: hasPermission(Acl.PERMISSION_POST_LIST)
     },
     {
-        title: 'Chat GPT',
-        url: route('admin.chat_gpt.index'),
+        title: 'ChatGPT',
+        url: route('admin.chatgpt.index'),
         icon: 'message-square',
-        active: route().current('admin.chat_gpt.*'),
+        active: route().current('admin.chatgpt.*'),
         show: hasPermission(Acl.PERMISSION_CHATGPT_MANAGE)
     },
     {

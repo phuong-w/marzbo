@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\ChatGpt;
+namespace App\Http\Requests\Chatgpt;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreChatGptRequest extends FormRequest
+class StoreChatgptRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

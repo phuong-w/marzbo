@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->text('openai_api_key')->nullable();
+        Schema::create('chatgpts', function (Blueprint $table) {
+            $table->id();
+            $table->uuid();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->json('context');
+            $table->timestamps();
         });
     }
 
@@ -21,8 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('openai_api_key');
-        });
+        Schema::dropIfExists('chatgpts');
     }
 };
