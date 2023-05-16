@@ -97,7 +97,7 @@ const columns = [
                         <th style="border: none; width: 10%"></th>
                     </tr>
                     <tr style="border: none">
-                        <td style="border: none; padding-left: 28px">${post.content}</td>
+                        <td style="border: none; padding-left: 28px"><div style="white-space: pre-wrap">${post.content}</div></td>
                         <td style="border: none">
                             ${button}
                         </td>
