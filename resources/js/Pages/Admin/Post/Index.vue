@@ -107,6 +107,24 @@ const columns = [
             // console.log(data)
             return html
         }
+    },
+    {
+        data: 'stats',
+        render: function (data, type, full) {
+            let html = ``
+            for (const post of data) {
+                console.log(post.total_react)
+                html += `<div>
+                    <button type="button" class="btn btn-info mt-3 mb-3 ml-2">
+                        <span>React: </span> <span class="badge badge-light">${post.total_react}</span>&nbsp;&nbsp;
+                        <span>View: </span> <span class="badge badge-light">${post.total_view}</span>&nbsp;&nbsp;
+                        <span>Comment: </span> <span class="badge badge-light">${post.total_comment}</span>
+                        </button>
+                </div>`
+            }
+
+            return html
+        }
     }
 ]
 
@@ -231,7 +249,8 @@ onMounted(() => {
                         <thead>
                         <tr>
                             <th class="checkbox-column text-center" style="width: 5%">ID</th>-->
-                            <th style="width: 95%">Content</th>
+                            <th>Content</th>
+                            <th>Stats</th>
 <!--                            <th>Created At</th>-->
 <!--                            <th class="text-center dt-no-sorting">Action</th>-->
                         </tr>

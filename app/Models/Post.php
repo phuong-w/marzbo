@@ -27,6 +27,9 @@ class Post extends Model implements HasMedia
         'category_id',
         'content',
         'social_media_id',
+        'total_react',
+        'total_view',
+        'total_comment',
         'status'
     ];
 

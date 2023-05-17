@@ -17,4 +17,9 @@ interface PostRepositoryInterface extends RepositoryInterface
      * @return LengthAwarePaginator
      */
     public function serverPaginationFilteringFor(array $searchParams): LengthAwarePaginator;
+
+    /**
+     * @return mixed
+     */
+    public function getStasOfLastTwelveMonths();
 }
