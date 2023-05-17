@@ -23,8 +23,9 @@ return [
         ],
     ],
     'user' => [
-        'register' => 'Đăng kí tài khoản :user thành công',
-        'login' => 'Đăng nhập thành công'
+        'register' => 'Đăng kí tài khoản :user thành công.',
+        'login' => 'Đăng nhập thành công.',
+        'logout' => 'Đăng xuất thành công.'
     ],
     'payment_method' => [
         'store' => "Thêm phương thức thanh toán thành công",
@@ -46,4 +47,7 @@ return [
         'update' => 'Update post successfully',
         'delete' => 'Delete post successfully'
     ],
+    'chatgpt' => [
+        'delete' => 'Delete chat successfully.'
+    ]
 ];

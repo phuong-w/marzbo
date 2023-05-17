@@ -16,4 +16,18 @@ return [
     'message' => 'Có lỗi: :message',
     'exception' => 'Có lỗi hệ thống, xin vui lòng thử lại sau!',
 
+    'user' => [
+        'register' => 'Register account for fail.',
+        'login' => 'Logged in fail.'
+    ],
+    'account' => [
+        'store' => 'Create account fail.',
+        'delete' => 'Delete account fail.'
+    ],
+    'post' => [
+        'store' => 'Create post fail.',
+        'update' => 'Update post fail.',
+        'delete' => 'Delete post fail.'
+    ],
+
 ];

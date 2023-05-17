@@ -3,6 +3,7 @@ import AdminLayout from '@/Layouts/AdminLayout.vue'
 import { Head } from '@inertiajs/vue3'
 import {onMounted} from "vue";
 import ApexCharts from 'apexcharts'
+import { reloadPageWithParamRefresh } from '@/composables/helpers'
 
 const props = defineProps({
     quote: String,
@@ -88,6 +89,8 @@ const options = {
 }
 
 onMounted(() => {
+    reloadPageWithParamRefresh()
+
     const fbDashboard = new ApexCharts(
         document.querySelector('#uniqueVisits'),
         options

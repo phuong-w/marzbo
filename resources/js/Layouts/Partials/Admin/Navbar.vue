@@ -92,7 +92,7 @@ const user = usePage().props.auth.user.data;
     </div>
 </template>
 
-<style>
+<style scoped>
 .btn-clear-style {
     display: block;
     color: #3b3f5c;

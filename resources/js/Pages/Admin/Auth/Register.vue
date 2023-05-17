@@ -2,6 +2,8 @@
 import AuthLayout from '@/Layouts/AuthLayout.vue'
 import InputError from '@/components/InputError.vue'
 import { Head, Link, useForm } from '@inertiajs/vue3'
+import { onMounted } from 'vue'
+import { reloadPageWithParamRefresh } from '@/composables/helpers'
 
 const form = useForm({
     first_name: '',
@@ -16,8 +18,13 @@ const form = useForm({
 const submit = () => {
     form.post(route('admin.register'), {
         onFinish: () => form.reset('password', 'password_confirmation'),
-    });
-};
+    })
+}
+
+onMounted(() => {
+    reloadPageWithParamRefresh()
+})
+
 </script>
 
 <template>

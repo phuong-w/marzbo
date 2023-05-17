@@ -101,6 +101,9 @@ class PostController extends Controller
             session()->flash(NOTIFICATION_SUCCESS, __('success.post.store'));
             return to_route('admin.post.index');
         }
+
+        session()->flash(NOTIFICATION_ERROR, __('error.post.store'));
+        return;
     }
 
     /**

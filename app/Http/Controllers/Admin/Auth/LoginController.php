@@ -38,6 +38,8 @@ class LoginController extends Controller
 
         $request->session()->regenerate();
 
+        session()->flash(NOTIFICATION_SUCCESS, __('success.user.login'));
+
         return redirect()->intended(RouteServiceProvider::ADMIN);
     }
 
@@ -52,6 +54,7 @@ class LoginController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect(RouteServiceProvider::ADMIN);
+        session()->flash(NOTIFICATION_SUCCESS, __('success.user.logout'));
+        return to_route('home', ['refresh' => true]);
     }
 }

@@ -37,13 +37,19 @@ class RegisterController extends Controller
      */
     public function register(RegisterRequest $request): RedirectResponse
     {
-
         $user = $this->userRepository->registerCustomer($request->validated());
+
+        if (!$user) {
+            session()->flash(NOTIFICATION_ERROR, __('error.user.register'));
+        }
 
         event(new Registered($user));
 
         Auth::login($user);
 
+        session()->flash(NOTIFICATION_SUCCESS, __('success.user.register', [
+            'user' => $user->name
+        ]));
         return redirect(RouteServiceProvider::ADMIN);
     }
 }
