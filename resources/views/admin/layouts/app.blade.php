@@ -45,6 +45,7 @@
 
         <!-- Styles -->
         @vite([
+        'resources/css/app.css',
         'resources/js/app.js',
 
         'resources/sass/assets/authentication/form-2.scss',

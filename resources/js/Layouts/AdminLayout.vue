@@ -4,6 +4,7 @@ import Sidebar from '@/Layouts/Partials/Admin/Sidebar.vue'
 import Navbar from '@/Layouts/Partials/Admin/Navbar.vue'
 import Subnav from '@/Layouts/Partials/Admin/Subnav.vue'
 import Loader from '@/Layouts/Partials/Admin/Loader.vue'
+import ToastList from '@/components/ToastList.vue'
 </script>
 
 <template>
@@ -20,7 +21,6 @@ import Loader from '@/Layouts/Partials/Admin/Loader.vue'
     <!--  END BREADCRUMBS  -->
 
     <div class="main-container" id="container">
-
         <div class="overlay"></div>
         <div class="search-overlay"></div>
 
@@ -30,6 +30,8 @@ import Loader from '@/Layouts/Partials/Admin/Loader.vue'
 
         <!--  BEGIN CONTENT PART  -->
         <div id="content" class="main-content">
+            <ToastList />
+
             <div class="layout-px-spacing">
                 <div class="row layout-top-spacing layout-spacing">
                     <slot />
@@ -41,3 +43,13 @@ import Loader from '@/Layouts/Partials/Admin/Loader.vue'
         <!--  END CONTENT PART  -->
     </div>
 </template>
+
+<style>
+.header-container {
+    z-index: 40;
+}
+
+.sub-header-container {
+    z-index: 40;
+}
+</style>
