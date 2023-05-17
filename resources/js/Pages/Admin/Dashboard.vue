@@ -4,8 +4,12 @@ import { Head } from '@inertiajs/vue3'
 import {onMounted} from "vue";
 import ApexCharts from 'apexcharts'
 
-defineProps({
+const props = defineProps({
     quote: String,
+    months: Array,
+    average_total_view: Array,
+    average_total_comment: Array,
+    average_total_react: Array,
 })
 
 const options = {
@@ -16,7 +20,7 @@ const options = {
             show: false,
         }
     },
-    colors: ['#5c1ac3', '#d6b007'],
+    colors: ['#5c1ac3', '#d6b007', '#48e054'],
     plotOptions: {
         bar: {
             horizontal: false,
@@ -36,24 +40,31 @@ const options = {
             height: 10,
         },
         itemMargin: {
-            horizontal: 0,
+            horizontal: 8,
             vertical: 8
         }
     },
     stroke: {
         show: true,
-        width: 2,
+        width: 3,
         colors: ['transparent']
     },
-    series: [{
-        name: 'Direct',
-        data: [58, 44, 55, 57, 56, 61, 58, 63, 60, 66, 56, 63]
-    }, {
-        name: 'Organic',
-        data: [91, 76, 85, 101, 98, 87, 105, 91, 114, 94, 66, 70]
-    }],
+    series: [
+        {
+            name: 'Comment',
+            data: props.average_total_comment
+        },
+        {
+            name: 'React',
+            data: props.average_total_react
+        },
+        {
+            name: 'View',
+            data: props.average_total_view
+        }
+    ],
     xaxis: {
-        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        categories: props.months,
     },
     fill: {
         type: 'gradient',

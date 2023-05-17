@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class PostGroupResource extends JsonResource
+class StatsResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,9 +15,9 @@ class PostGroupResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
-            'social_posts' => PostResource::collection($this->socialPosts),
-            'stats' => StatsResource::collection($this->socialPosts),
+            'total_react' => $this->total_react,
+            'total_view' => $this->total_view,
+            'total_comment' => $this->total_comment,
         ];
     }
 }

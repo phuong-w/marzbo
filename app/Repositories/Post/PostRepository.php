@@ -7,8 +7,10 @@ use App\Models\Post;
 use App\Models\SocialMedia;
 use App\Repositories\BaseRepository;
 use App\Services\SocialMedia\FacebookService;
+use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 
@@ -145,5 +147,43 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface
         $query->latest();
 
         return $query->paginate(Arr::get($searchParams, 'per_page', $limit));
+    }
+
+    /**
+     * @return array[]
+     */
+    public function getStasOfLastTwelveMonths()
+    {
+        $lastYear = Carbon::now()->subYear();
+
+        $results = $this->model->select([
+            DB::raw('MONTH(updated_at) as month'),
+            DB::raw('YEAR(updated_at) as year'),
+            DB::raw('AVG(total_view) as average_total_view'),
+            DB::raw('AVG(total_comment) as average_total_comment'),
+            DB::raw('AVG(total_react) as average_total_react'),
+        ])
+            ->where('updated_at', '>=', $lastYear)
+            ->groupBy(DB::raw('MONTH(updated_at)'), DB::raw('YEAR(updated_at)'))
+            ->get();
+
+        $date = [];
+        $totalView = [];
+        $totalComment = [];
+        $totalReact = [];
+
+        foreach ($results as $result) {
+            $date[] = $result->month . '-' . $result->year;
+            $totalView[] = $result->average_total_view;
+            $totalComment[] = $result->average_total_comment;
+            $totalReact[] = $result->average_total_react;
+        }
+
+        return [
+            'months' => $date,
+            'average_total_view' => $totalView,
+            'average_total_comment' => $totalComment,
+            'average_total_react' => $totalReact,
+        ];
     }
 }
