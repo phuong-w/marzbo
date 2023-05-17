@@ -46,4 +46,9 @@ return [
         'update' => 'Update category successfully',
         'delete' => 'Delete category successfully'
     ],
+    'post' => [
+        'store' => 'Create post successfully',
+        'update' => 'Update post successfully',
+        'delete' => 'Delete post successfully'
+    ],
 ];

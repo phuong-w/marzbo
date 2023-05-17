@@ -20,7 +20,10 @@
         <link href="{{ asset('frontend-assets/agency7/css/agency7.css') }}" rel="stylesheet">
         <!-- Revolution Slider -->
         <link href="{{ asset('frontend-assets/plugins/rs-plugin-6.custom/css/rs6.css') }}" rel="stylesheet">
-        @vite(['resources/js/app.js'])
+        @vite([
+            'resources/css/app.css',
+            'resources/js/app.js'
+        ])
 
         @routes
         @inertiaHead
