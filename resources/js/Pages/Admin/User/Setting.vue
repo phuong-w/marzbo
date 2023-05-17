@@ -26,7 +26,7 @@ const user = usePage().props.auth.user.data
                                             <div class="row">
                                                 <div class="col-xl-2 col-lg-12 col-md-4">
                                                     <div class="upload mt-4 pr-md-4">
-                                                        <input type="file" id="input-file-max-fs" class="dropify" data-default-file="assets/img/200x200.jpg" data-max-file-size="2M" />
+                                                        <input type="file" id="input-file-max-fs" class="dropify" :data-default-file="user.avatar" data-max-file-size="2M" />
                                                         <p class="mt-2"><i class="flaticon-cloud-upload mr-1"></i> Upload Picture</p>
                                                     </div>
                                                 </div>
@@ -36,7 +36,7 @@ const user = usePage().props.auth.user.data
                                                             <div class="col-sm-6">
                                                                 <div class="form-group">
                                                                     <label for="fullName">Full Name</label>
-                                                                    <input type="text" class="form-control mb-4" id="fullName" placeholder="Full Name" value="Jimmy Turner">
+                                                                    <input type="text" class="form-control mb-4" id="fullName" placeholder="Full Name" :value="user.name">
                                                                 </div>
                                                             </div>
                                                             <div class="col-sm-6">
@@ -64,7 +64,7 @@ const user = usePage().props.auth.user.data
                                                                             <option>17</option>
                                                                             <option>18</option>
                                                                             <option>19</option>
-                                                                            <option selected>20</option>
+                                                                            <option>20</option>
                                                                             <option>21</option>
                                                                             <option>22</option>
                                                                             <option>23</option>
@@ -80,7 +80,7 @@ const user = usePage().props.auth.user.data
                                                                     <div class="form-group mr-1">
                                                                         <select class="form-control" id="month">
                                                                             <option>Month</option>
-                                                                            <option selected>Jan</option>
+                                                                            <option>Jan</option>
                                                                             <option>Feb</option>
                                                                             <option>Mar</option>
                                                                             <option>Apr</option>
@@ -126,7 +126,7 @@ const user = usePage().props.auth.user.data
                                                                             <option>1992</option>
                                                                             <option>1991</option>
                                                                             <option>1990</option>
-                                                                            <option selected>1989</option>
+                                                                            <option>1989</option>
                                                                             <option>1988</option>
                                                                             <option>1987</option>
                                                                             <option>1986</option>
@@ -143,7 +143,7 @@ const user = usePage().props.auth.user.data
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="profession">Profession</label>
-                                                            <input type="text" class="form-control mb-4" id="profession" placeholder="Designer" value="Web Developer">
+                                                            <input type="text" class="form-control mb-4" id="profession" placeholder="Designer" value="Content Creator">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -166,7 +166,7 @@ const user = usePage().props.auth.user.data
                                                         <label for="country">Country</label>
                                                         <select class="form-control" id="country">
                                                             <option>All Countries</option>
-                                                            <option selected>United States</option>
+                                                            <option selected>Việt Nam</option>
                                                             <option>India</option>
                                                             <option>Japan</option>
                                                             <option>China</option>
@@ -179,7 +179,7 @@ const user = usePage().props.auth.user.data
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="address">Address</label>
-                                                        <input type="text" class="form-control mb-4" id="address" placeholder="Address" value="New York" >
+                                                        <input type="text" class="form-control mb-4" id="address" placeholder="Address" :value="user.address" >
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
@@ -191,13 +191,13 @@ const user = usePage().props.auth.user.data
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="phone">Phone</label>
-                                                        <input type="text" class="form-control mb-4" id="phone" placeholder="Write your phone number here" value="+1 (530) 555-12121">
+                                                        <input type="text" class="form-control mb-4" id="phone" placeholder="Write your phone number here" :value="user.phone">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-group">
                                                         <label for="email">Email</label>
-                                                        <input type="text" class="form-control mb-4" id="email" placeholder="Write your email here" value="Jimmy@gmail.com">
+                                                        <input type="text" class="form-control mb-4" id="email" placeholder="Write your email here" :value="user.email">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
@@ -222,11 +222,45 @@ const user = usePage().props.auth.user.data
                                         <div class="col-md-11 mx-auto">
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                    <div class="input-group social-linkedin mb-3">
+                                                    <div class="input-group social-fb mb-3">
+                                                        <a :href="route('social.connect', 'facebook')" class="input-group-prepend mr-3">
+                                                            <span class="input-group-text" id="fb"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-facebook"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></span>
+                                                        </a>
+                                                        <input type="text" class="form-control" :class="{active: user.facebook_credential}" placeholder="Facebook Username" aria-label="Username" aria-describedby="fb" :value="user.facebook_credential?.name" readonly>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <div class="input-group social-instagram mb-3">
                                                         <div class="input-group-prepend mr-3">
-                                                            <span class="input-group-text" id="linkedin"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg></span>
+                                                            <span class="input-group-text" id="instagram">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-instagram" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                                    <path d="M4 4m0 4a4 4 0 0 1 4 -4h8a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-8a4 4 0 0 1 -4 -4z"></path>
+                                                                    <path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
+                                                                    <path d="M16.5 7.5l0 .01"></path>
+                                                                </svg>
+                                                            </span>
                                                         </div>
-                                                        <input type="text" class="form-control" placeholder="linkedin Username" aria-label="Username" aria-describedby="linkedin" value="jimmy_turner">
+                                                        <input type="text" class="form-control" placeholder="Instagram Username" aria-label="Username" aria-describedby="instagram" value="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-11 mx-auto">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="input-group social-tiktok mb-3">
+                                                        <div class="input-group-prepend mr-3">
+                                                            <span class="input-group-text" id="tiktok">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-tiktok" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                                   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                                   <path d="M21 7.917v4.034a9.948 9.948 0 0 1 -5 -1.951v4.5a6.5 6.5 0 1 1 -8 -6.326v4.326a2.5 2.5 0 1 0 4 2v-11.5h4.083a6.005 6.005 0 0 0 4.917 4.917z"></path>
+                                                                </svg>
+                                                            </span>
+                                                        </div>
+                                                        <input type="text" class="form-control" placeholder="Tiktok Username" aria-label="Username" aria-describedby="tiktok" value="">
                                                     </div>
                                                 </div>
 
@@ -244,22 +278,20 @@ const user = usePage().props.auth.user.data
                                         <div class="col-md-11 mx-auto">
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                    <div class="input-group social-fb mb-3">
-                                                        <a :href="route('social.connect', 'facebook')" class="input-group-prepend mr-3">
-                                                            <span class="input-group-text" id="fb"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-facebook"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg></span>
-                                                        </a>
-                                                        <input type="text" class="form-control" :class="{active: user.facebook_credential}" placeholder="Facebook Username" aria-label="Username" aria-describedby="fb" :value="user.facebook_credential?.name" readonly>
+                                                    <div class="input-group social-youtube mb-3">
+                                                        <div class="input-group-prepend mr-3">
+                                                            <span class="input-group-text" id="tiktok">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-youtube" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                                   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                                   <path d="M3 5m0 4a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v6a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4z"></path>
+                                                                   <path d="M10 9l5 3l-5 3z"></path>
+                                                                </svg>
+                                                            </span>
+                                                        </div>
+                                                        <input type="text" class="form-control" placeholder="Youtube Username" aria-label="Username" aria-describedby="youtube" value="">
                                                     </div>
                                                 </div>
 
-                                                <div class="col-md-6">
-                                                    <div class="input-group social-github mb-3">
-                                                        <div class="input-group-prepend mr-3">
-                                                            <span class="input-group-text" id="github"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></span>
-                                                        </div>
-                                                        <input type="text" class="form-control" placeholder="Github Username" aria-label="Username" aria-describedby="github" value="">
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>

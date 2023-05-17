@@ -36,9 +36,9 @@ class RoleController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        $roles = $this->roleRepository->all();
+        $roles = $this->roleRepository->serverPaginationFilteringFor($request->all());
 
         return Inertia::render('Admin/Role/Index', [
             'roles' => RoleResource::collection($roles)

@@ -9,6 +9,7 @@ use App\Repositories\Schedule\ScheduleRepositoryInterface;
 use App\Services\SocialMedia\FacebookService;
 use App\Services\SocialMedia\InstagramService;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class PostService
 {
@@ -35,7 +36,6 @@ class PostService
     public function create($data)
     {
         try {
-            dd($data['facebook_group']);
             $firstIteration = true;
             $groupId = null;
 
@@ -43,7 +43,7 @@ class PostService
                 $dataForCreate = [
                     'group_id' => $groupId,
                     'user_id' => auth()->id(),
-                    'category_id' => $data['category_id'],
+                    'category_id' => 1,
                     'content' => $value,
                     'social_media_id' => $socialMediaId
                 ];
@@ -54,8 +54,20 @@ class PostService
 
                     $post->update(['group_id' => $groupId]);
                     $firstIteration = false;
+
+                    if ($files = json_decode($data['files'][$socialMediaId])) {
+                        foreach ($files as $file) {
+                            $url = $this->replaceTypeBase64($post, $file, 'photo/video');
+                        }
+                    }
                 } else {
-                    $this->postRepository->create($dataForCreate);
+                    $model = $this->postRepository->create($dataForCreate);
+
+                    if ($files = json_decode($data['files'][$socialMediaId])) {
+                        foreach ($files as $file) {
+                            $url = $this->replaceTypeBase64($model, $file, 'photo/video');
+                        }
+                    }
                 }
             }
 
@@ -92,5 +104,29 @@ class PostService
             Log::error($e->getMessage());
             return false;
         }
+    }
+
+    private function replaceTypeBase64($model, $item, $collection): array|string
+    {
+        // Get extension
+        $data = explode(',', $item);
+        $mimeTemp = explode('/', $data[0])[1];
+        $mime = explode(';', $mimeTemp)[0];
+        $extension = strtolower($mime);
+
+        // Create new filename
+        $timestamp = now()->timestamp;
+        $random = Str::random(10);
+        $filename = $timestamp . '_' . $random . '.' . $extension;
+
+        // Create a new file from base64
+        $model->addMediaFromBase64($item)->usingFileName($filename)->toMediaCollection($collection);
+
+        // Get all images as we will need the last one uploaded
+        $mediaItems = $model->load('media')->getMedia($collection);
+
+        return $mediaItems[count($mediaItems) - 1]->getFullUrl();
+//        // Replace the base64 string in article body with the url of the last uploaded image
+//        return str_replace($item, $mediaItems[count($mediaItems) - 1]->getFullUrl(), $dataContent);
     }
 }

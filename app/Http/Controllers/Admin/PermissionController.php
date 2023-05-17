@@ -30,9 +30,9 @@ class PermissionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        $permissions = $this->permissionRepository->all();
+        $permissions = $this->permissionRepository->serverPaginationFilteringFor($request->all());
 
         return Inertia::render('Admin/Permission/Index', [
             'permissions' => PermissionResource::collection($permissions)

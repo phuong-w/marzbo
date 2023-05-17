@@ -23,11 +23,10 @@ class StorePostRequest extends FormRequest
     {
         return [
             'scheduled_time' => ['sometimes'],
-            'category_id' => ['required'],
+//            'category_id' => ['required'],
             'content' => ['required'],
-            'images' => ['sometimes'],
-            'videos' => ['sometimes'],
-            'facebook_group' => ['required']
+            'files' => ['sometimes'],
+            'facebook_group' => ['sometimes']
         ];
     }
 }

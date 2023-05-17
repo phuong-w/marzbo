@@ -40,7 +40,7 @@ const menuItems = [
         url: route('admin.user.index'),
         icon: 'users',
         active: route().current('admin.user.*'),
-        show: hasPermission(Acl.PERMISSION_SCHEDULE_LIST)
+        show: hasPermission(Acl.PERMISSION_USER_LIST)
     },
     {
         title: 'Roles',

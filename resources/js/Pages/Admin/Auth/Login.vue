@@ -19,6 +19,9 @@ const submit = () => {
 <template>
     <Head title="Login"/>
     <AuthLayout>
+        <div class="form-form-wrap">
+            <div class="form-container">
+                <div class="form-content">
         <h1 class="">Sign In</h1>
         <p class="">Log in to your account to continue.</p>
 
@@ -74,5 +77,9 @@ const submit = () => {
 
             </div>
         </form>
+
+                </div>
+            </div>
+        </div>
     </AuthLayout>
 </template>

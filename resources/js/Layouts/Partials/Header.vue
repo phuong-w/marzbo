@@ -68,8 +68,9 @@ import Image from '@/components/Image.vue'
                             <Image src="frontend-assets/agency7/images/dummy.png" alt="Slide" title="Home" class="rev-slidebg tp-rs-img rs-lazyload" data-lazyload="frontend-assets/agency7/images/transparent.png" />
                             <!--
                                 -->
-                            <rs-layer id="slider-1-slide-1-layer-0" data-type="text" data-color="#252525" data-rsp_ch="on" data-xy="x:l,l,c,c;xo:50px,50px,-7px,-7px;yo:240px,240px,526px,526px;" data-text="w:normal;s:60,60,70,70;l:70,70,75,75;fw:600;a:left,left,center,center;" data-dim="w:500px,500px,550px,550px;" data-frame_0="y:-50,-50,-31,-31;" data-frame_1="sp:1000;" data-frame_999="o:0;st:w;" style="z-index:9;font-family:'Poppins';"> It’s time
-                                <br> to bring your ideas alive </rs-layer>
+                            <rs-layer id="slider-1-slide-1-layer-0" data-type="text" data-color="#252525" data-rsp_ch="on" data-xy="x:l,l,c,c;xo:50px,50px,-7px,-7px;yo:240px,240px,526px,526px;" data-text="w:normal;s:60,60,70,70;l:70,70,75,75;fw:600;a:left,left,center,center;" data-dim="w:500px,500px,550px,550px;" data-frame_0="y:-50,-50,-31,-31;" data-frame_1="sp:1000;" data-frame_999="o:0;st:w;" style="z-index:9;font-family:'Poppins';">
+                                Contact with us
+                            </rs-layer>
                             <!--
 
                                 -->
@@ -110,7 +111,7 @@ import Image from '@/components/Image.vue'
                             <rs-layer id="slider-1-slide-1-layer-7" data-type="text" data-color="#252525" data-rsp_ch="on" data-xy="xo:50px,50px,31px,31px;yo:490px,490px,306px,306px;" data-text="w:normal;s:16,16,9,9;l:26,26,15,15;" data-dim="w:420px,420px,262px,262px;" data-vbility="t,t,f,t" data-frame_999="o:0;st:w;" style="z-index:15;font-family:'Poppins';"> Voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia. </rs-layer>
                             <!--
 
-                                --><a id="slider-1-slide-1-layer-8" class="rs-layer rev-btn" href="frontend-assets/agency7/contact.html" target="_self" data-type="button" data-rsp_ch="on" data-xy="x:l,l,c,c;xo:50px,50px,0,50px;yo:590px,590px,800px,800px;" data-text="w:normal;s:18,18,25,25;l:18,18,25,25;fw:600;" data-dim="minh:0px,0px,none,0px;" data-padding="t:20,20,22,22;r:40,40,45,45;b:20,20,22,22;l:40,40,45,45;" data-border="bor:8px,8px,8px,8px;" data-frame_999="o:0;st:w;" data-frame_hover="c:#252525;bgc:#fff;boc:#252525;bor:8px,8px,8px,8px;bos:solid;bow:3px,3px,3px,3px;" style="z-index:16;background-color:#252525;font-family:'Poppins';">Contact with us </a>
+                                --><a id="slider-1-slide-1-layer-8" class="rs-layer rev-btn" href="frontend-assets/agency7/contact.html" target="_self" data-type="button" data-rsp_ch="on" data-xy="x:l,l,c,c;xo:50px,50px,0,50px;yo:590px,590px,800px,800px;" data-text="w:normal;s:18,18,25,25;l:18,18,25,25;fw:600;" data-dim="minh:0px,0px,none,0px;" data-padding="t:20,20,22,22;r:40,40,45,45;b:20,20,22,22;l:40,40,45,45;" data-border="bor:8px,8px,8px,8px;" data-frame_999="o:0;st:w;" data-frame_hover="c:#252525;bgc:#fff;boc:#252525;bor:8px,8px,8px,8px;bos:solid;bow:3px,3px,3px,3px;" style="z-index:16;background-color:#252525;font-family:'Poppins';">Register now </a>
                             <!--
 
                                 -->

@@ -3,6 +3,8 @@
 namespace App\Repositories\Permission;
 
 use App\Repositories\BaseRepository;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Arr;
 use Spatie\Permission\Models\Permission;
 
 /**
@@ -14,6 +16,7 @@ class PermissionRepository extends BaseRepository implements PermissionRepositor
    * @inheritdoc
    */
   protected $model;
+  const ITEM_PER_PAGE = 10;
 
   /**
    * @inheritdoc
@@ -24,4 +27,31 @@ class PermissionRepository extends BaseRepository implements PermissionRepositor
     parent::__construct($model);
   }
 
+  /**
+   * @param $searchParams
+   * @return LengthAwarePaginator
+   */
+  public function serverPaginationFilteringFor($searchParams = null): LengthAwarePaginator
+  {
+    $limit = Arr::get($searchParams, 'limit', self::ITEM_PER_PAGE);
+    $keyword = Arr::get($searchParams, 'search', '');
+
+    $query = $this->model->query();
+
+    if ($keyword) {
+        if (is_array($keyword)) {
+            $keyword = $keyword['value'];
+        }
+        $query->where(
+            function ($q) use ($keyword) {
+                $q->where('id', 'LIKE', '%' . $keyword . '%');
+                $q->orWhere('name', 'LIKE', '%' . $keyword . '%');
+            }
+        );
+    }
+
+    $query->latest();
+
+    return $query->paginate(Arr::get($searchParams, 'per_page', $limit));
+  }
 }
