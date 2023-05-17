@@ -3,6 +3,7 @@ import { onMounted, ref, watch, nextTick } from 'vue'
 import InputLabel from '@/components/InputLabel.vue'
 import InputError from '@/components/InputError.vue'
 import { useForm } from '@inertiajs/vue3'
+// import Masonry from 'masonry-layout'
 
 const props = defineProps({
     categories: {
@@ -40,8 +41,7 @@ const form = useForm({
     facebook_pages: {},
     facebook_group: {},
     content: {},
-    images: {},
-    videos: {}
+    files: {}
 })
 
 const handleSubmit = () => {
@@ -52,14 +52,15 @@ const handleSubmit = () => {
         const entries = Object.entries(objData.value)
         for (const [idSocial, social] of entries) {
             form.content[idSocial] = social.simplemde.value()
-            // form.images[idSocial] = JSON.stringify(social.images)
+            form.files[idSocial] = JSON.stringify(social.files)
+            // console.log(social)
             // form.videos[idSocial] = JSON.stringify(social.videos)
         }
     }
 
     form.facebook_pages = selectedFacebookPageIds.value
     form.facebook_group = selectedFacebookGroup.value
-    // console.log(form)
+    console.log(form)
     form.post(route('admin.post.store'), {
         onSuccess: () => emit('form-submitted'),
         onError: (response) => emit('form-submitted', response)
@@ -74,6 +75,15 @@ const toolbarOptions = [
     'link', 'code', 'clean-block',
     '|',
     {
+        name: "photoWithVideo",
+        action: function(editor) {
+            const inputVideo = $(editor.element).parent().siblings('.upload-image-video')
+            inputVideo.click()
+        },
+        className: "fa fa-image",
+        title: "Photo/video",
+    },
+    {
         name: "emojiable",
         action: function customFunction(editor) {
             console.log(editor)
@@ -86,6 +96,8 @@ const toolbarOptions = [
 ]
 
 const handleFormMarkdownFollowSocial = (social) => {
+    let uploadedFiles = []
+
     const simplemde = new SimpleMDE({
         element: document.getElementById(`editor-container-${social}`),
         forceSync: true,
@@ -106,7 +118,58 @@ const handleFormMarkdownFollowSocial = (social) => {
         toolbar: toolbarOptions,
     })
 
-    return { simplemde }
+    $(`#sUpload${social}`).change(function(e) {
+        let file = e.target.files[0]
+
+        if (file) {
+            let reader = new FileReader()
+            reader.onload = function(event) {
+                let fileType = file.type
+                let base64data = event.target.result
+
+                uploadedFiles.push(base64data)
+
+                const previewContent = document.getElementById('preview-content')
+                let previewElement = createPreviewElement(base64data, fileType)
+                console.log(fileType)
+
+                previewContent.appendChild(previewElement)
+            }
+
+            reader.readAsDataURL(file)
+        }
+
+        return {
+            simplemde,
+            files: uploadedFiles
+        }
+
+    })
+
+    return {
+        simplemde,
+        files: uploadedFiles
+    }
+}
+
+const createPreviewElement = (fileUrl, fileType) => {
+    const previewElement = document.createElement('div')
+    previewElement.classList.add('preview-element')
+
+    if (fileType.startsWith('image/')) {
+        const imageElement = document.createElement('img')
+        imageElement.src = fileUrl
+        imageElement.classList.add('img-fluid')
+        previewElement.appendChild(imageElement)
+    } else if (fileType.startsWith('video/')) {
+        const videoElement = document.createElement('video')
+        videoElement.src = fileUrl
+        videoElement.controls = true
+        videoElement.classList.add('img-fluid')
+        previewElement.appendChild(videoElement)
+    }
+
+    return previewElement
 }
 
 watch(
@@ -172,19 +235,21 @@ onMounted(() => {
 
 <template>
     <div class="layout-top-spacing">
-        <div class="form-group col-12 mb-5">
-            <InputLabel for="sCategory" value="Category"/>
-            <select id="sCategory" class="selectpicker form-control" data-live-search="true" data-size="6" :class="{'is-invalid': form.errors.category_id}" v-model="form.category_id">
-                <option value="" disabled>-- Choose the category --</option>
-                <template >
-                    <option v-for="item in categories.data" :key="item.id" :value="item.id">{{ item.name }}</option>
-                </template>
-            </select>
-            <InputError class="mt-2" :message="form.errors.category_id"/>
-        </div>
-
-        <div class="form-group col-xl-2 col-lg-3 col-12 mb-5 float-right">
-            <input type="text" class="form-control flatpickr flatpickr-input active form-control-sm" id="sSchedule" placeholder="Scheduled Time" v-model="form.scheduled_time">
+<!--        <div class="form-group col-12 mb-5">-->
+<!--            <InputLabel for="sCategory" value="Category"/>-->
+<!--            <select id="sCategory" class="selectpicker form-control" data-live-search="true" data-size="6" :class="{'is-invalid': form.errors.category_id}" v-model="form.category_id">-->
+<!--                <option value="" disabled>&#45;&#45; Choose the category &#45;&#45;</option>-->
+<!--                <template >-->
+<!--                    <option v-for="item in categories.data" :key="item.id" :value="item.id">{{ item.name }}</option>-->
+<!--                </template>-->
+<!--            </select>-->
+<!--            <InputError class="mt-2" :message="form.errors.category_id"/>-->
+<!--        </div>-->
+        <div class="d-flex justify-content-end align-items-center mt-5">
+            <InputLabel for="sSchedule" value="Scheduled Time:"/>
+            <div class="form-group col-xl-2 col-lg-3 col-12">
+                <input type="text" class="form-control mb-0 flatpickr flatpickr-input active form-control-sm" id="sSchedule" placeholder="Time..." v-model="form.scheduled_time">
+            </div>
         </div>
         <div class="clearfix"></div>
 
@@ -230,14 +295,47 @@ onMounted(() => {
                             <textarea :id="`editor-container-${item.name}`"></textarea>
                             <InputError class="mt-2" :message="form.errors.content"/>
                         </div>
-<!--                        <input class="d-none" :id="`sPostImages${item.name}`" type="file" accept="image/*">-->
-<!--                        <input class="d-none" :id="`sPostvideos${item.name}`" type="file" accept="video/*">-->
+                        <input type="file" :id="`sUpload${item.name}`" class="upload-image-video d-none" multiple/>
+<!--                        <input class="images" :id="`sPostImages${item.name}`" type="file" accept="image/*">-->
+<!--                        <input class="videos" :id="`sPostvideos${item.name}`" type="file" accept="video/*">-->
+                        <div :id="`preview-container-${item.name}`" class="preview-container card mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">Box Preview</h5>
+                                <div id="preview-content" class="preview-content"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </template>
+
+<style>
+.preview-container {
+    max-width: 700px;
+}
+
+.preview-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 10px;
+}
+
+.preview-element {
+    max-width: calc(50% - 5px);
+    flex-grow: 1;
+}
+
+.preview-element img,
+.preview-element video {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+}
+</style>
 
 <style lang="scss">
 @import "/resources/sass/plugins/bootstrap-select/bootstrap-select.min.scss";

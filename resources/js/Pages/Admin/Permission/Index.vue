@@ -1,20 +1,26 @@
 <script setup>
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 import {Head, Link, router} from '@inertiajs/vue3'
-import {inject, onMounted, onUpdated} from 'vue'
+import {inject, onMounted, ref } from 'vue'
 import { hasRole, hasPermission} from '@/composables/helpers'
 import DataTable from 'datatables.net-vue3'
 import DataTablesCore from 'datatables.net'
+import { handleDataTableOnMounted } from '@/composables/dataTableHandle'
 
 DataTable.use(DataTablesCore)
 
 const Acl = inject('Acl')
 
-defineProps({
+const props = defineProps({
     permissions: Object,
 })
 
 DataTable.use(DataTablesCore)
+
+let dt
+const params = route().params
+const data = ref([])
+const table = ref()
 
 const options = {
     dom: "<'dt--top-section'<'row'<'col-12 col-sm-6 d-flex justify-content-sm-start justify-content-center'l><'col-12 col-sm-6 d-flex justify-content-sm-end justify-content-center mt-sm-0 mt-3'f>>>" +
@@ -26,8 +32,8 @@ const options = {
             "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>'
         },
         "sEmptyTable": "No data available in table",
-        "sInfo": "Showing page _PAGE_ of _PAGES_",
-        "sInfoEmpty": "Showing page _PAGE_ of _PAGES_",
+        "sInfo": `Showing page _PAGE_ of _PAGES_`,
+        "sInfoEmpty": "Showing page 0 of 0",
         "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
         "sSearchPlaceholder": "Search...",
         "sLengthMenu": "Results :  _MENU_",
@@ -110,12 +116,19 @@ const handleCickOnPage = () => {
 }
 
 onMounted(() => {
-    handleCickOnPage()
+    data.value = props.permissions.data
+    dt = table.value.dt
+
+    handleDataTableOnMounted(dt, props.permissions, params, 'admin.permission.index')
+
+    $(document).on('click', '.btn-edit', function (e) {
+        e.preventDefault()
+        let $this = $(this)
+
+        router.get(route('admin.permission.edit', $this.data('id')))
+    })
 })
 
-onUpdated(() => {
-    handleCickOnPage()
-})
 </script>
 
 <template>
@@ -129,12 +142,12 @@ onUpdated(() => {
                         <Link :href="route('admin.permission.create')" class="btn btn-primary">Create</Link>
                     </div>
 
-                    <DataTable :data="permissions.data" :columns="columns" :options="options" class="display table style-3 table-hover">
+                    <DataTable ref="table" :data="data" :columns="columns" :options="options" class="display table style-3 table-hover">
                         <thead>
                         <tr>
-                            <th class="checkbox-column text-center">ID</th>
-                            <th>Name</th>
-                            <th class="text-center dt-no-sorting">Action</th>
+                            <th class="checkbox-column text-center" style="width:10%">ID</th>
+                            <th style="width:70%">Name</th>
+                            <th class="text-center dt-no-sorting" style="width:20%">Action</th>
                         </tr>
                         </thead>
                     </DataTable>
@@ -143,3 +156,9 @@ onUpdated(() => {
         </div>
     </AdminLayout>
 </template>
+
+<style lang="scss">
+@import "/resources/sass/plugins/table/datatable/datatables.scss";
+@import "/resources/sass/plugins/table/datatable/dt-global_style.scss";
+@import "/resources/sass/plugins/table/datatable/custom_dt_custom.scss";
+</style>

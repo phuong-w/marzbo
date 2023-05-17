@@ -40,5 +40,35 @@ class RolePermissionSeeder extends Seeder
             Acl::PERMISSION_VIEW_MENU_DASHBOARD,
             Acl::PERMISSION_USER_LIST,
         ]);
+
+        $customerRole->givePermissionTo([
+            Acl::PERMISSION_VIEW_MENU_DASHBOARD,
+
+            Acl::PERMISSION_POST_MANAGE,
+            Acl::PERMISSION_POST_LIST,
+            Acl::PERMISSION_POST_ADD,
+            Acl::PERMISSION_POST_EDIT,
+            Acl::PERMISSION_POST_DELETE,
+
+            Acl::PERMISSION_SCHEDULE_MANAGE,
+            Acl::PERMISSION_SCHEDULE_LIST,
+            Acl::PERMISSION_SCHEDULE_ADD,
+            Acl::PERMISSION_SCHEDULE_EDIT,
+            Acl::PERMISSION_SCHEDULE_DELETE,
+
+            Acl::PERMISSION_SOCIAL_MEDIA_MANAGE,
+            Acl::PERMISSION_SOCIAL_MEDIA_LIST,
+            Acl::PERMISSION_SOCIAL_MEDIA_ADD,
+            Acl::PERMISSION_SOCIAL_MEDIA_EDIT,
+            Acl::PERMISSION_SOCIAL_MEDIA_DELETE,
+
+            Acl::PERMISSION_SOCIAL_MEDIA_CREDENTIAL_MANAGE,
+            Acl::PERMISSION_SOCIAL_MEDIA_CREDENTIAL_LIST,
+            Acl::PERMISSION_SOCIAL_MEDIA_CREDENTIAL_ADD,
+            Acl::PERMISSION_SOCIAL_MEDIA_CREDENTIAL_EDIT,
+            Acl::PERMISSION_SOCIAL_MEDIA_CREDENTIAL_DELETE,
+
+            Acl::PERMISSION_CHATGPT_MANAGE
+        ]);
     }
 }
