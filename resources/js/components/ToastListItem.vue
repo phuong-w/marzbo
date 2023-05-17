@@ -1,11 +1,20 @@
 <script setup>
 import ToastListItem from '@/components/ToastListItem.vue'
+import { onMounted } from 'vue'
 const props = defineProps({
     type: String,
-    message: String
+    message: String,
+    duration: {
+        type: Number,
+        default: 2000
+    }
 })
 
 const emit = defineEmits(['remove'])
+
+onMounted(() => {
+    setTimeout(() => emit('remove'), props.duration)
+})
 </script>
 <template>
     <div>
