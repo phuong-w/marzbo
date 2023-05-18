@@ -92,6 +92,9 @@ class ChatgptController extends Controller
     public function destroy(Chatgpt $chatgpt): RedirectResponse
     {
         $this->chatgptRepository->destroy($chatgpt);
+
+        session()->flash(NOTIFICATION_SUCCESS, __('success.chatgpt.delete'));
+
         return to_route('admin.chatgpt.index');
     }
 }

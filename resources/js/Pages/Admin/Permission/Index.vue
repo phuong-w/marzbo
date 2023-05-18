@@ -5,7 +5,8 @@ import {inject, onMounted, ref } from 'vue'
 import { hasRole, hasPermission} from '@/composables/helpers'
 import DataTable from 'datatables.net-vue3'
 import DataTablesCore from 'datatables.net'
-import { handleDataTableOnMounted } from '@/composables/dataTableHandle'
+import { handleDataTableOnMounted, options } from '@/composables/dataTableHandle'
+import PopupModal from '@/components/PopupModal.vue'
 
 DataTable.use(DataTablesCore)
 
@@ -22,28 +23,6 @@ const params = route().params
 const data = ref([])
 const table = ref()
 
-const options = {
-    dom: "<'dt--top-section'<'row'<'col-12 col-sm-6 d-flex justify-content-sm-start justify-content-center'l><'col-12 col-sm-6 d-flex justify-content-sm-end justify-content-center mt-sm-0 mt-3'f>>>" +
-        "<'table-responsive'tr>" +
-        "<'dt--bottom-section d-sm-flex justify-content-sm-between text-center'<'dt--pages-count  mb-sm-0 mb-3'i><'dt--pagination'p>>",
-    oLanguage: {
-        "oPaginate": {
-            "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>',
-            "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>'
-        },
-        "sEmptyTable": "No data available in table",
-        "sInfo": `Showing page _PAGE_ of _PAGES_`,
-        "sInfoEmpty": "Showing page 0 of 0",
-        "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
-        "sSearchPlaceholder": "Search...",
-        "sLengthMenu": "Results :  _MENU_",
-    },
-    lengthMenu: [5, 10, 20, 50],
-    pageLength: 50,
-    processing: true,
-    ordering: true,
-    order: [[0, 'desc']],
-}
 const columns = [
     {
         data: 'id',
@@ -97,22 +76,12 @@ const columns = [
     }
 ]
 
-const handleCickOnPage = () => {
-    // Button edit onclick
-    const editElts = document.querySelectorAll('.btn-edit')
-    editElts.forEach((elt) => {
-        elt.addEventListener('click', function() {
-            router.get(route('admin.permission.edit', elt.dataset.id))
-        })
-    })
-
-    // Button delete onclick
-    const deleteElts = document.querySelectorAll('.btn-delete')
-    deleteElts.forEach((elt) => {
-        elt.addEventListener('click', function() {
-            router.delete(route('admin.permission.destroy', elt.dataset.id))
-        })
-    })
+const callAjaxRemoveItem = (id) => {
+    router.delete(route('admin.permission.destroy', id),
+        {
+            onSuccess: () => data.value = props.permissions.data
+        }
+    )
 }
 
 onMounted(() => {
@@ -127,6 +96,19 @@ onMounted(() => {
 
         router.get(route('admin.permission.edit', $this.data('id')))
     })
+
+    $(document).on('click', '.btn-delete', function (e) {
+        e.preventDefault()
+        let $this = $(this)
+
+        $('#sConfirmDelete').attr('data-id', $this.data('id'))
+        $('#popup-modal').modal('show')
+    })
+
+    $(document).on('click', '#sConfirmDelete', function () {
+        let id = $(this).attr('data-id')
+        callAjaxRemoveItem(id)
+    })
 })
 
 </script>
@@ -134,6 +116,8 @@ onMounted(() => {
 <template>
     <Head title="Permissions" />
     <AdminLayout>
+        <PopupModal />
+
         <div class="col-lg-12">
             <div class="statbox widget box box-shadow">
                 <div class="widget-content widget-content-area">

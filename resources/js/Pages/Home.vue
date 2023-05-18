@@ -2,6 +2,12 @@
 import HomeLayout from '@/Layouts/HomeLayout.vue'
 import { Head } from '@inertiajs/vue3'
 import Image from '@/components/Image.vue'
+import { onMounted } from 'vue'
+import { reloadPageWithParamRefresh } from '@/composables/helpers'
+
+onMounted(() => {
+    reloadPageWithParamRefresh()
+})
 </script>
 
 <template>

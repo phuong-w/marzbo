@@ -1,4 +1,28 @@
 import { router } from '@inertiajs/vue3'
+
+const options = {
+    dom: "<'dt--top-section'<'row'<'col-12 col-sm-6 d-flex justify-content-sm-start justify-content-center'l><'col-12 col-sm-6 d-flex justify-content-sm-end justify-content-center mt-sm-0 mt-3'f>>>" +
+        "<'table-responsive'tr>" +
+        "<'dt--bottom-section d-sm-flex justify-content-sm-between text-center'<'dt--pages-count  mb-sm-0 mb-3'i><'dt--pagination'p>>",
+    oLanguage: {
+        "oPaginate": {
+            "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>',
+            "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>'
+        },
+        "sEmptyTable": "No data available in table",
+        "sInfo": `Showing page _PAGE_ of _PAGES_`,
+        "sInfoEmpty": "Showing page 0 of 0",
+        "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
+        "sSearchPlaceholder": "Search...",
+        "sLengthMenu": "Results :  _MENU_",
+    },
+    lengthMenu: [5, 10, 20, 50],
+    pageLength: 50,
+    processing: true,
+    ordering: true,
+    order: [[0, 'desc']],
+}
+
 const customDataTable = (dt, $itemResource) => {
     // LengthPage
     dt.page.len($itemResource.meta.per_page)
@@ -58,8 +82,11 @@ const customDataTable = (dt, $itemResource) => {
     })
 }
 
-const redirectToThisPage = ($routeNameIndex, params) => {
-    router.get(route($routeNameIndex), params)
+const redirectToThisPage = ($routeNameIndex, params, $routeParam = null) => {
+    $routeParam ?
+        router.get(route($routeNameIndex, $routeParam), params)
+        :
+        router.get(route($routeNameIndex), params)
 }
 
 /**
@@ -69,12 +96,14 @@ const redirectToThisPage = ($routeNameIndex, params) => {
  * @param $itemResource
  * @param params
  * @param $routeNameIndex
+ * @param $routeParam
  */
 const handleDataTableOnMounted = (
     dt,
     $itemResource,
     params,
-    $routeNameIndex
+    $routeNameIndex,
+    $routeParam = null
 ) => {
     const url = new URL(window.location)
     const keyword = url.searchParams.get('search')
@@ -87,7 +116,7 @@ const handleDataTableOnMounted = (
 
     if ($itemResource.meta.current_page > $itemResource.meta.last_page) {
         delete params.page
-        redirectToThisPage($routeNameIndex, params)
+        redirectToThisPage($routeNameIndex, params, $routeParam)
     }
 
     customDataTable(dt, $itemResource)
@@ -97,16 +126,16 @@ const handleDataTableOnMounted = (
 
         if (searchValue != keyword && searchValue) {
             params.search = searchValue
-            redirectToThisPage($routeNameIndex, params)
+            redirectToThisPage($routeNameIndex, params, $routeParam)
         } else if (searchValue != keyword && !searchValue && url.searchParams.has('search')) {
             delete params.search
-            redirectToThisPage($routeNameIndex, params)
+            redirectToThisPage($routeNameIndex, params, $routeParam)
         }
     })
 
     dt.on('length', (e, settings, length) => {
         params.limit = length
-        redirectToThisPage($routeNameIndex, params)
+        redirectToThisPage($routeNameIndex, params, $routeParam)
     })
 
     //Button pagination
@@ -117,11 +146,12 @@ const handleDataTableOnMounted = (
         let page = $this.data('page')
         if (page) {
             params.page = page
-            redirectToThisPage($routeNameIndex, params)
+            redirectToThisPage($routeNameIndex, params, $routeParam)
         }
     })
 }
 
 export {
-    handleDataTableOnMounted
+    handleDataTableOnMounted,
+    options
 }

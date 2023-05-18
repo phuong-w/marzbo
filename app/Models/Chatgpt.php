@@ -11,6 +11,8 @@ class Chatgpt extends Model
 
     const GPT_MODEL = 'gpt-3.5-turbo';
 
+    protected $table = 'chatgpts';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -22,8 +24,11 @@ class Chatgpt extends Model
         'context'
     ];
 
-    protected $guarded = [];
-
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
     protected $casts = [
         'context' => 'array'
     ];

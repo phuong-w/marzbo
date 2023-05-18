@@ -1,13 +1,13 @@
 <script setup>
 import ToastListItem from '@/components/ToastListItem.vue'
-import {onUnmounted, ref} from 'vue'
+import {onMounted, onUnmounted, ref} from 'vue'
 import { router, usePage } from '@inertiajs/vue3'
 
 const items = ref([])
 
-const page = usePage()
+router.on('finish', () => {
+    const page = usePage()
 
-let removeFinishEventListener = router.on('finish', () => {
     if (page.props.flash.success) {
         items.value.unshift({
             key: Symbol(),
@@ -25,7 +25,6 @@ let removeFinishEventListener = router.on('finish', () => {
     }
 })
 
-onUnmounted(() => removeFinishEventListener())
 function remove(index) {
     items.value.splice(index, 1)
 }

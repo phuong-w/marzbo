@@ -23,15 +23,15 @@ const submit = () => {
             <form @submit.prevent="submit">
                 <div class="statbox widget box box-shadow">
                     <div class="widget-content widget-content-area">
-                        <div class="layout-top-spacing mb-4">
+                        <div class="layout-top-spacing col-12 mb-4">
                             <Link :href="route('admin.permission.index')"
-                               class="btn btn-gray">Cancel</Link>
+                               class="btn btn-gray mr-2">Cancel</Link>
                             <PrimaryButton class="btn btn-primary" :disabled="form.processing">
                                 Create
                             </PrimaryButton>
                         </div>
 
-                        <div class="form-group mb-4">
+                        <div class="form-group col-12 mb-4">
                             <InputLabel for="sName" value="Name"/>
 
                             <TextInput

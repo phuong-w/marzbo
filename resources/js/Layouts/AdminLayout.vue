@@ -46,10 +46,10 @@ import ToastList from '@/components/ToastList.vue'
 
 <style>
 .header-container {
-    z-index: 40;
+    z-index: 29;
 }
 
 .sub-header-container {
-    z-index: 40;
+    z-index: 28;
 }
 </style>

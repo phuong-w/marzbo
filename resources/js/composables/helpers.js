@@ -44,4 +44,12 @@ const hasRole = (name) => usePage().props.auth.user.data.roles.includes(name)
  */
 const hasPermission = (name) => usePage().props.auth.user.data.permissions.includes(name)
 
-export {sanitizeTitle, hasRole, hasPermission}
+const reloadPageWithParamRefresh = () => {
+    if (window.location.search.includes('refresh')) {
+        const urlWithoutVariable = window.location.origin + window.location.pathname
+        history.replaceState(null, '', urlWithoutVariable)
+
+        location.reload()
+    }
+}
+export {sanitizeTitle, hasRole, hasPermission, reloadPageWithParamRefresh}

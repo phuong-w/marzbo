@@ -21,7 +21,7 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
    */
   protected $model;
 
-  const ITEM_PER_PAGE = 5;
+  const ITEM_PER_PAGE = 10;
 
   /**
    * @inheritdoc

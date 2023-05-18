@@ -35,8 +35,15 @@ class PermissionRepository extends BaseRepository implements PermissionRepositor
   {
     $limit = Arr::get($searchParams, 'limit', self::ITEM_PER_PAGE);
     $keyword = Arr::get($searchParams, 'search', '');
+    $roleId = Arr::get($searchParams, 'role_id', '');
 
     $query = $this->model->query();
+
+    if ($roleId) {
+        $query->whereHas('roles', function ($q) use ($roleId) {
+            $q->where('role_id', $roleId);
+        });
+    }
 
     if ($keyword) {
         if (is_array($keyword)) {
