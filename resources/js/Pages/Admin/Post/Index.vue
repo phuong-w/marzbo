@@ -56,6 +56,7 @@ const columns = [
             let html = ``
             for (const post of data) {
                 let button = `<ul class="table-controls">`
+                let stas = ``
 
                 if (canEdit) {
                     button += `<li>
@@ -91,38 +92,32 @@ const columns = [
                 }
                 button += `</ul>`
 
+                stas = `<div>
+                    <button type="button" class="btn btn-info ml-2">
+                        <span>React: </span> <span class="badge badge-light">${post.total_react}</span>&nbsp;&nbsp;
+                        <span>View: </span> <span class="badge badge-light">${post.total_view}</span>&nbsp;&nbsp;
+                        <span>Comment: </span> <span class="badge badge-light">${post.total_comment}</span>
+                        </button>
+                </div>`
+
                 html += `<table style="width: 100%">
                     <tr style="border: none">
-                        <th style="border: none; width: 90%">${post.social_media_name}</th>
+                        <th style="border: none; width: 60%">${post.social_media_name}</th>
                         <th style="border: none; width: 10%"></th>
+                        <th style="border: none; width: 30%"></th>
                     </tr>
                     <tr style="border: none">
                         <td style="border: none; padding-left: 28px"><div style="white-space: pre-wrap">${post.content}</div></td>
                         <td style="border: none">
                             ${button}
                         </td>
+                        <td style="border: none">
+                            ${stas}
+                        </td>
                     </tr>
                 </table>`
             }
             // console.log(data)
-            return html
-        }
-    },
-    {
-        data: 'stats',
-        render: function (data, type, full) {
-            let html = ``
-            for (const post of data) {
-                console.log(post.total_react)
-                html += `<div>
-                    <button type="button" class="btn btn-info mt-3 mb-3 ml-2">
-                        <span>React: </span> <span class="badge badge-light">${post.total_react}</span>&nbsp;&nbsp;
-                        <span>View: </span> <span class="badge badge-light">${post.total_view}</span>&nbsp;&nbsp;
-                        <span>Comment: </span> <span class="badge badge-light">${post.total_comment}</span>
-                        </button>
-                </div>`
-            }
-
             return html
         }
     }
@@ -250,7 +245,6 @@ onMounted(() => {
                         <tr>
                             <th class="checkbox-column text-center" style="width: 5%">ID</th>-->
                             <th>Content</th>
-                            <th>Stats</th>
 <!--                            <th>Created At</th>-->
 <!--                            <th class="text-center dt-no-sorting">Action</th>-->
                         </tr>

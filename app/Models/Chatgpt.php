@@ -11,6 +11,8 @@ class Chatgpt extends Model
 
     const GPT_MODEL = 'gpt-3.5-turbo';
 
+    protected $table = 'chatgpts';
+
     /**
      * The attributes that are mass assignable.
      *
