@@ -17,44 +17,6 @@ import { Link } from '@inertiajs/vue3'
                                 <Image class="logo-mobile-sticky scale-with-grid" src="frontend-assets/agency7/images/agency7.png" data-retina="frontend-assets/agency7/images/retina-agency7.png" data-height="40" alt="agency7" data-no-retina/>
                             </a>
                         </div>
-                        <div class="menu_wrapper">
-                            <nav id="menu">
-                                <ul id="menu-main-menu" class="menu menu-main">
-                                    <li class=" current-menu-item page_item current_page_item"> <a href="index-agency7.html"><span>Home</span></a> </li>
-                                    <li> <a href="frontend-assets/agency7/products.html"><span>Products</span></a> </li>
-                                    <li> <a href="frontend-assets/agency7/pricing.html"><span>Pricing</span></a> </li>
-                                    <li> <a href="frontend-assets/agency7/about.html"><span>About</span></a> </li>
-                                    <li> <a href="frontend-assets/agency7/blog.html"><span>Blog</span></a> </li>
-                                    <li> <a href="frontend-assets/agency7/contact.html"><span>Contact</span></a> </li>
-                                </ul>
-                            </nav><a class="responsive-menu-toggle" href="#" aria-label="Mobile menu"><i class="icon-menu-fine" aria-hidden="true"></i></a> </div>
-                    </div>
-                    <div class="top_bar_right">
-                        <div class="top_bar_right_wrapper">
-                            <a id="myaccount_button" class="top-bar-right-icon top-bar-right-icon-user toggle-login-modal is-boxed logged-out" href="#">
-                                <svg width="26" viewBox="0 0 26 26">
-                                    <defs></defs>
-                                    <circle class="path" style="fill: none; stroke: #333333; stroke-width: 1.5px;" cx="13" cy="9.7" r="4.1" />
-                                    <path class="path" style="fill: none; stroke: #333333; stroke-width: 1.5px;" d="M19.51,18.1v2.31h-13V18.1c0-2.37,2.92-4.3,6.51-4.3S19.51,15.73,19.51,18.1Z" />
-                                </svg>
-                            </a>
-                            <a id="header_cart" class="top-bar-right-icon header-cart top-bar-right-icon-cart toggle-mfn-cart" href="#">
-                                <svg width="26" viewBox="0 0 26 26">
-                                    <defs></defs>
-                                    <polygon class="path" style="fill: none; stroke: #333; stroke-miterlimit: 10; stroke-width: 1.5px;" points="20.4 20.4 5.6 20.4 6.83 10.53 19.17 10.53 20.4 20.4" />
-                                    <path class="path" d="M9.3,10.53V9.3a3.7,3.7,0,1,1,7.4,0v1.23" />
-                                </svg>
-                                <span class="header-cart-count">0</span>
-                                <p class="header-cart-total"> &#36;0.00 </p>
-                            </a>
-                            <a id="search_button" class="top-bar-right-icon top-bar-right-icon-search" href="#">
-                                <svg width="26" viewBox="0 0 26 26" aria-label="Search icon">
-                                    <defs></defs>
-                                    <circle class="path" style="fill: none; stroke: #000; stroke-miterlimit: 10; stroke-width: 1.5px;" cx="11.35" cy="11.35" r="6" />
-                                    <line class="path" style="fill: none; stroke: #000; stroke-miterlimit: 10; stroke-width: 1.5px;" x1="15.59" y1="15.59" x2="20.65" y2="20.65" />
-                                </svg>
-                            </a>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -109,7 +71,7 @@ import { Link } from '@inertiajs/vue3'
                             <!--
 
                                 -->
-                            <rs-layer id="slider-1-slide-1-layer-7" data-type="text" data-color="#252525" data-rsp_ch="on" data-xy="xo:50px,50px,31px,31px;yo:490px,490px,306px,306px;" data-text="w:normal;s:16,16,9,9;l:26,26,15,15;" data-dim="w:420px,420px,262px,262px;" data-vbility="t,t,f,t" data-frame_999="o:0;st:w;" style="z-index:15;font-family:'Poppins';"> Voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia. </rs-layer>
+                            <rs-layer id="slider-1-slide-1-layer-7" data-type="text" data-color="#252525" data-rsp_ch="on" data-xy="xo:50px,50px,31px,31px;yo:490px,490px,306px,306px;" data-text="w:normal;s:16,16,9,9;l:26,26,15,15;" data-dim="w:420px,420px,262px,262px;" data-vbility="t,t,f,t" data-frame_999="o:0;st:w;" style="z-index:15;font-family:'Poppins';"> Marzbo - Platform for social medias, become our client just a click. </rs-layer>
                             <!--
 
                                 --><Link id="slider-1-slide-1-layer-8" class="rs-layer rev-btn" :href="route('admin.register.show-form', { refresh: true })" target="_self" data-type="button" data-rsp_ch="on" data-xy="x:l,l,c,c;xo:50px,50px,0,50px;yo:590px,590px,800px,800px;" data-text="w:normal;s:18,18,25,25;l:18,18,25,25;fw:600;" data-dim="minh:0px,0px,none,0px;" data-padding="t:20,20,22,22;r:40,40,45,45;b:20,20,22,22;l:40,40,45,45;" data-border="bor:8px,8px,8px,8px;" data-frame_999="o:0;st:w;" data-frame_hover="c:#252525;bgc:#fff;boc:#252525;bor:8px,8px,8px,8px;bos:solid;bow:3px,3px,3px,3px;" style="z-index:16;background-color:#252525;font-family:'Poppins';">Register now </Link>
