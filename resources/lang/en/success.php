@@ -12,10 +12,10 @@ return [
     | these language lines according to your application's requirements.
     |
     */
-    'store' => 'Create :resource successfully',
-    'delete' => 'Delete :resource successfully',
-    'update' => 'Edit :resource successfully',
-    'changed_status' => 'Change status successfully',
+    'store' => 'Create :resource successfully.',
+    'delete' => 'Delete :resource successfully.',
+    'update' => 'Edit :resource successfully.',
+    'changed_status' => 'Change status successfully.',
     'confirm' => [
         'delete' => [
             'title' => 'Deleted!',

@@ -52,7 +52,11 @@ class PermissionController extends Controller
      */
     public function store(StorePermissionRequest $request): RedirectResponse
     {
-        $this->permissionRepository->create($request->validated());
+        $permission = $this->permissionRepository->create($request->validated());
+
+        session()->flash(NOTIFICATION_SUCCESS, __('success.store', [
+            'resource' => $permission->name
+        ]));
 
         return to_route('admin.permission.index');
     }
@@ -74,6 +78,10 @@ class PermissionController extends Controller
     {
         $this->permissionRepository->update($permission, $request->validated());
 
+        session()->flash(NOTIFICATION_SUCCESS, __('success.update', [
+            'resource' => $permission->name
+        ]));
+
         return to_route('admin.permission.index');
     }
 
@@ -83,6 +91,10 @@ class PermissionController extends Controller
     public function destroy(Permission $permission): RedirectResponse
     {
         $this->permissionRepository->destroy($permission);
+
+        session()->flash(NOTIFICATION_SUCCESS, __('success.delete', [
+            'resource' => 'permission'
+        ]));
 
         return back();
     }

@@ -62,21 +62,30 @@ class RoleController extends Controller
      */
     public function store(StoreRoleRequest $request): RedirectResponse
     {
-        $this->roleRepository->create($request->validated());
+        $role = $this->roleRepository->create($request->validated());
+
+        session()->flash(NOTIFICATION_SUCCESS, __('success.store', [
+            'resource' => $role->name
+        ]));
+
         return to_route('admin.role.index');
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Role $role): Response
+    public function edit(Role $role, Request $request): Response
     {
+        $data = $request->all();
+        $data['role_id'] = $role->id;
         $permissions = $this->permissionRepository->all();
+        $roleWithPermissions = $this->permissionRepository->serverPaginationFilteringFor($data);
         $role->load('permissions');
 
         return Inertia::render('Admin/Role/Edit', [
             'role' => new RoleResource($role),
-            'permissions' => PermissionResource::collection($permissions)
+            'permissions' => PermissionResource::collection($permissions),
+            'roleWithPermissions' => PermissionResource::collection($roleWithPermissions)
         ]);
     }
 
@@ -86,10 +95,15 @@ class RoleController extends Controller
      * @param UpdateRoleRequest $request
      * @param Role $role
      */
-    public function update(UpdateRoleRequest $request, Role $role): RedirectResponse
+    public function update(UpdateRoleRequest $request, Role $role)
     {
         $this->roleRepository->update($role, $request->validated());
-        return back();
+
+        session()->flash(NOTIFICATION_SUCCESS, __('success.update', [
+            'resource' => $role->name
+        ]));
+
+        return redirect()->back();
     }
 
     /**
@@ -100,6 +114,11 @@ class RoleController extends Controller
     public function destroy(Role $role): RedirectResponse
     {
         $this->roleRepository->destroy($role);
-        return back();
+
+        session()->flash(NOTIFICATION_SUCCESS, __('success.delete', [
+            'resource' => 'role'
+        ]));
+
+        return redirect()->back();
     }
 }
