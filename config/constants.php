@@ -36,6 +36,7 @@ if (!defined('POST_VIDEOS_COLLECTION')) define('POST_VIDEOS_COLLECTION', Post::P
 //Post status
 if (!defined('POST_STT_UNPUBLISHED')) define('POST_STT_UNPUBLISHED', Post::STT_UNPUBLISHED);
 if (!defined('POST_STT_PUBLISHED')) define('POST_STT_PUBLISHED', Post::STT_PUBLISHED);
+if (!defined('POST_STATUSES')) define('POST_STATUSES', Post::$postStatuses);
 
 //Schedule status
 if (!defined('SCHEDULE_STT_PENDING')) define('SCHEDULE_STT_PENDING', Schedule::STT_PENDING);

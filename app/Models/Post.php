@@ -36,6 +36,10 @@ class Post extends Model implements HasMedia
 
     public $with = ['media'];
 
+    public static $postStatuses = [
+        self::STT_UNPUBLISHED => 'Un published',
+        self::STT_PUBLISHED => 'Published'
+    ];
     /**
      * Set the "context" attribute to JSON encoded value.
      *

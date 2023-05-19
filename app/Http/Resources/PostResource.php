@@ -24,6 +24,7 @@ class PostResource extends JsonResource
             'total_view' => $this->total_view,
             'total_comment' => $this->total_comment,
             'status' => $this->status,
+            'status_name' => POST_STATUSES[$this->status],
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at
         ];

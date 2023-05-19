@@ -31,13 +31,15 @@ const columns = [
     {
         data: 'social_posts',
         render: function (data, type, full) {
+            const PUBLISH = 2
             let canEdit = hasPermission(Acl.PERMISSION_POST_EDIT)
             let canDelete = hasPermission(Acl.PERMISSION_POST_DELETE)
 
             let html = ``
             for (const post of data) {
                 let button = `<ul class="table-controls">`
-                let stas = ``
+                let stats = ``
+                let badge = post.status == PUBLISH ? `badge outline-badge-primary` : `badge outline-badge-warning`
 
                 button += `<li>
                     <a href="javascript:" class="bs-tooltip"
@@ -85,27 +87,31 @@ const columns = [
                 }
                 button += `</ul>`
 
-                stas = `<div>
-                    <button type="button" class="btn btn-info ml-2">
+                stats = `<div>
+                    <span class="badge badge-info ml-2 p-2">
                         <span>React: </span> <span class="badge badge-light">${post.total_react}</span>&nbsp;&nbsp;
                         <span>View: </span> <span class="badge badge-light">${post.total_view}</span>&nbsp;&nbsp;
                         <span>Comment: </span> <span class="badge badge-light">${post.total_comment}</span>
-                        </button>
+                        </span>
                 </div>`
 
                 html += `<table style="width: 100%">
                     <tr style="border: none">
-                        <th style="border: none; width: 60%">${post.social_media_name}</th>
+                        <th style="border: none; width: 55%">${post.social_media_name}</th>
+                        <th style="border: none; width: 10%"></th>
                         <th style="border: none; width: 10%"></th>
                         <th style="border: none; width: 30%"></th>
                     </tr>
                     <tr style="border: none">
                         <td style="border: none; padding-left: 28px"><div style="white-space: pre-wrap">${post.content}</div></td>
                         <td style="border: none">
+                            <span class="${badge}">${post.status_name}</span>
+                        </td>
+                        <td style="border: none">
                             ${button}
                         </td>
                         <td style="border: none">
-                            ${stas}
+                            ${stats}
                         </td>
                     </tr>
                 </table>`
