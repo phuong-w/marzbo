@@ -166,10 +166,10 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     }
 
     /**
-     * Add your api key openai
+     * @inheritdoc
      */
-    public function addApiKeyOpenai($data)
+    public function toggleStatus($model)
     {
-        return auth()->user()->update($data);
+        return $model->update(['status' => !$model->status]);
     }
 }

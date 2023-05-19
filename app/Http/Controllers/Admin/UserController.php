@@ -122,6 +122,13 @@ class UserController extends Controller
         return Inertia::render('Admin/User/Setting');
     }
 
+    public function toggleStatus(User $user)
+    {
+        $this->userRepository->toggleStatus($user);
+
+        session()->flash(NOTIFICATION_SUCCESS, __('success.account.toggle_status'));
+    }
+
     /**
      * Connect to social media by socialite
      *

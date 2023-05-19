@@ -21,6 +21,7 @@ class UserResource extends JsonResource
             'last_name' => $this->last_name,
             'phone' => $this->phone,
             'email' => $this->email,
+            'status' => $this->status,
             'token' => $this->token,
             'roles' => RoleResource::collection($this->roles),
             'permissions' => array_map(

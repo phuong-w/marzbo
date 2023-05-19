@@ -1,7 +1,7 @@
 <script setup>
 import AdminLayout from '@/Layouts/AdminLayout.vue'
-import {Head, Link, router} from '@inertiajs/vue3'
-import {inject,onMounted, ref} from 'vue'
+import {Head, Link, router, useForm} from '@inertiajs/vue3'
+import {inject, onMounted, onUnmounted, ref} from 'vue'
 import { hasRole, hasPermission} from '@/composables/helpers'
 import DataTable from 'datatables.net-vue3'
 import DataTablesCore from 'datatables.net'
@@ -49,6 +49,8 @@ const columns = [
         render: function (data, type, full) {
             let canEdit = hasPermission(Acl.PERMISSION_USER_EDIT)
             let canDelete = hasPermission(Acl.PERMISSION_USER_DELETE)
+            const STT_LOCK = 0
+            const STT_UNLOCK = 1
 
             let html = `<ul class="table-controls">`
             if (canEdit) {
@@ -67,16 +69,29 @@ const columns = [
                 </li>`
             }
             if (canDelete) {
-                html += `<li>
+                if (full.status === STT_UNLOCK) {
+                    html += `<li>
                     <a href="javascript:" class="bs-tooltip btn-lock" data-id="${data}" data-toggle="tooltip" data-placement="top"
                        title=""
                        data-original-title="lock">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-lock  p-1 br-6 mb-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-lock p-1 br-6 mb-1 text-warning">
                             <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                             <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
                         </svg>
                     </a>
                 </li>`
+                } else if (full.status === STT_LOCK) {
+                    html += `<li>
+                    <a href="javascript:" class="bs-tooltip btn-lock" data-id="${data}" data-toggle="tooltip" data-placement="top"
+                       title=""
+                       data-original-title="lock">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-unlock p-1 br-6 mb-1 text-primary">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 9.9-1"></path>
+                        </svg>
+                    </a>
+                </li>`
+                }
             }
             html += `</ul>`
 
@@ -85,15 +100,7 @@ const columns = [
     }
 ]
 
-const handleClickOnPage = () => {
-    $(document).on('click', '.btn-edit', function (e) {
-        e.preventDefault()
-        let id = $(this).attr('data-id')
-
-        router.get(route('admin.user.edit', id))
-    })
-
-}
+const formToggleStatus = useForm({})
 
 onMounted(() => {
     data.value = props.users.data
@@ -101,8 +108,25 @@ onMounted(() => {
 
     handleDataTableOnMounted(dt, props.users, params, 'admin.user.index')
 
-    handleClickOnPage()
+    $(document).on('click', '.btn-edit', function (e) {
+        e.preventDefault()
+        let id = $(this).attr('data-id')
+
+        router.get(route('admin.user.edit', id))
+    })
+
+    $(document).on('click', '.btn-lock', function (e) {
+        e.preventDefault()
+        let id = $(this).attr('data-id')
+
+        formToggleStatus.put(route('admin.user.toggle_status', id), {
+            onSuccess: () => {
+                data.value = props.users.data
+            }
+        })
+    })
 })
+
 </script>
 
 <template>

@@ -36,7 +36,8 @@ return [
     'account' => [
         'store' => 'Tạo tài khoản thành công',
         'update' => 'Update account successfully.',
-        'delete' => 'Xóa tài khoản thành công'
+        'delete' => 'Xóa tài khoản thành công',
+        'toggle_status' => 'Toggle status successfully.'
     ],
     'category' => [
         'store' => 'Create category successfully',

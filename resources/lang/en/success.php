@@ -42,6 +42,7 @@ return [
         'store' => 'Create account successfully.',
         'update' => 'Update account successfully.',
         'delete' => 'Delete account successfully.',
+        'toggle_status' => 'Toggle status successfully.'
     ],
     'category' => [
         'store' => 'Create category successfully.',

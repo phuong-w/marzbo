@@ -4,7 +4,7 @@ use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 
-Route::middleware('guest')->group(function () {
+Route::middleware('guest.refresh')->group(function () {
     Route::get('register', [RegisterController::class, 'showRegisterForm'])
         ->name('register.show-form');
 
