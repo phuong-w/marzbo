@@ -27,6 +27,7 @@ class Post extends Model implements HasMedia
         'category_id',
         'content',
         'social_media_id',
+        'context',
         'total_react',
         'total_view',
         'total_comment',
@@ -34,6 +35,28 @@ class Post extends Model implements HasMedia
     ];
 
     public $with = ['media'];
+
+    /**
+     * Set the "context" attribute to JSON encoded value.
+     *
+     * @param $value
+     * @return void
+     */
+    public function setContextAttribute($value)
+    {
+        $this->attributes['context'] = json_encode($value);
+    }
+
+    /**
+     * Get the "context" attribute as a decoded JSON value.
+     *
+     * @param $value
+     * @return mixed
+     */
+    public function getContextAttribute($value)
+    {
+        return json_decode($value);
+    }
 
     public function scopePublished($query)
     {

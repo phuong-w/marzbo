@@ -39,6 +39,18 @@ const columns = [
                 let button = `<ul class="table-controls">`
                 let stas = ``
 
+                button += `<li>
+                    <a href="javascript:" class="bs-tooltip btn-refresh" data-id="${post.id}"
+                          data-toggle="tooltip" data-placement="top" title=""
+                          data-original-title="edit">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-refresh-cw p-1 br-6 mb-1">
+                            <polyline points="23 4 23 10 17 10"></polyline>
+                            <polyline points="1 20 1 14 7 14"></polyline>
+                            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                        </svg>
+                    </a>
+                </li>`
+
                 if (canEdit) {
                     button += `<li>
                         <a href="javascript:" class="bs-tooltip btn-edit" data-id="${post.id}" data-post-description="${post.content}" data-social-media-name="${post.social_media_name}"
@@ -123,15 +135,14 @@ const toolbarOptions = [
     'guide'
 ]
 
-const handleCickOnPage = () => {
-
+const callAjaxRefreshStatsPost = (id) => {
+    router.get(route('admin.post.stats', id),
+        {
+            onSuccess: () => data.value = props.posts.data
+        }
+    )
 }
 
-const removeRow = (elt) => {
-    const row = elt.closest('tr')
-    const idx = data.value.indexOf(row)
-    data.value.splice(idx, 1)
-}
 
 onMounted(() => {
     data.value = props.posts.data
@@ -161,8 +172,8 @@ onMounted(() => {
         e.preventDefault()
         let $this = $(this)
 
-        let socialMediaName = $this.data('social-media-name')
-        let postDescription = $this.data('post-description')
+        let socialMediaName = $this.attr('data-social-media-name')
+        let postDescription = $this.attr('data-post-description')
 
         $('#sSocialMediaName').text(socialMediaName)
         simplemde.value(postDescription)
@@ -170,11 +181,18 @@ onMounted(() => {
         $('#editPostModal').modal('show')
     })
 
+    $(document).on('click', '.btn-refresh', function (e) {
+        e.preventDefault()
+        let id = $(this).attr('data-id')
+
+        callAjaxRefreshStatsPost(id)
+    })
+
     $(document).on('click', '.btn-delete', function (e) {
         e.preventDefault()
-        let $this = $(this)
+        let id = $(this).attr('data-id')
 
-        $('#sConfirmDelete').attr('data-id', $this.data('id'))
+        $('#sConfirmDelete').attr('data-id', id)
         $('#popup-modal').modal('show')
     })
 

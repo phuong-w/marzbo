@@ -33,18 +33,20 @@ class FacebookService extends SocialMediaService
     public function sharePost($data)
     {
         if ($data['facebook_group']) {
-            foreach ($data['facebook_groups'] as $groupId) {
-                $params = [
-                    'access_token' => $data['access_token'],
-                    'message' => $data['content'][FACEBOOK],
-                    'formatting' => 'MARKDOWN'
-                ];
+            $params = [
+                'access_token' => $data['access_token'],
+                'message' => $data['content'][FACEBOOK],
+                'formatting' => 'MARKDOWN'
+            ];
 
-                $endpoint = "{$groupId}/feed";
+            $groupId = $data['facebook_group']['id'];
 
-                $response = $this->request('POST', $endpoint, $params);
-            }
+            $endpoint = "{$groupId}/feed";
+
+            return $this->request('POST', $endpoint, $params);
         }
+
+        return false;
     }
 
     /**
@@ -89,4 +91,78 @@ class FacebookService extends SocialMediaService
         return $this->request('GET', $endpoint, ['access_token' => $accessToken]);
     }
 
+    public function stats($accessToke, $post)
+    {
+        try {
+            $totalComment = 0;
+            $totalReact = 0;
+            $totalView = 0;
+
+            $externalPostId = $post->context->external_post_id;
+
+            $responseReact = $this->getReacts($accessToke, $externalPostId);
+            $responseComment = $this->getComments($accessToke, $externalPostId);
+//            $responseView = $this->getViews($accessToke, $externalPostId);
+
+            if ($responseReact) {
+                $totalReact = $responseReact['summary']['total_count'];
+            }
+
+            if ($responseComment) {
+                $totalComment = $responseComment['summary']['total_count'];
+            }
+
+//            if ($responseView) {
+//                $totalView = $responseView['summary']['total_count'];
+//            }
+
+            $post->update([
+                'total_react' => $totalReact,
+                'total_comment' => $totalComment,
+                'total_view' => $totalView
+            ]);
+
+            return $post;
+
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            return false;
+        }
+    }
+
+    public function getComments($accessToken, $externalPostId)
+    {
+        $params = [
+            'access_token' => $accessToken,
+            'summary' => true
+        ];
+
+        $endpoint = "{$externalPostId}/comments";
+
+        return $this->request('GET', $endpoint, $params);
+    }
+
+    public function getReacts($accessToken, $externalPostId)
+    {
+        $params = [
+            'access_token' => $accessToken,
+            'summary' => true
+        ];
+
+        $endpoint = "{$externalPostId}/reactions";
+
+        return $this->request('GET', $endpoint, $params);
+    }
+
+    public function getViews($accessToken, $externalPostId)
+    {
+        $params = [
+            'access_token' => $accessToken,
+            'summary' => true
+        ];
+
+        $endpoint = "{$externalPostId}/seen";
+
+        return $this->request('GET', $endpoint, $params);
+    }
 }

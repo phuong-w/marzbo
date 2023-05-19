@@ -50,7 +50,8 @@ return [
     'post' => [
         'store' => 'Create post successfully.',
         'update' => 'Update post successfully.',
-        'delete' => 'Delete post successfully.'
+        'delete' => 'Delete post successfully.',
+        'stats' => 'Sync stats of this post successfully.'
     ],
     'chatgpt' => [
         'delete' => 'Delete chat successfully.'

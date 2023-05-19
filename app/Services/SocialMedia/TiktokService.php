@@ -14,4 +14,9 @@ class TiktokService extends SocialMediaService
     {
         // TODO: Implement sharePost() method.
     }
+
+    public function stats($accessToke, $post)
+    {
+        // TODO: Implement stas() method.
+    }
 }
