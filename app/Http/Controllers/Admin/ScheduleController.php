@@ -6,13 +6,14 @@ use App\Acl\Acl;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Schedule\StoreScheduleRequest;
 use App\Http\Requests\Schedule\UpdateScheduleRequest;
-use App\Http\Resources\Schedule\ScheduleResource;
+use App\Http\Resources\ScheduleResource;
 use App\Models\Schedule;
 use App\Repositories\Schedule\ScheduleRepositoryInterface;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class ScheduleController extends Controller
 {
@@ -35,10 +36,10 @@ class ScheduleController extends Controller
     public function index(Request $request)
     {
         $schedules = $this->scheduleRepository->serverPaginationFilteringFor($request->all());
-        if ($request->ajax()) {
-            return ScheduleResource::collection($schedules);
-        }
-        return view('admin.schedule.index', compact('schedules'));
+
+        return Inertia::render('Admin/Schedule/Index', [
+            'schedules' => ScheduleResource::collection($schedules)
+        ]);
     }
 
     /**
@@ -71,13 +72,12 @@ class ScheduleController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param Schedule $schedule
-     * @return Application|Factory|View
      */
     public function edit(Schedule $schedule)
     {
-        return view('admin.schedule.edit', compact('schedule'));
+        return Inertia::render('Admin/Schedule/Edit', [
+            'schedule' => new ScheduleResource($schedule)
+        ]);
     }
 
     /**
@@ -90,8 +90,9 @@ class ScheduleController extends Controller
     public function update(UpdateScheduleRequest $request, Schedule $schedule)
     {
         $this->scheduleRepository->update($schedule, $request->validated());
-        session()->flash(NOTIFICATION_SUCCESS, __('success.schedule.update'));
-        return redirect()->route('admin.schedule.index');
+        session()->flash(NOTIFICATION_SUCCESS, __('success.update', ['resource' => 'schedule']));
+
+        return back();
     }
 
     /**

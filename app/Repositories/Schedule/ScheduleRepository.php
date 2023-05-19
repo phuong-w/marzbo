@@ -18,7 +18,7 @@ class ScheduleRepository extends BaseRepository implements ScheduleRepositoryInt
      */
     protected $model;
 
-    const ITEM_PER_PAGE = 50;
+    const ITEM_PER_PAGE = 10;
 
     /**
      * @inheritdoc
@@ -27,34 +27,6 @@ class ScheduleRepository extends BaseRepository implements ScheduleRepositoryInt
     {
         $this->model = $model;
         parent::__construct($model);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function update($model, $data)
-    {
-        $data['slug'] = $this->generateSlug($data['name'], $model->id);
-        return $model->update($data);
-    }
-
-    public function checkSlugExist($slug, $id = null)
-    {
-        return $this->model->where('id', '!=', $id)->where('slug', $slug)->first();
-    }
-
-    /**
-     * Generate slug
-     */
-    function generateSlug($name, $id = null)
-    {
-        $slug = Str::slug($name, '-');
-        $checkSlug = $this->checkSlugExist($slug, $id);
-        while ($checkSlug) {
-            $slug = $slug . '-1';
-            $checkSlug = $this->checkSlugExist($slug, $id);
-        }
-        return $slug;
     }
 
     /**

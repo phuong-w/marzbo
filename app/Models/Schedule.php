@@ -14,11 +14,11 @@ class Schedule extends Model
     const STT_SUCCESS    = 2;
     const STT_ERROR      = 3;
 
-    protected $table = 'posts';
+    protected $table = 'schedules';
     protected $fillable = [
         'user_id',
         'post_id',
-        'post_group_id',
+        'social_media_id',
         'publish_date',
         'status'
     ];
@@ -51,8 +51,8 @@ class Schedule extends Model
     /**
      * Get the social media credential that owns the schedule.
      */
-    public function socialMediaCredential(): BelongsTo
+    public function socialMedia(): BelongsTo
     {
-        return $this->belongsTo(SocialMediaCredential::class);
+        return $this->belongsTo(SocialMedia::class);
     }
 }

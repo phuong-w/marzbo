@@ -9,6 +9,7 @@ import DataTable from 'datatables.net-vue3'
 import DataTablesCore from 'datatables.net'
 import {handleDataTableOnMounted, options} from '@/composables/dataTableHandle'
 import PopupModal from '@/components/PopupModal.vue'
+import { marked } from 'marked'
 
 const Acl = inject('Acl')
 
@@ -105,7 +106,7 @@ const columns = [
                         <th style="border: none; width: 9%"></th>
                     </tr>
                     <tr style="border: none">
-                        <td style="border: none; padding-left: 28px"><div style="white-space: pre-wrap">${post.content}</div></td>
+                        <td style="border: none; padding-left: 28px"><div style="white-space: pre-wrap">${marked.parse(post.content)}</div></td>
                         <td style="border: none">
                             <span class="${badge}">${post.status_name}</span>
                         </td>

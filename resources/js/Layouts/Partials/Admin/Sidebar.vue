@@ -29,6 +29,13 @@ const menuItems = [
         show: hasPermission(Acl.PERMISSION_POST_LIST)
     },
     {
+        title: 'Schedules',
+        url: route('admin.schedule.index'),
+        icon: 'clock',
+        active: route().current('admin.schedule.*'),
+        show: hasPermission(Acl.PERMISSION_SCHEDULE_LIST)
+    },
+    {
         title: 'ChatGPT',
         url: route('admin.chatgpt.index'),
         icon: 'message-square',
