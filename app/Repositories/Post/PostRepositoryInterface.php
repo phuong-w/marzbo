@@ -22,4 +22,9 @@ interface PostRepositoryInterface extends RepositoryInterface
      * @return mixed
      */
     public function getStasOfLastTwelveMonths();
+
+    /**
+     * @return mixed
+     */
+    public function countTotalPosts();
 }
