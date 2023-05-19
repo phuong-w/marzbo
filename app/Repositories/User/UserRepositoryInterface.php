@@ -32,4 +32,9 @@ interface UserRepositoryInterface extends RepositoryInterface
      * @inheritdoc
      */
     public function toggleStatus($model);
+
+    /**
+     * @return mixed
+     */
+    public function countTotalUsers();
 }

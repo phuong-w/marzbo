@@ -186,4 +186,12 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface
             'average_total_react' => $totalReact,
         ];
     }
+
+    /**
+     * @return mixed
+     */
+    public function countTotalPosts()
+    {
+        return $this->model->count();
+    }
 }
