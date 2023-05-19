@@ -116,7 +116,7 @@ onMounted(() => {
 
     handleDataTableOnMounted(dt, props.permissions, params, 'admin.permission.index')
 
-
+    document.addEventListener('click', handleClick)
 })
 
 onBeforeUnmount(() => {
