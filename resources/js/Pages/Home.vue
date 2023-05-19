@@ -95,7 +95,7 @@ onMounted(() => {
                             </div>
                             <div class="col-md-3 column-margin-0px">
                                 <div class="column_attr clearfix align_right mobile_align_center">
-                                    <div class="button_align align_left"> <a class="button button_size_2 button_theme" :href="route('admin.register.show-form', { refresh: true })"><span class="button_label">Start now</span></a> </div>
+                                    <div class="button_align align_left"> <a class="button button_size_2 button_theme" :href="route('admin.register.show-form')"><span class="button_label">Start now</span></a> </div>
                                 </div>
                             </div>
                         </div>
