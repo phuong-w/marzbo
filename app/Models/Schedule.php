@@ -49,14 +49,6 @@ class Schedule extends Model
     }
 
     /**
-     * Get the category that owns the schedule.
-     */
-    public function category(): BelongsTo
-    {
-        return $this->belongsTo(Category::class);
-    }
-
-    /**
      * Get the social media credential that owns the schedule.
      */
     public function socialMediaCredential(): BelongsTo

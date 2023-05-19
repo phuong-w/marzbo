@@ -40,6 +40,7 @@ const columns = [
                 let button = `<ul class="table-controls">`
                 let stats = ``
                 let badge = post.status == PUBLISH ? `badge outline-badge-primary` : `badge outline-badge-warning`
+                let colTime = ``
 
                 button += `<li>
                     <a href="javascript:" class="bs-tooltip"
@@ -97,10 +98,11 @@ const columns = [
 
                 html += `<table style="width: 100%">
                     <tr style="border: none">
-                        <th style="border: none; width: 55%">${post.social_media_name}</th>
-                        <th style="border: none; width: 10%"></th>
-                        <th style="border: none; width: 10%"></th>
-                        <th style="border: none; width: 30%"></th>
+                        <th style="border: none; width: 44%">${post.social_media_name}</th>
+                        <th style="border: none; width: 9%"></th>
+                        <th style="border: none; width: 18%"></th>
+                        <th style="border: none; width: 20%"></th>
+                        <th style="border: none; width: 9%"></th>
                     </tr>
                     <tr style="border: none">
                         <td style="border: none; padding-left: 28px"><div style="white-space: pre-wrap">${post.content}</div></td>
@@ -108,10 +110,22 @@ const columns = [
                             <span class="${badge}">${post.status_name}</span>
                         </td>
                         <td style="border: none">
-                            ${button}
+                            <div>
+                                <p class="d-flex justify-content-between ">
+                                    <span class="font-weight-bold">Schedule time: </span>
+                                    <span class="badge outline-badge-dark">${post.schedule_time}</span>
+                                </p>
+                                <p class="d-flex justify-content-between">
+                                    <span class="font-weight-bold">Publish date: </span>
+                                    <span class="${badge}">${post.updated_at}</span>
+                                </p>
+                            </div>
+                        </td>
+                        <td style="border: none; text-align: center">
+                            ${stats}
                         </td>
                         <td style="border: none">
-                            ${stats}
+                            ${button}
                         </td>
                     </tr>
                 </table>`
