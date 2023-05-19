@@ -5,23 +5,34 @@ import InputLabel from '@/components/InputLabel.vue'
 import PrimaryButton from '@/components/PrimaryButton.vue'
 import TextInput from '@/components/TextInput.vue'
 import { Head, Link, useForm } from '@inertiajs/vue3'
+import {onMounted} from 'vue'
 
 const props = defineProps({
-    category: {
+    schedule: {
         type: Object,
         required: true
     }
 })
 
 const form = useForm({
-    name: props.category.data.name,
+    publish_date: props.schedule.data.publish_date,
 });
 
 const submit = () => {
-    form.put(route('admin.category.update', {
-        category: props.category.data.id
+    form.put(route('admin.schedule.update', {
+        schedule: props.schedule.data.id
     }))
 }
+
+onMounted(() => {
+    const fp = flatpickr(document.getElementById('sSchedule'), {
+        dateFormat: "Y-m-d H:i",
+        minDate: 'today',
+        enableTime: true,
+        time_24hr: true,
+        defaultHour: 12
+    })
+})
 
 </script>
 
@@ -34,25 +45,20 @@ const submit = () => {
                     <div class="widget-content widget-content-area">
                         <div class="col-12">
                             <div class="layout-top-spacing mb-4">
-                                <Link :href="route('admin.category.index')"
+                                <Link :href="route('admin.schedule.index')"
                                       class="btn btn-gray mr-2">Cancel</Link>
                                 <PrimaryButton class="btn btn-primary" :disabled="form.processing">
                                     Update
                                 </PrimaryButton>
                             </div>
-                            <div class="form-group mb-4">
-                                <InputLabel for="sName" value="Name"/>
 
-                                <TextInput
-                                    id="sName"
-                                    type="text"
-                                    class="form-control"
-                                    v-model="form.name"
-                                    autofocus
-                                    :class="{'is-invalid': form.errors.name}"
-                                />
+                            <div class="d-flex justify-content-start align-items-center mt-5">
+                                <InputLabel for="sSchedule" value="Scheduled Time:"/>
+                                <div class="form-group col-xl-2 col-lg-3 col-12">
+                                    <input type="text" class="form-control mb-0 flatpickr flatpickr-input active form-control-sm" id="sSchedule" placeholder="Time..." v-model="form.publish_date">
 
-                                <InputError class="mt-2" :message="form.errors.name"/>
+                                    <InputError class="mt-2" :message="form.errors.publish_date"/>
+                                </div>
                             </div>
                         </div>
                     </div>

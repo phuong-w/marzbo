@@ -69,6 +69,7 @@ class PostController extends Controller
 //        $timestamp = $carbon->timestamp;
 //        dd($timestamp);
         $posts = $this->postRepository->serverPaginationFilteringFor($request->all());
+
         return Inertia::render('Admin/Post/Index', [
             'posts' => PostGroupResource::collection($posts)
         ]);

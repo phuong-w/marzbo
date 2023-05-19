@@ -57,6 +57,7 @@
         'resources/sass/assets/plugins.scss',
         'resources/sass/plugins/perfect-scrollbar/perfect-scrollbar.scss',
         'resources/sass/assets/forms/theme-checkbox-radio.scss',
+        'resources/sass/assets/components/custom-modal.scss'
         ])
 {{--        <script src="{{ asset('assets/js/loader.js') }}"></script>--}}
         @routes

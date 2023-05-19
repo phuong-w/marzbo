@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -40,6 +41,12 @@ class Post extends Model implements HasMedia
         self::STT_UNPUBLISHED => 'Un published',
         self::STT_PUBLISHED => 'Published'
     ];
+
+    public function schedule()
+    {
+        return $this->belongsTo(Schedule::class);
+    }
+
     /**
      * Set the "context" attribute to JSON encoded value.
      *
