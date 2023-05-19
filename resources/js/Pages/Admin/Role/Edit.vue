@@ -1,7 +1,7 @@
 <script setup>
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 import {Head, Link, router, useForm} from '@inertiajs/vue3'
-import {inject, onMounted, ref} from 'vue'
+import {inject, onBeforeUnmount, onMounted, ref} from 'vue'
 import Multiselect from 'vue-multiselect'
 import InputError from '@/components/InputError.vue'
 import InputLabel from '@/components/InputLabel.vue'
@@ -94,6 +94,18 @@ const form = useForm({
     permissions: []
 })
 
+const handleClick = (e) => {
+    const target = e.target
+
+    if (target.classList.contains('btn-edit')) {
+        e.preventDefault()
+
+        let id = target.getAttribute('data-id')
+
+        router.get(route('admin.permission.edit', id))
+    }
+}
+
 onMounted(() => {
     data.value = props.roleWithPermissions.data
     dt = table.value.dt
@@ -101,12 +113,11 @@ onMounted(() => {
 
     form.permissions = props.role.data.permissions
 
-    $(document).on('click', '.btn-edit', function (e) {
-        e.preventDefault()
-        let $this = $(this)
+    document.addEventListener('click', handleClick)
+})
 
-        router.get(route('admin.permission.edit', $this.data('id')))
-    })
+onBeforeUnmount(() => {
+    document.removeEventListener('click', handleClick)
 })
 
 const submit = () => {

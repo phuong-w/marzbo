@@ -127,6 +127,8 @@ class UserController extends Controller
         $this->userRepository->toggleStatus($user);
 
         session()->flash(NOTIFICATION_SUCCESS, __('success.account.toggle_status'));
+
+        return back();
     }
 
     /**

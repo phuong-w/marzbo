@@ -1,7 +1,7 @@
 <script setup>
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 import {Head, Link, router, useForm} from '@inertiajs/vue3'
-import {inject, onMounted, onUnmounted, ref} from 'vue'
+import {inject, onBeforeUnmount, onMounted, onUnmounted, ref} from 'vue'
 import { hasRole, hasPermission} from '@/composables/helpers'
 import DataTable from 'datatables.net-vue3'
 import DataTablesCore from 'datatables.net'
@@ -55,13 +55,13 @@ const columns = [
             let html = `<ul class="table-controls">`
             if (canEdit) {
                 html += `<li>
-                    <a href="javascript:" class="bs-tooltip btn-edit" data-id="${data}"
+                    <a href="javascript:" class="bs-tooltip"
                           data-toggle="tooltip" data-placement="top" title=""
                           data-original-title="edit">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                              viewBox="0 0 24 24" fill="none" stroke="currentColor"
                              stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                             class="feather feather-edit-2 p-1 br-6 mb-1">
+                             class="feather feather-edit-2 p-1 br-6 mb-1 btn-edit" data-id="${data}">
                             <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z">
                             </path>
                         </svg>
@@ -71,10 +71,10 @@ const columns = [
             if (canDelete) {
                 if (full.status === STT_UNLOCK) {
                     html += `<li>
-                    <a href="javascript:" class="bs-tooltip btn-lock" data-id="${data}" data-toggle="tooltip" data-placement="top"
+                    <a href="javascript:" class="bs-tooltip" data-toggle="tooltip" data-placement="top"
                        title=""
                        data-original-title="lock">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-lock p-1 br-6 mb-1 text-warning">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-lock p-1 br-6 mb-1 text-warning btn-lock" data-id="${data}">
                             <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                             <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
                         </svg>
@@ -82,10 +82,10 @@ const columns = [
                 </li>`
                 } else if (full.status === STT_LOCK) {
                     html += `<li>
-                    <a href="javascript:" class="bs-tooltip btn-lock" data-id="${data}" data-toggle="tooltip" data-placement="top"
+                    <a href="javascript:" class="bs-tooltip" data-toggle="tooltip" data-placement="top"
                        title=""
                        data-original-title="lock">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-unlock p-1 br-6 mb-1 text-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-unlock p-1 br-6 mb-1 text-primary btn-lock" data-id="${data}">
                             <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                             <path d="M7 11V7a5 5 0 0 1 9.9-1"></path>
                         </svg>
@@ -102,29 +102,41 @@ const columns = [
 
 const formToggleStatus = useForm({})
 
-onMounted(() => {
-    data.value = props.users.data
-    dt = table.value.dt
+const handleClick = (e) => {
+    const target = e.target
 
-    handleDataTableOnMounted(dt, props.users, params, 'admin.user.index')
-
-    $(document).on('click', '.btn-edit', function (e) {
+    if (target.classList.contains('btn-edit')) {
         e.preventDefault()
-        let id = $(this).attr('data-id')
+
+        let id = target.getAttribute('data-id')
 
         router.get(route('admin.user.edit', id))
-    })
+    }
 
-    $(document).on('click', '.btn-lock', function (e) {
+    if (target.classList.contains('btn-lock')) {
         e.preventDefault()
-        let id = $(this).attr('data-id')
+
+        let id = target.getAttribute('data-id')
 
         formToggleStatus.put(route('admin.user.toggle_status', id), {
             onSuccess: () => {
                 data.value = props.users.data
             }
         })
-    })
+    }
+}
+
+onMounted(() => {
+    data.value = props.users.data
+    dt = table.value.dt
+
+    handleDataTableOnMounted(dt, props.users, params, 'admin.user.index')
+
+    document.addEventListener('click', handleClick)
+})
+
+onBeforeUnmount(() => {
+    document.removeEventListener('click', handleClick)
 })
 
 </script>
