@@ -2,11 +2,13 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Models\User;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 
 class LoginRequest extends FormRequest
@@ -27,7 +29,17 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'string', 'email'],
+            'email' => [
+                'required',
+                'string',
+                'email',
+                function ($attribute, $value, $fail) {
+                    $user = User::where('email', $value)->first();
+                    if ($user && $user->status === 0) {
+                        $fail(trans('auth.user_lock'));
+                    }
+                },
+            ],
             'password' => ['required', 'string'],
             'remember' => ['boolean']
         ];

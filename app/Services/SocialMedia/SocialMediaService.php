@@ -11,4 +11,5 @@ abstract class SocialMediaService
     abstract public function request($method, $endpoint, $params = []);
 
     abstract public function sharePost($data);
+    abstract public function stats($accessToke, $post);
 }

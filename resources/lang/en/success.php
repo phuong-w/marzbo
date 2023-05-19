@@ -40,7 +40,9 @@ return [
     ],
     'account' => [
         'store' => 'Create account successfully.',
+        'update' => 'Update account successfully.',
         'delete' => 'Delete account successfully.',
+        'toggle_status' => 'Toggle status successfully.'
     ],
     'category' => [
         'store' => 'Create category successfully.',
@@ -50,7 +52,8 @@ return [
     'post' => [
         'store' => 'Create post successfully.',
         'update' => 'Update post successfully.',
-        'delete' => 'Delete post successfully.'
+        'delete' => 'Delete post successfully.',
+        'stats' => 'Sync stats of this post successfully.'
     ],
     'chatgpt' => [
         'delete' => 'Delete chat successfully.'

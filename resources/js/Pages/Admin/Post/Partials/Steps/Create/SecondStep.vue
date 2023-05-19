@@ -32,7 +32,7 @@ const videos = ref([])
 
 const selectedFacebookPageIds = ref({})
 const selectedFacebookGroupIds = ref({})
-const selectedFacebookGroup = ref([])
+const selectedFacebookGroup = ref({})
 
 
 const form = useForm({
@@ -195,7 +195,8 @@ watch(
                             const id = parseInt($(this).val())
                             const name = selectedOptions.data('group-name')
 
-                            selectedFacebookGroup.value.push({'id': id, 'name': name})
+                            selectedFacebookGroup.value.id = id
+                            selectedFacebookGroup.value.name = name
                         })
 
                         const fp = flatpickr(document.getElementById('sSchedule'), {

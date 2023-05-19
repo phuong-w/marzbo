@@ -27,7 +27,9 @@ return [
     'post' => [
         'store' => 'Create post fail.',
         'update' => 'Update post fail.',
-        'delete' => 'Delete post fail.'
+        'delete' => 'Delete post fail.',
+        'stats' => 'Sync stats of this post fail.',
+        'published' => 'This post not published.'
     ],
 
 ];

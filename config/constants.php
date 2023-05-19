@@ -36,8 +36,13 @@ if (!defined('POST_VIDEOS_COLLECTION')) define('POST_VIDEOS_COLLECTION', Post::P
 //Post status
 if (!defined('POST_STT_UNPUBLISHED')) define('POST_STT_UNPUBLISHED', Post::STT_UNPUBLISHED);
 if (!defined('POST_STT_PUBLISHED')) define('POST_STT_PUBLISHED', Post::STT_PUBLISHED);
+if (!defined('POST_STATUSES')) define('POST_STATUSES', Post::$postStatuses);
 
 //Schedule status
 if (!defined('SCHEDULE_STT_PENDING')) define('SCHEDULE_STT_PENDING', Schedule::STT_PENDING);
 if (!defined('SCHEDULE_STT_SUCCESS')) define('SCHEDULE_STT_SUCCESS', Schedule::STT_SUCCESS);
 if (!defined('SCHEDULE_STT_ERROR')) define('SCHEDULE_STT_ERROR', Schedule::STT_ERROR);
+
+//User status
+if (!defined('USER_STT_LOCK')) define('USER_STT_LOCK', User::STT_LOCK);
+if (!defined('USER_STT_UNLOCK')) define('USER_STT_UNLOCK', User::STT_UNLOCK);

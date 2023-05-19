@@ -21,6 +21,8 @@ class User extends Authenticatable implements HasMedia
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles, SoftDeletes, InteractsWithMedia;
 
+    const STT_UNLOCK = 1;
+    const STT_LOCK = 0;
     const AVATAR_PLACEHOLDER = 'https://ui-avatars.com/api/?background=random&name=';
     const AVATAR_COLLECTION = 'avatar';
     const AVATAR_RESIZE_NAME = 'avatar_resize';
@@ -40,6 +42,7 @@ class User extends Authenticatable implements HasMedia
         'last_name',
         'email',
         'phone',
+        'status',
         'password',
         'reset_password_at'
     ];

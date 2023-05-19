@@ -81,8 +81,8 @@ class PostController extends Controller
     {
         $categories = $this->categoryRepository->all();
         $socialMedias = auth()->user()->socialMedias;
-        $facebookGroups = false;
-//        $facebookGroups = $this->facebookService->getGroups(auth()->user()->facebook_access_token);
+//        $facebookGroups = false;
+        $facebookGroups = $this->facebookService->getGroups(auth()->user()->facebook_access_token);
 
         return Inertia::render('Admin/Post/Create', [
             'categories' => CategoryResource::collection($categories),
@@ -145,6 +145,23 @@ class PostController extends Controller
     {
         $this->postRepository->destroy($post);
         session()->flash(NOTIFICATION_SUCCESS, __('success.post.delete'));
+        return back();
+    }
+
+    public function stats(Post $post)
+    {
+        if (empty($post->context)) {
+            session()->flash(NOTIFICATION_ERROR, __('error.post.published'));
+            return back();
+        }
+
+        $result = $this->postService->stats($post);
+
+        $result ?
+            session()->flash(NOTIFICATION_SUCCESS, __('success.post.stats'))
+        :
+            session()->flash(NOTIFICATION_ERROR, __('error.post.stats'));
+
         return back();
     }
 }

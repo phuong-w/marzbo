@@ -35,7 +35,9 @@ return [
     ],
     'account' => [
         'store' => 'Tạo tài khoản thành công',
-        'delete' => 'Xóa tài khoản thành công'
+        'update' => 'Update account successfully.',
+        'delete' => 'Xóa tài khoản thành công',
+        'toggle_status' => 'Toggle status successfully.'
     ],
     'category' => [
         'store' => 'Create category successfully',
@@ -45,7 +47,8 @@ return [
     'post' => [
         'store' => 'Create post successfully',
         'update' => 'Update post successfully',
-        'delete' => 'Delete post successfully'
+        'delete' => 'Delete post successfully',
+        'stats' => 'Sync stats of this post successfully.'
     ],
     'chatgpt' => [
         'delete' => 'Delete chat successfully.'

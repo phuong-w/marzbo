@@ -80,7 +80,21 @@ class PostService
                     // Facebook
                     if ($socialMediaId === FACEBOOK) {
                         $data['access_token'] = auth()->user()->facebook_access_token;
-                        ShareFacebookJob::dispatch($data);
+//                        ShareFacebookJob::dispatch($data);
+                        $response = $this->facebookService->sharePost($data);
+                        if ($response) {
+                            $externalPostId = $response['id'];
+                            $context = [
+                                'id' => $data['facebook_group']['id'],
+                                'name' => $data['facebook_group']['name'],
+                                'external_post_id' => $externalPostId
+                            ];
+
+                            $post->update([
+                                'context' => $context,
+                                'status' => POST_STT_PUBLISHED
+                            ]);
+                        }
                     }
 
                     // Instagram
@@ -94,8 +108,6 @@ class PostService
                         $data['access_token'] = '';
 //                        dd(3);
                     }
-
-                    $post->update(['status' => POST_STT_PUBLISHED]);
                 }
             }
 
@@ -104,6 +116,15 @@ class PostService
             Log::error($e->getMessage());
             return false;
         }
+    }
+
+    public function stats($post)
+    {
+        if ($post->social_media_id == FACEBOOK) {
+            $accessToken = auth()->user()->facebook_access_token;
+            return $this->facebookService->stats($accessToken, $post);
+        }
+        return false;
     }
 
     private function replaceTypeBase64($model, $item, $collection): array|string
