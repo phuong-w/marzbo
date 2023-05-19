@@ -35,6 +35,7 @@ return [
     ],
     'account' => [
         'store' => 'Tạo tài khoản thành công',
+        'update' => 'Update account successfully.',
         'delete' => 'Xóa tài khoản thành công'
     ],
     'category' => [

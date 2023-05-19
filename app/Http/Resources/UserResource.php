@@ -17,10 +17,12 @@ class UserResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'first_name' => $this->first_name,
+            'last_name' => $this->last_name,
             'phone' => $this->phone,
             'email' => $this->email,
             'token' => $this->token,
-            'roles' => $this->getRoleNames(),
+            'roles' => RoleResource::collection($this->roles),
             'permissions' => array_map(
                 function ($permission) {
                     return $permission['name'];

@@ -40,6 +40,7 @@ return [
     ],
     'account' => [
         'store' => 'Create account successfully.',
+        'update' => 'Update account successfully.',
         'delete' => 'Delete account successfully.',
     ],
     'category' => [

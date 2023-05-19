@@ -35,14 +35,7 @@ class UpdateUserRequest extends FormRequest
                 'string',
                 'max:20',
             ],
-            'email' => [
-                'sometimes',
-                'string',
-                'email',
-                'max:255',
-                'unique:users,email,' . $this->user->id
-            ],
-            'role' => 'required',
+            'roles' => 'required',
             'phone' => [
                 'sometimes',
                 'numeric',

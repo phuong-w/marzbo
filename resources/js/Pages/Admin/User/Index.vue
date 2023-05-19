@@ -37,7 +37,7 @@ const columns = [
             let html = ``
 
             data.forEach((role) => {
-                html += `<span class="badge badge-primary">${role}</span>`
+                html += `<span class="badge badge-primary mr-2">${role.name}</span>`
             })
 
             return html

@@ -6,6 +6,7 @@ use App\Acl\Acl;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
+use App\Http\Resources\RoleResource;
 use App\Http\Resources\UserResource;
 use App\Models\SocialMediaCredential;
 use App\Models\User;
@@ -50,8 +51,6 @@ class UserController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     *
-     * @return \Inertia\Response
      */
     public function create()
     {
@@ -61,9 +60,6 @@ class UserController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
     public function store(StoreUserRequest $request)
     {
@@ -80,36 +76,33 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        dd($user);
         //
     }
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
      */
     public function edit(User $user)
     {
-        dd($user);
         $user->load('roles');
         $roles = Role::all();
-        return view('admin.user.edit', compact('user', 'roles'));
+
+        return Inertia::render('Admin/User/Edit', [
+            'user' => new UserResource($user),
+            'roles' => RoleResource::collection($roles)
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
      */
     public function update(UpdateUserRequest $request, User $user)
     {
         $this->userRepository->update($user, $request->validated());
-        session()->flash(NOTIFICATION_SUCCESS, __('success.account.store'));
-        return redirect()->route('admin.user.index');
+
+        session()->flash(NOTIFICATION_SUCCESS, __('success.account.update'));
+
+        return back();
     }
 
     /**
