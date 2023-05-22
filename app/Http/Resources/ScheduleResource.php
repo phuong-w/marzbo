@@ -20,7 +20,10 @@ class ScheduleResource extends JsonResource
             'social_media_name' => SOCIAL_MEDIAS[$this->social_media_id],
             'post' => new PostResource($this->post),
             'publish_date' => $this->publish_date,
-            'publish_date_formated' => Carbon::parse($this->publish_date)->isoFormat('MMM Do YYYY - h\h:m\p')
+            'publish_date_formated' => Carbon::parse($this->publish_date)->isoFormat('MMM Do YYYY - h\h:m\p'),
+            'status' => $this->status,
+            'status_name' => SCHEDULE_STATUSES[$this->status]['name'],
+            'badge' => SCHEDULE_STATUSES[$this->status]['badge_outline']
         ];
     }
 }

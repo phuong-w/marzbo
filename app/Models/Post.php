@@ -44,7 +44,7 @@ class Post extends Model implements HasMedia
 
     public function schedule()
     {
-        return $this->belongsTo(Schedule::class);
+        return $this->hasOne(Schedule::class, 'post_id', 'id');
     }
 
     /**

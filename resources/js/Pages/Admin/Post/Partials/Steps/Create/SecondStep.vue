@@ -249,7 +249,12 @@ onMounted(() => {
         <div class="d-flex justify-content-end align-items-center mt-5">
             <InputLabel for="sSchedule" value="Scheduled Time:"/>
             <div class="form-group col-xl-2 col-lg-3 col-12">
-                <input type="text" class="form-control mb-0 flatpickr flatpickr-input active form-control-sm" id="sSchedule" placeholder="Time..." v-model="form.scheduled_time">
+                <input type="text" class="form-control mb-0 flatpickr flatpickr-input active form-control-sm" id="sSchedule" placeholder="Time..." :class="{'is-invalid': form.errors.scheduled_time}" v-model="form.scheduled_time">
+            </div>
+        </div>
+        <div class="d-flex justify-content-end align-items-center">
+            <div class="form-group col-xl-2 col-lg-3 col-12">
+                <InputError :message="form.errors.scheduled_time"/>
             </div>
         </div>
         <div class="clearfix"></div>

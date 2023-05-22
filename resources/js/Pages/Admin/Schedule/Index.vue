@@ -37,7 +37,13 @@ const columns = [
     {
         data: 'post',
         render: function (data, type, full) {
-            return `<div style="white-space: pre-wrap">${marked.parse(data.content)}</div>`
+            return `<div style="white-space: pre-wrap">${data.content ? marked.parse(data.content) : ''}</div>`
+        }
+    },
+    {
+        data: 'status',
+        render: function(data, type, full) {
+            return `<span class="${full.badge}">${full.status_name}</span>`
         }
     },
     {
@@ -159,8 +165,9 @@ onBeforeUnmount(() => {
                         <thead>
                         <tr>
                             <th class="checkbox-column text-center" style="width: 10%">ID</th>
-                            <th style="width: 20%">Social Media</th>
+                            <th style="width: 10%">Social Media</th>
                             <th style="width: 50%">Content</th>
+                            <th style="width: 10%">Status</th>
                             <th style="width: 10%">Schedule Time</th>
                             <th style="width: 10%">Action</th>
                         </tr>

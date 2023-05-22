@@ -109,6 +109,19 @@ class PostService
 //                        dd(3);
                     }
                 }
+            } else {
+                $posts = Post::where('group_id', $groupId)->get();
+
+                foreach ($posts as $post) {
+                    $socialMediaId = $post->social_media_id;
+                    $this->scheduleRepository->create([
+                        'user_id' => auth()->id(),
+                        'post_id' => $post->id,
+                        'social_media_id' => $socialMediaId,
+                        'publish_date' => $data['scheduled_time'],
+                        'status' => SCHEDULE_STT_PENDING
+                    ]);
+                }
             }
 
             return true;
