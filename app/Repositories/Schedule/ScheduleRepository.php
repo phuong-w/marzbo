@@ -43,6 +43,8 @@ class ScheduleRepository extends BaseRepository implements ScheduleRepositoryInt
 
         $query = $this->model->query();
 
+        $query->where('user_id', auth()->id());
+
         if ($keyword) {
             if (is_array($keyword)) {
                 $keyword = $keyword['value'];

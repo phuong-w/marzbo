@@ -106,7 +106,7 @@ const columns = [
                         <th style="border: none; width: 9%"></th>
                     </tr>
                     <tr style="border: none">
-                        <td style="border: none; padding-left: 28px"><div style="white-space: pre-wrap">${marked.parse(post.content)}</div></td>
+                        <td style="border: none; padding-left: 28px"><div style="white-space: pre-wrap">${post.content ? marked.parse(post.content) : ''}</div></td>
                         <td style="border: none">
                             <span class="${badge}">${post.status_name}</span>
                         </td>
