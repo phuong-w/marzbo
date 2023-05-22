@@ -172,4 +172,12 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     {
         return $model->update(['status' => !$model->status]);
     }
+
+    /**
+     * @return mixed
+     */
+    public function countTotalUsers()
+    {
+        return $this->model->count();
+    }
 }

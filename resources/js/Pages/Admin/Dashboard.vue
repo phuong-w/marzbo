@@ -1,9 +1,12 @@
 <script setup>
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 import { Head } from '@inertiajs/vue3'
-import {onMounted} from "vue";
+import {onMounted, inject} from 'vue'
 import ApexCharts from 'apexcharts'
 import { reloadPageWithParamRefresh } from '@/composables/helpers'
+import { hasPermission } from '@/composables/helpers'
+
+const Acl = inject('Acl')
 
 const props = defineProps({
     quote: String,
@@ -11,6 +14,8 @@ const props = defineProps({
     average_total_view: Array,
     average_total_comment: Array,
     average_total_react: Array,
+    total_post: Number,
+    total_user: Number,
 })
 
 const options = {
@@ -108,14 +113,30 @@ onMounted(() => {
             </h1>
         </div>
 
-<!--        <div class="col-xl-12 col-lg-12 col-md-12 col-12">-->
-<!--            <div class="widget widget-content-area br-4">-->
-<!--                <div class="widget-one">-->
-<!--                    <h6>Here is a quote to inspire your day</h6>-->
-<!--                    <p class="mb-0 mt-3" v-html="quote"></p>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
+        <div v-if="hasPermission(Acl.PERMISSION_USER_MANAGE)" class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
+            <div class="widget widget-one">
+                <div class="widget-heading">
+                    <h6 class="">Statistics</h6>
+                </div>
+                <div class="w-chart">
+
+                    <div class="w-chart-section total-visits-content">
+                        <div class="w-detail">
+                            <p class="w-title">Users</p>
+                            <p class="w-stats">{{ props.total_user }}</p>
+                        </div>
+                    </div>
+
+                    <div class="w-chart-section paid-visits-content">
+                        <div class="w-detail">
+                            <p class="w-title">Posts</p>
+                            <p class="w-stats">{{ props.total_post }}</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
         <div class="col-xl-9 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
             <div class="widget widget-chart-three">
                 <div class="widget-heading">
