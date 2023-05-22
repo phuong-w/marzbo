@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Post;
 
+use App\Acl\Acl;
 use App\Models\FacebookGroup;
 use App\Models\Post;
 use App\Models\SocialMedia;
@@ -156,7 +157,13 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface
     {
         $lastYear = Carbon::now()->subYear();
 
-        $results = $this->model->select([
+        $query = $this->model->query();
+
+        if (!checkPermission(Acl::PERMISSION_USER_MANAGE)) {
+            $query->where('user_id', auth()->id());
+        }
+
+        $results = $query->select([
             DB::raw('MONTH(updated_at) as month'),
             DB::raw('YEAR(updated_at) as year'),
             DB::raw('AVG(total_view) as average_total_view'),

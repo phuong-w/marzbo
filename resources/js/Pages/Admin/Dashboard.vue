@@ -1,9 +1,12 @@
 <script setup>
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 import { Head } from '@inertiajs/vue3'
-import {onMounted} from "vue";
+import {onMounted, inject} from 'vue'
 import ApexCharts from 'apexcharts'
 import { reloadPageWithParamRefresh } from '@/composables/helpers'
+import { hasPermission } from '@/composables/helpers'
+
+const Acl = inject('Acl')
 
 const props = defineProps({
     quote: String,
@@ -110,7 +113,7 @@ onMounted(() => {
             </h1>
         </div>
 
-        <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
+        <div v-if="hasPermission(Acl.PERMISSION_USER_MANAGE)" class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
             <div class="widget widget-one">
                 <div class="widget-heading">
                     <h6 class="">Statistics</h6>
