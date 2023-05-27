@@ -11,11 +11,8 @@ import { Link } from '@inertiajs/vue3'
                 <div class="column one">
                     <div class="top_bar_left clearfix">
                         <div class="logo">
-                            <a id="logo" href="index-agency7.html" title="BeAgency 7 - Betheme" data-height="60" data-padding="15">
-                                <Image class="logo-main scale-with-grid" src="frontend-assets/agency7/images/agency7.png" data-retina="frontend-assets/agency7/images/retina-agency7.png" data-height="40" alt="agency7" data-no-retina/>
-                                <Image class="logo-sticky scale-with-grid" src="frontend-assets/agency7/images/agency7.png" data-retina="frontend-assets/agency7/images/retina-agency7.png" data-height="40" alt="agency7" data-no-retina/>
-                                <Image class="logo-mobile scale-with-grid" src="frontend-assets/agency7/images/agency7.png" data-retina="frontend-assets/agency7/images/retina-agency7.png" data-height="40" alt="agency7" data-no-retina/>
-                                <Image class="logo-mobile-sticky scale-with-grid" src="frontend-assets/agency7/images/agency7.png" data-retina="frontend-assets/agency7/images/retina-agency7.png" data-height="40" alt="agency7" data-no-retina/>
+                            <a id="logo" class="logo-marzbo" href="" title="Home - Marzbo" data-height="60" data-padding="15">
+                                Marzbo
                             </a>
                         </div>
                     </div>
@@ -116,7 +113,16 @@ z
     </header>
 </template>
 
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@600;700&display=swap');
+</style>
 <style scoped>
+.logo-marzbo {
+    font-family: 'Comfortaa', cursive;
+    font-weight: 700;
+    font-size: 28px;
+}
+
 @media (max-width: 768px) {
     #slider-1-slide-1-layer-8 {
         position: absolute;
