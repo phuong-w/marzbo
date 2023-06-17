@@ -134,9 +134,9 @@ onBeforeUnmount(() => {
             <div class="statbox widget box box-shadow">
                 <div class="widget-content widget-content-area">
 
-                    <div v-if="hasPermission(Acl.PERMISSION_PERMISSION_MANAGE)" class="layout-top-spacing col-12">
-                        <Link :href="route('admin.permission.create')" class="btn btn-primary">Create</Link>
-                    </div>
+<!--                    <div v-if="hasPermission(Acl.PERMISSION_PERMISSION_MANAGE)" class="layout-top-spacing col-12">-->
+<!--                        <Link :href="route('admin.permission.create')" class="btn btn-primary">Create</Link>-->
+<!--                    </div>-->
 
                     <DataTable ref="table" :data="data" :columns="columns" :options="options" class="display table style-3 table-hover">
                         <thead>

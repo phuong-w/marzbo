@@ -23,7 +23,7 @@ class StorePostRequest extends FormRequest
     {
         return [
             'scheduled_time' => [
-                'sometimes',
+                'nullable',
                 'date',
                 'after:' . now()->addMinutes(5)->toDateTimeString(),
             ],

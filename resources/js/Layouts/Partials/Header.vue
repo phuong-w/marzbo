@@ -113,9 +113,6 @@ z
     </header>
 </template>
 
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@600;700&display=swap');
-</style>
 <style scoped>
 .logo-marzbo {
     font-family: 'Comfortaa', cursive;

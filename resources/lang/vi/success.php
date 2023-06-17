@@ -37,7 +37,9 @@ return [
         'store' => 'Tạo tài khoản thành công',
         'update' => 'Update account successfully.',
         'delete' => 'Xóa tài khoản thành công',
-        'toggle_status' => 'Toggle status successfully.'
+        'toggle_status' => 'Toggle status successfully.',
+        'unlock' => 'Unlocked :name account successfully.',
+        'lock' => 'Locked :name account successfully.'
     ],
     'category' => [
         'store' => 'Create category successfully',

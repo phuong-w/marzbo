@@ -32,14 +32,14 @@ class FacebookService extends SocialMediaService
 
     public function sharePost($data)
     {
-        if ($data['facebook_group']) {
+        if ($data['facebook_group_id']) {
             $params = [
                 'access_token' => $data['access_token'],
-                'message' => $data['content'][FACEBOOK],
+                'message' => $data['message'],
                 'formatting' => 'MARKDOWN'
             ];
 
-            $groupId = $data['facebook_group']['id'];
+            $groupId = $data['facebook_group_id'];
 
             $endpoint = "{$groupId}/feed";
 
@@ -91,7 +91,7 @@ class FacebookService extends SocialMediaService
         return $this->request('GET', $endpoint, ['access_token' => $accessToken]);
     }
 
-    public function stats($accessToke, $post)
+    public function stats($accessToke, $post = null)
     {
         try {
             $totalComment = 0;
@@ -99,6 +99,10 @@ class FacebookService extends SocialMediaService
             $totalView = 0;
 
             $externalPostId = $post->context->external_post_id;
+
+            if (!$externalPostId) {
+                return false;
+            }
 
             $responseReact = $this->getReacts($accessToke, $externalPostId);
             $responseComment = $this->getComments($accessToke, $externalPostId);

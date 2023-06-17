@@ -90,11 +90,11 @@ const columns = [
                 button += `</ul>`
 
                 stats = `<div>
-                    <span class="badge badge-info ml-2 p-2">
-                        <span>React: </span> <span class="badge badge-light">${post.total_react}</span>&nbsp;&nbsp;
-                        <span>View: </span> <span class="badge badge-light">${post.total_view}</span>&nbsp;&nbsp;
-                        <span>Comment: </span> <span class="badge badge-light">${post.total_comment}</span>
-                        </span>
+                    <span class="badge badge-info p-2">
+                        <span>React: </span> <span class="badge badge-light mr-2">${post.total_react}</span>
+                        <span>Comment: </span> <span class="badge badge-light mr-2">${post.total_comment}</span>
+                        <span>View: </span> <span class="badge badge-light">${post.total_view}</span>
+                    </span>
                 </div>`
 
                 html += `<table style="width: 100%">

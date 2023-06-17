@@ -22,7 +22,11 @@ class UpdateScheduleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'publish_date' => ['required']
+            'publish_date' => [
+                'required',
+                'date',
+                'after:' . now()->addMinutes(5)->toDateTimeString(),
+            ]
         ];
     }
 }

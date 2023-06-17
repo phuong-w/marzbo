@@ -5,7 +5,7 @@ import { router, usePage } from '@inertiajs/vue3'
 
 const items = ref([])
 
-router.on('finish', () => {
+const listenToasts = router.on('finish', () => {
     const page = usePage()
 
     if (page.props.flash.success) {
@@ -24,6 +24,8 @@ router.on('finish', () => {
         })
     }
 })
+
+onUnmounted(() => listenToasts())
 
 function remove(index) {
     items.value.splice(index, 1)

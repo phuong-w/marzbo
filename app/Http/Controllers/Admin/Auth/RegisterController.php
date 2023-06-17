@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
+use App\Jobs\SendEmailWelcomeToMarzboJob;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use App\Repositories\User\UserRepositoryInterface;
@@ -44,12 +45,15 @@ class RegisterController extends Controller
         }
 
         event(new Registered($user));
+        SendEmailWelcomeToMarzboJob::dispatch($user);
 
-        Auth::login($user);
+
+//        Auth::login($user);
 
         session()->flash(NOTIFICATION_SUCCESS, __('success.user.register', [
             'user' => $user->name
         ]));
-        return redirect(RouteServiceProvider::ADMIN);
+
+        return to_route('admin.login.show-form');
     }
 }

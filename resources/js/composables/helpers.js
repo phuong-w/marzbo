@@ -34,7 +34,7 @@ const sanitizeTitle = (title) => {
  * @param name
  * @returns boolean
  */
-const hasRole = (name) => usePage().props.auth.user.data.roles.includes(name)
+const hasRole = (name) => usePage().props.auth.user.data.role.includes(name)
 
 /**
  * Check permission of user

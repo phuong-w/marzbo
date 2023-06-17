@@ -6,10 +6,13 @@ import { hasRole, hasPermission} from '@/composables/helpers'
 import DataTable from 'datatables.net-vue3'
 import DataTablesCore from 'datatables.net'
 import { handleDataTableOnMounted, options } from '@/composables/dataTableHandle'
+import PopupModal from '@/components/PopupModal.vue'
 
 DataTable.use(DataTablesCore)
 
 const Acl = inject('Acl')
+const STT_LOCK = 0
+const STT_UNLOCK = 1
 
 const props = defineProps({
     users: Object,
@@ -47,6 +50,9 @@ const columns = [
         data: 'id',
         class: 'text-center',
         render: function (data, type, full) {
+            if (full.role === Acl.ROLE_SUPER_ADMIN || full.role === Acl.ROLE_ADMIN)
+                return ''
+
             let canEdit = hasPermission(Acl.PERMISSION_USER_EDIT)
             let canDelete = hasPermission(Acl.PERMISSION_USER_DELETE)
             const STT_LOCK = 0
@@ -69,23 +75,23 @@ const columns = [
                 </li>`
             }
             if (canDelete) {
-                if (full.status === STT_UNLOCK) {
+                if (full.status === STT_LOCK) {
                     html += `<li>
                     <a href="javascript:" class="bs-tooltip" data-toggle="tooltip" data-placement="top"
                        title=""
                        data-original-title="lock">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-lock p-1 br-6 mb-1 text-warning btn-lock" data-id="${data}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-lock p-1 br-6 mb-1 text-warning btn-lock" data-id="${data}" data-status="${full.status}" data-name="${full.name}">
                             <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                             <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
                         </svg>
                     </a>
                 </li>`
-                } else if (full.status === STT_LOCK) {
+                } else if (full.status === STT_UNLOCK) {
                     html += `<li>
                     <a href="javascript:" class="bs-tooltip" data-toggle="tooltip" data-placement="top"
                        title=""
                        data-original-title="lock">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-unlock p-1 br-6 mb-1 text-primary btn-lock" data-id="${data}">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-unlock p-1 br-6 mb-1 text-primary btn-lock" data-id="${data}" data-status="${full.status}" data-name="${full.name}">
                             <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                             <path d="M7 11V7a5 5 0 0 1 9.9-1"></path>
                         </svg>
@@ -102,6 +108,14 @@ const columns = [
 
 const formToggleStatus = useForm({})
 
+const callAjaxLockAccount = (id) => {
+    formToggleStatus.put(route('admin.user.toggle_status', id), {
+        onSuccess: () => {
+            data.value = props.users.data
+        }
+    })
+}
+
 const handleClick = (e) => {
     const target = e.target
 
@@ -115,14 +129,37 @@ const handleClick = (e) => {
 
     if (target.classList.contains('btn-lock')) {
         e.preventDefault()
-
         let id = target.getAttribute('data-id')
+        let status = target.getAttribute('data-status')
+        let name = target.getAttribute('data-name')
+        let popupMessage = ``
+        let textConfirm = ``
 
-        formToggleStatus.put(route('admin.user.toggle_status', id), {
-            onSuccess: () => {
-                data.value = props.users.data
-            }
-        })
+        if (status == STT_UNLOCK) {
+            popupMessage = `You will lock the account of ${name}.`
+            textConfirm = `Lock`
+            $('#sConfirmDelete').css({
+                'background-color': '#e2a03f',
+                'border': 'none'
+            })
+        } else {
+            popupMessage = `You will unlock the account of ${name}.`
+            textConfirm = `Unlock`
+            $('#sConfirmDelete').css({
+                'background-color': '#4361ee',
+                'border': 'none'
+            })
+        }
+
+        $('#sPopupMessage').text(popupMessage)
+        $('#sConfirmDelete').text(textConfirm)
+        $('#sConfirmDelete').attr('data-id', id)
+        $('#popup-modal').modal('show')
+    }
+
+    if (target.id === 'sConfirmDelete') {
+        let id = target.getAttribute('data-id')
+        callAjaxLockAccount(id)
     }
 }
 
@@ -144,6 +181,8 @@ onBeforeUnmount(() => {
 <template>
     <Head title="User" />
     <AdminLayout>
+        <PopupModal />
+
         <div class="col-lg-12">
         <div class="statbox widget box box-shadow">
             <div class="widget-content widget-content-area">

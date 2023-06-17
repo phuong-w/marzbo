@@ -3,6 +3,7 @@
 namespace App\Repositories\User;
 
 use App\Acl\Acl;
+use App\Jobs\SendEmailLockAccountJob;
 use App\Models\User;
 use App\Repositories\BaseRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -170,6 +171,26 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
      */
     public function toggleStatus($model)
     {
+        $message['name'] = $model->name;
+
+        if ($model->status === USER_STT_UNLOCK) {
+            session()->flash(NOTIFICATION_SUCCESS, __('success.account.lock', [
+                'name' => $model->name
+            ]));
+
+            $message['type'] = 'Locked';
+            $message['content'] = 'Your account be locked.';
+        } else {
+            session()->flash(NOTIFICATION_SUCCESS, __('success.account.unlock', [
+                'name' => $model->name
+            ]));
+
+            $message['type'] = 'Unlocked';
+            $message['content'] = 'Your account be unlocked.';
+        }
+
+        SendEmailLockAccountJob::dispatch($message, $model);
+
         return $model->update(['status' => !$model->status]);
     }
 
