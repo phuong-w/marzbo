@@ -4,7 +4,7 @@ import InputError from '@/components/InputError.vue'
 import InputLabel from '@/components/InputLabel.vue'
 import PrimaryButton from '@/components/PrimaryButton.vue'
 import TextInput from '@/components/TextInput.vue'
-import { Head, Link, useForm } from '@inertiajs/vue3'
+import {Head, Link, useForm, usePage} from '@inertiajs/vue3'
 import {onMounted} from 'vue'
 
 const props = defineProps({
@@ -13,6 +13,8 @@ const props = defineProps({
         required: true
     }
 })
+
+const trans = usePage().props.trans
 
 const form = useForm({
     publish_date: props.schedule.data.publish_date,
@@ -45,10 +47,11 @@ onMounted(() => {
                     <div class="widget-content widget-content-area">
                         <div class="col-12">
                             <div class="layout-top-spacing mb-4">
-                                <Link :href="route('admin.schedule.index')"
-                                      class="btn btn-gray mr-2">Cancel</Link>
+                                <Link :href="route('admin.schedule.index')" class="btn btn-gray mr-2">
+                                    {{ trans.general.button.cancel }}
+                                </Link>
                                 <PrimaryButton class="btn btn-primary" :disabled="form.processing">
-                                    Update
+                                    {{ trans.general.button.update }}
                                 </PrimaryButton>
                             </div>
 

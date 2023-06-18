@@ -1,6 +1,6 @@
 <script setup>
 import AdminLayout from '@/Layouts/AdminLayout.vue'
-import {Head, Link, router} from '@inertiajs/vue3'
+import {Head, Link, router, usePage} from '@inertiajs/vue3'
 import {inject, onBeforeUnmount, onMounted, ref} from 'vue'
 import { hasRole, hasPermission} from '@/composables/helpers'
 import DataTable from 'datatables.net-vue3'
@@ -15,6 +15,8 @@ const Acl = inject('Acl')
 const props = defineProps({
     permissions: Object,
 })
+
+const trans = usePage().props.trans
 
 DataTable.use(DataTablesCore)
 
@@ -134,16 +136,16 @@ onBeforeUnmount(() => {
             <div class="statbox widget box box-shadow">
                 <div class="widget-content widget-content-area">
 
-                    <div v-if="hasPermission(Acl.PERMISSION_PERMISSION_MANAGE)" class="layout-top-spacing col-12">
-                        <Link :href="route('admin.permission.create')" class="btn btn-primary">Create</Link>
-                    </div>
+<!--                    <div v-if="hasPermission(Acl.PERMISSION_PERMISSION_MANAGE)" class="layout-top-spacing col-12">-->
+<!--                        <Link :href="route('admin.permission.create')" class="btn btn-primary">Create</Link>-->
+<!--                    </div>-->
 
                     <DataTable ref="table" :data="data" :columns="columns" :options="options" class="display table style-3 table-hover">
                         <thead>
                         <tr>
                             <th class="checkbox-column text-center" style="width:10%">ID</th>
-                            <th style="width:70%">Name</th>
-                            <th class="text-center dt-no-sorting" style="width:20%">Action</th>
+                            <th style="width:70%">{{ trans.general.common.name }}</th>
+                            <th class="text-center dt-no-sorting" style="width:20%">{{ trans.general.common.actions }}</th>
                         </tr>
                         </thead>
                     </DataTable>

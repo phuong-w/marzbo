@@ -79,21 +79,30 @@ class PostService
                     $socialMediaId = $post->social_media_id;
                     // Facebook
                     if ($socialMediaId === FACEBOOK) {
-                        $data['access_token'] = auth()->user()->facebook_access_token;
-//                        ShareFacebookJob::dispatch($data);
-                        $response = $this->facebookService->sharePost($data);
-                        if ($response) {
-                            $externalPostId = $response['id'];
-                            $context = [
-                                'id' => $data['facebook_group']['id'],
-                                'name' => $data['facebook_group']['name'],
-                                'external_post_id' => $externalPostId
+                        if ($data['facebook_group']) {
+                            $fbGroupId = $data['facebook_group']['id'];
+                            $fbGroupName = $data['facebook_group']['name'];
+                            $data = [
+                                'access_token' => auth()->user()->facebook_access_token,
+                                'message' => $data['content'][FACEBOOK],
+                                'facebook_group_id' => $fbGroupId,
+                                'facebook_group_name' => $fbGroupName,
                             ];
+//                        ShareFacebookJob::dispatch($data);
+                            $response = $this->facebookService->sharePost($data);
+                            if ($response) {
+                                $externalPostId = $response['id'];
+                                $context = [
+                                    'facebook_group_id' => $fbGroupId,
+                                    'facebook_group_name' => $fbGroupName,
+                                    'external_post_id' => $externalPostId
+                                ];
 
-                            $post->update([
-                                'context' => $context,
-                                'status' => POST_STT_PUBLISHED
-                            ]);
+                                $post->update([
+                                    'context' => $context,
+                                    'status' => POST_STT_PUBLISHED
+                                ]);
+                            }
                         }
                     }
 
@@ -107,6 +116,29 @@ class PostService
                     if ($socialMediaId === TIKTOK) {
                         $data['access_token'] = '';
 //                        dd(3);
+                    }
+                }
+            } else {
+                $posts = Post::where('group_id', $groupId)->get();
+
+                foreach ($posts as $post) {
+                    $socialMediaId = $post->social_media_id;
+
+                    $this->scheduleRepository->create([
+                        'user_id' => auth()->id(),
+                        'post_id' => $post->id,
+                        'social_media_id' => $socialMediaId,
+                        'publish_date' => $data['scheduled_time'],
+                        'status' => SCHEDULE_STT_PENDING
+                    ]);
+
+                    if ($data['facebook_group']) {
+                        $context = [
+                            'facebook_group_id' => $data['facebook_group']['id'],
+                            'facebook_group_name' => $data['facebook_group']['name']
+                        ];
+
+                        $post->update(['context' => $context]);
                     }
                 }
             }

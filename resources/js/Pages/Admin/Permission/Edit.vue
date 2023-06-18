@@ -1,6 +1,6 @@
 <script setup>
 import AdminLayout from '@/Layouts/AdminLayout.vue'
-import { Head, Link, useForm } from '@inertiajs/vue3'
+import {Head, Link, useForm, usePage} from '@inertiajs/vue3'
 import InputError from '@/components/InputError.vue'
 import InputLabel from '@/components/InputLabel.vue'
 import PrimaryButton from '@/components/PrimaryButton.vue'
@@ -12,6 +12,8 @@ const props = defineProps({
         required: true
     }
 })
+
+const trans = usePage().props.trans
 
 const form = useForm({
     name: props.permission.data.name
@@ -34,14 +36,16 @@ const submit = () => {
                     <div class="widget-content widget-content-area">
                         <div class="layout-top-spacing col-12 mb-4">
                             <Link :href="route('admin.permission.index')"
-                               class="btn btn-gray mr-2">Cancel</Link>
+                               class="btn btn-gray mr-2">
+                                {{ trans.general.button.cancel }}
+                            </Link>
                             <PrimaryButton class="btn btn-primary" :disabled="form.processing">
-                                Update
+                                {{ trans.general.button.update }}
                             </PrimaryButton>
                         </div>
 
                         <div class="form-group col-12 mb-4">
-                            <InputLabel for="sName" value="Name"/>
+                            <InputLabel for="sName" :value="trans.general.common.name"/>
 
                             <TextInput
                                 id="sName"

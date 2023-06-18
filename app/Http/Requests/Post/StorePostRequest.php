@@ -22,7 +22,11 @@ class StorePostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'scheduled_time' => ['sometimes'],
+            'scheduled_time' => [
+                'nullable',
+                'date',
+                'after:' . now()->addMinutes(5)->toDateTimeString(),
+            ],
 //            'category_id' => ['required'],
             'content' => ['required'],
             'files' => ['sometimes'],

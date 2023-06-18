@@ -1,5 +1,5 @@
 <script setup>
-import {Link, useForm} from '@inertiajs/vue3'
+import {Link, useForm, usePage} from '@inertiajs/vue3'
 import { inject, onMounted } from 'vue'
 import InputError from '@/components/InputError.vue'
 import TextInput from '@/components/TextInput.vue'
@@ -17,6 +17,8 @@ const props = defineProps({
     },
     roles: Object
 })
+
+const trans = usePage().props.trans
 
 const form = useForm({
     first_name: props.user.data.first_name,
@@ -43,33 +45,37 @@ onMounted(() => {
                 <div class="widget-content widget-content-area">
                     <div class="col-12">
                         <div class="layout-top-spacing mb-4">
-                            <Link :href="route('admin.user.index')" class="btn btn-gray mr-2">Cancel</Link>
-                            <button type="submit" class="btn btn-primary" :disabled="form.processing">Update</button>
+                            <Link :href="route('admin.user.index')" class="btn btn-gray mr-2">
+                                {{ trans.general.button.cancel }}
+                            </Link>
+                            <button type="submit" class="btn btn-primary" :disabled="form.processing">
+                                {{ trans.general.button.update }}
+                            </button>
                         </div>
                         <div class="row">
                             <div class="form-group mb-4 col-md-6">
-                                <InputLabel for="sFirstName" value="First name"/>
+                                <InputLabel for="sFirstName" :value="trans.general.common.first_name"/>
 
                                 <TextInput
                                     id="sFirstName"
                                     type="text"
                                     class="form-control"
                                     v-model="form.first_name"
-                                    placeholder="First name"
+                                    :placeholder="trans.general.common.first_name"
                                     :class="{'is-invalid': form.errors.first_name}"
                                 />
 
                                 <InputError class="mt-2" :message="form.errors.first_name"/>
                             </div>
                             <div class="form-group mb-4 col-md-6">
-                                <InputLabel for="sLastName" value="Last name"/>
+                                <InputLabel for="sLastName" :value="trans.general.common.last_name"/>
 
                                 <TextInput
                                     id="sLastName"
                                     type="text"
                                     class="form-control"
                                     v-model="form.last_name"
-                                    placeholder="Last name"
+                                    :placeholder="trans.general.common.last_name"
                                     :class="{'is-invalid': form.errors.last_name}"
                                 />
 
@@ -90,15 +96,15 @@ onMounted(() => {
                         </div>
 
                         <div class="form-group mb-4">
-                            <InputLabel for="sPhone" value="Phone"/>
+                            <InputLabel for="sPhone" :value="trans.general.common.phone"/>
 
                             <TextInput
                                 id="sPhone"
                                 type="text"
                                 class="form-control"
                                 v-model="form.phone"
-                                placeholder="Phone"
-                                :class="{'is-invalid': form.errors.phone}"
+                                :placeholder="trans.general.common.phone_number"
+                                :class="{'is-invalid': form.errors.phone_number}"
                             />
 
                             <InputError class="mt-2" :message="form.errors.phone"/>

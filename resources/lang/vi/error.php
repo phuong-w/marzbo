@@ -31,5 +31,7 @@ return [
         'stats' => 'Sync stats of this post fail.',
         'published' => 'This post not published.'
     ],
-
+    'social_media' => [
+        'require_select' => 'Vui lòng chọn ít nhất một nền tảng MXH.'
+    ],
 ];

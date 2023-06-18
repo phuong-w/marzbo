@@ -1,7 +1,8 @@
 <script setup>
 import Image from '@/components/Image.vue'
-import { Link } from '@inertiajs/vue3'
+import {Link, usePage} from '@inertiajs/vue3'
 
+const trans = usePage().props.trans
 </script>
 
 <template>
@@ -11,11 +12,8 @@ import { Link } from '@inertiajs/vue3'
                 <div class="column one">
                     <div class="top_bar_left clearfix">
                         <div class="logo">
-                            <a id="logo" href="index-agency7.html" title="BeAgency 7 - Betheme" data-height="60" data-padding="15">
-                                <Image class="logo-main scale-with-grid" src="frontend-assets/agency7/images/agency7.png" data-retina="frontend-assets/agency7/images/retina-agency7.png" data-height="40" alt="agency7" data-no-retina/>
-                                <Image class="logo-sticky scale-with-grid" src="frontend-assets/agency7/images/agency7.png" data-retina="frontend-assets/agency7/images/retina-agency7.png" data-height="40" alt="agency7" data-no-retina/>
-                                <Image class="logo-mobile scale-with-grid" src="frontend-assets/agency7/images/agency7.png" data-retina="frontend-assets/agency7/images/retina-agency7.png" data-height="40" alt="agency7" data-no-retina/>
-                                <Image class="logo-mobile-sticky scale-with-grid" src="frontend-assets/agency7/images/agency7.png" data-retina="frontend-assets/agency7/images/retina-agency7.png" data-height="40" alt="agency7" data-no-retina/>
+                            <a id="logo" class="logo-marzbo" href="" title="Home - Marzbo" data-height="60" data-padding="15">
+                                Marzbo
                             </a>
                         </div>
                     </div>
@@ -33,7 +31,7 @@ import { Link } from '@inertiajs/vue3'
                             <!--
                                 -->
                             <rs-layer id="slider-1-slide-1-layer-0" data-type="text" data-color="#252525" data-rsp_ch="on" data-xy="x:l,l,c,c;xo:50px,50px,-7px,-7px;yo:240px,240px,526px,526px;" data-text="w:normal;s:60,60,70,70;l:70,70,75,75;fw:600;a:left,left,center,center;" data-dim="w:500px,500px,550px,550px;" data-frame_0="y:-50,-50,-31,-31;" data-frame_1="sp:1000;" data-frame_999="o:0;st:w;" style="z-index:9;font-family:'Poppins';">
-                                Contact with us
+                                {{ trans.general.common.contact_with_us }}
                             </rs-layer>
                             <!--
 
@@ -117,6 +115,12 @@ z
 </template>
 
 <style scoped>
+.logo-marzbo {
+    font-family: 'Comfortaa', cursive;
+    font-weight: 700;
+    font-size: 28px;
+}
+
 @media (max-width: 768px) {
     #slider-1-slide-1-layer-8 {
         position: absolute;

@@ -13,18 +13,15 @@ import Image from '@/components/Image.vue'
                     <div style="height:30px" aria-hidden="true" class="wp-block-spacer"></div>
                     <p> This is my final project </p>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-6">
                     <h4>Personal information</h4>
                     <div style="height:20px" aria-hidden="true" class="wp-block-spacer"></div>
                     <ul>
-                        <li style="margin-bottom:10px;"><a href="#"><b>Phone number: </b> 0962711960</a> </li>
-                        <li style="margin-bottom:10px;"><a href="#"><b>Email:</b> nguyenphuongmkey@</a> </li>
                         <li style="margin-bottom:10px;"><a href="#"><b>Name: </b>  Nguyen Thai Phuong</a> </li>
-                        <li style="margin-bottom:10px;"><a href="#"><b>DOB: </b> 12/12/1998</a> </li>
+                        <li style="margin-bottom:10px;"><a href="#"><b>Phone number: </b> 0962711960</a> </li>
+                        <li style="margin-bottom:10px;"><a href="#"><b>Email:</b> nguyenphuongmkey@gmail.com</a> </li>
                     </ul>
                 </div>
-                <div class="col-12">
-                    <hr class="no_line" style="margin:0 auto 40px"> </div>
             </div>
         </div>
     </footer>

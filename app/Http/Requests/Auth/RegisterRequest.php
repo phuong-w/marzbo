@@ -27,10 +27,17 @@ class RegisterRequest extends FormRequest
         return [
             'first_name' => ['required', 'string', 'max:20'],
             'last_name' => ['required', 'string', 'max:20'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Password::defaults()],
+            'email' => ['required', 'string', 'email:rfc,dns', 'max:255', 'unique:'.User::class],
+            'password' => [
+                'required',
+                'confirmed',
+                Password::min(8)->letters()
+                    ->mixedCase()
+                    ->numbers()
+                    ->symbols()
+            ],
             'phone' => ['required', 'numeric', new PhoneNumber, 'unique:'.User::class],
-            'terms' => ['boolean']
+            'terms' => ['required']
         ];
     }
 }

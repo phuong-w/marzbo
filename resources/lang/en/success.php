@@ -42,7 +42,9 @@ return [
         'store' => 'Create account successfully.',
         'update' => 'Update account successfully.',
         'delete' => 'Delete account successfully.',
-        'toggle_status' => 'Toggle status successfully.'
+        'toggle_status' => 'Toggle status successfully.',
+        'unlock' => 'Unlocked :name account successfully.',
+        'lock' => 'Locked :name account successfully.'
     ],
     'category' => [
         'store' => 'Create category successfully.',

@@ -1,6 +1,6 @@
 <script setup>
 import AdminLayout from '@/Layouts/AdminLayout.vue'
-import {Head, Link, router, useForm} from '@inertiajs/vue3'
+import {Head, Link, router, useForm, usePage} from '@inertiajs/vue3'
 import {inject, onBeforeUnmount, onMounted, ref} from 'vue'
 import Multiselect from 'vue-multiselect'
 import InputError from '@/components/InputError.vue'
@@ -25,6 +25,8 @@ const props = defineProps({
     permissions: Object,
     roleWithPermissions: Object,
 })
+
+const trans = usePage().props.trans
 
 let dt
 const params = route().params
@@ -142,15 +144,16 @@ const submit = () => {
                 <div class="statbox widget box box-shadow">
                     <div class="widget-content widget-content-area">
                         <div class="layout-top-spacing col-12 mb-4">
-                            <Link :href="route('admin.role.index')"
-                               class="btn btn-gray mr-2">Cancel</Link>
+                            <Link :href="route('admin.role.index')" class="btn btn-gray mr-2">
+                                {{ trans.general.button.cancel }}
+                            </Link>
                             <PrimaryButton class="btn btn-primary" :disabled="form.processing">
-                                Update
+                                {{ trans.general.button.update }}
                             </PrimaryButton>
                         </div>
 
                         <div class="form-group col-12 mb-4">
-                            <InputLabel for="sName" value="Name"/>
+                            <InputLabel for="sName" :value="trans.general.common.name"/>
 
                             <TextInput
                                 id="sName"
@@ -164,7 +167,7 @@ const submit = () => {
                         </div>
 
                         <div class="form-group col-12 mb-4">
-                            <InputLabel for="sPermissions" value="Permissions"/>
+                            <InputLabel for="sPermissions" :value="trans.general.common.permissions"/>
 
                             <Multiselect
                                 v-model="form.permissions"
@@ -180,13 +183,13 @@ const submit = () => {
                         </div>
                     </div>
                     <div class="widget-content widget-content-area">
-                        <h3 class="text-center mb-4">Permissions</h3>
+                        <h3 class="text-center mb-4">{{ trans.general.common.permissions }}</h3>
                         <DataTable ref="table" :data="data" :columns="columns" :options="options" class="display table style-3 table-hover">
                             <thead>
                             <tr>
                                 <th class="checkbox-column text-center">ID</th>
-                                <th>Name</th>
-                                <th class="text-center dt-no-sorting">Actions</th>
+                                <th>{{ trans.general.common.name }}</th>
+                                <th class="text-center dt-no-sorting">{{ trans.general.common.actions }}</th>
                             </tr>
                             </thead>
                         </DataTable>

@@ -2,7 +2,7 @@
 import { onMounted, ref } from 'vue'
 import InputLabel from '@/components/InputLabel.vue'
 import InputError from '@/components/InputError.vue'
-import { useForm } from '@inertiajs/vue3'
+import {useForm, usePage} from '@inertiajs/vue3'
 
 defineProps({
     socialMedias: {
@@ -19,9 +19,12 @@ defineProps({
     }
 })
 
+const trans = usePage().props.trans
+
+
 onMounted(() => {
     $('.tagging').select2({
-        placeholder: 'Choose social media here'
+        placeholder: trans.general.social_media.select_sub
     })
 })
 
@@ -29,7 +32,7 @@ onMounted(() => {
 
 <template>
     <div class="layout-top-spacing">
-        <InputLabel for="socialMediaSelected" value="Choose social media"/>
+        <InputLabel for="socialMediaSelected" :value="trans.general.social_media.select"/>
 
         <select id="socialMediaSelected" class="form-control tagging" multiple="multiple">
             <option v-for="item in socialMedias.data" :key="item.id" :value="item.id">{{ item.name }}</option>

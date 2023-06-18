@@ -91,6 +91,8 @@ return [
     ],
 
     'names' => [
+        'mail' => 'mail',
+
         'facebook' => [
             'publish' => 'facebook-publish',
             'report' => 'facebook-report'

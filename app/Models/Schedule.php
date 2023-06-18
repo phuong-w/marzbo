@@ -32,6 +32,21 @@ class Schedule extends Model
         'publish_date' => 'datetime',
     ];
 
+    public static $scheduleStatuses = [
+        self::STT_PENDING => [
+            'name' => 'Pending',
+            'badge_outline' => 'badge outline-badge-warning'
+        ],
+        self::STT_SUCCESS => [
+            'name' => 'Success',
+            'badge_outline' => 'badge outline-badge-primary'
+        ],
+        self::STT_ERROR => [
+            'name' => 'Error',
+            'badge_outline' => 'badge outline-badge-danger'
+        ]
+    ];
+
     /**
      * Get the user that owns the schedule.
      */

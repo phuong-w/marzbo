@@ -4,12 +4,13 @@ import InputError from '@/components/InputError.vue'
 import InputLabel from '@/components/InputLabel.vue'
 import PrimaryButton from '@/components/PrimaryButton.vue'
 import TextInput from '@/components/TextInput.vue'
-import { Head, Link, useForm } from '@inertiajs/vue3'
+import {Head, Link, useForm, usePage} from '@inertiajs/vue3'
 
 const form = useForm({
     name: '',
 });
 
+const trans = usePage().props.trans
 const submit = () => {
     form.post(route('admin.category.store'));
 };
@@ -25,9 +26,9 @@ const submit = () => {
                     <div class="widget-content widget-content-area">
                         <div class="layout-top-spacing col-12 mb-4">
                             <Link :href="route('admin.category.index')"
-                               class="btn btn-gray mr-2">Cancel</Link>
+                               class="btn btn-gray mr-2">{{ trans.general.button.cancel }}</Link>
                             <PrimaryButton class="btn btn-primary" :disabled="form.processing">
-                                Create
+                                {{ trans.general.button.create }}
                             </PrimaryButton>
                         </div>
                         <div class="form-group col-12 mb-4">

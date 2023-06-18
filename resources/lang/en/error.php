@@ -31,4 +31,7 @@ return [
         'stats' => 'Sync stats of this post fail.',
         'published' => 'This post not published.'
     ],
+    'social_media' => [
+        'require_select' => 'Please select at least one social media.'
+    ],
 ];

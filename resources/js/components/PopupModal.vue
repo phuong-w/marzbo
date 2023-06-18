@@ -6,10 +6,11 @@
                     <div class="modal-body p-0">
                         <div class="card border-0 p-sm-3 p-2 justify-content-center">
                             <div class="card-header pb-0 bg-white border-0 "><div class="row"><div class="col ml-auto"><button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button></div> </div>
-                                <p class="font-weight-bold mb-2"> Are you sure ?</p><p class="text-muted"> You will not be able to revert this.</p>
+                                <p class="font-weight-bold mb-2"> Are you sure ?</p>
+                                <p class="text-muted" id="sPopupMessage"> You will not be able to revert this.</p>
                             </div>
                             <div class="card-body px-sm-4 mb-2 pt-1 pb-0">
-                                <div class="row justify-content-end no-gutters"><div class="col-auto"><button type="button" class="btn btn-light text-muted mr-2" data-dismiss="modal">Cancel</button></div><div class="col-auto"><button type="button" id="sConfirmDelete" class="btn btn-danger px-4" data-dismiss="modal" >Delete</button></div></div>
+                                <div class="row justify-content-end no-gutters"><div class="col-auto"><button type="button" class="btn btn-light text-muted mr-2" data-dismiss="modal">Cancel</button></div><div class="col-auto"><button type="button" id="sConfirmDelete" class="btn btn-danger px-4 btn-confirm-popup" data-dismiss="modal" >Delete</button></div></div>
                             </div>
                         </div>
                     </div>
@@ -71,5 +72,9 @@ span{
 
 .modal-content{
     background: transparent !important;
+}
+
+.btn-confirm-popup {
+    border-radius: 4px !important;
 }
 </style>

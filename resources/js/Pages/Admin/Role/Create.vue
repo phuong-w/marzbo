@@ -1,6 +1,6 @@
 <script setup>
 import AdminLayout from '@/Layouts/AdminLayout.vue'
-import { Head, Link, useForm } from '@inertiajs/vue3'
+import {Head, Link, useForm, usePage} from '@inertiajs/vue3'
 import Multiselect from 'vue-multiselect'
 import InputError from '@/components/InputError.vue'
 import InputLabel from '@/components/InputLabel.vue'
@@ -10,6 +10,8 @@ import TextInput from '@/components/TextInput.vue'
 defineProps({
     permissions: Object,
 })
+
+const trans = usePage().props.trans
 
 const form = useForm({
     name: '',
@@ -30,15 +32,16 @@ const submit = () => {
                 <div class="statbox widget box box-shadow">
                     <div class="widget-content widget-content-area">
                         <div class="layout-top-spacing col-12 mb-4">
-                            <Link :href="route('admin.role.index')"
-                               class="btn btn-gray mr-2">Cancel</Link>
+                            <Link :href="route('admin.role.index')" class="btn btn-gray mr-2">
+                                {{ trans.general.button.cancel }}
+                            </Link>
                             <PrimaryButton class="btn btn-primary" :disabled="form.processing">
-                                Create
+                                {{ trans.general.button.create }}
                             </PrimaryButton>
                         </div>
 
                         <div class="form-group col-12 mb-4">
-                            <InputLabel for="sName" value="Name"/>
+                            <InputLabel for="sName" :value="trans.general.common.name"/>
 
                             <TextInput
                                 id="sName"
@@ -53,7 +56,7 @@ const submit = () => {
                         </div>
 
                         <div class="form-group col-12 mb-4">
-                            <InputLabel for="sPermissions" value="Permissions"/>
+                            <InputLabel for="sPermissions" :value="trans.general.common.permissions"/>
 
                             <Multiselect
                                 v-model="form.permissions"

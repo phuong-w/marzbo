@@ -1,6 +1,6 @@
 <script setup>
 import AdminLayout from '@/Layouts/AdminLayout.vue'
-import { Head, Link, router } from '@inertiajs/vue3'
+import {Head, Link, router, usePage} from '@inertiajs/vue3'
 import {computed, inject, ref, onMounted, onUpdated, watch, onUnmounted} from 'vue'
 import { hasRole, hasPermission} from '@/composables/helpers'
 import DataTable from 'datatables.net-vue3'
@@ -11,6 +11,8 @@ const Acl = inject('Acl')
 const props = defineProps({
     categories: Object,
 })
+
+const trans = usePage().props.trans
 
 DataTable.use(DataTablesCore)
 
@@ -247,17 +249,19 @@ onMounted(() => {
             <div class="widget-content widget-content-area">
 
                 <div v-if="hasPermission(Acl.PERMISSION_CATEGORY_ADD)" class="layout-top-spacing col-12">
-                    <Link :href="route('admin.category.create')" class="btn btn-primary">Create</Link>
+                    <Link :href="route('admin.category.create')" class="btn btn-primary">
+                        {{ trans.general.button.create }}
+                    </Link>
                 </div>
 
                 <DataTable ref="table" :data="data" :columns="columns" :options="options" class="display table style-3 table-hover">
                     <thead>
                     <tr>
                         <th class="checkbox-column text-center">ID</th>-->
-                        <th>Name</th>
+                        <th>{{ trans.general.category.table_index.name }}</th>
                         <th>Slug</th>
-                        <th>Created At</th>
-                        <th class="text-center dt-no-sorting">Action</th>
+                        <th>{{ trans.general.common.created_at }}</th>
+                        <th class="text-center dt-no-sorting">{{ trans.general.common.actions }}</th>
                     </tr>
                     </thead>
                 </DataTable>
