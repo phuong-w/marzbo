@@ -37,7 +37,7 @@ class RegisterRequest extends FormRequest
                     ->symbols()
             ],
             'phone' => ['required', 'numeric', new PhoneNumber, 'unique:'.User::class],
-            'terms' => ['boolean']
+            'terms' => ['required']
         ];
     }
 }
