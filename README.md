@@ -1,10 +1,6 @@
 # Marzbo
 
-<p align="center"><a href="https://www.k-hgc.com" target="_blank"><img src="https://www.k-hgc.com/img/logo/khgc-logo-black.svg" width="400"></a></p>
-
 ## About This Project
-
-This is the project for **Marzbo** by **KHGC**. This project is built with:
 
 -   **[Laravel](https://laravel.com/)**
 -   **[Laravel Livewire](https://laravel-livewire.com/)**
