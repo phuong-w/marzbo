@@ -38,21 +38,21 @@ return [
         'update' => 'Update account successfully.',
         'delete' => 'Xóa tài khoản thành công',
         'toggle_status' => 'Toggle status successfully.',
-        'unlock' => 'Unlocked :name account successfully.',
-        'lock' => 'Locked :name account successfully.'
+        'unlock' => 'Mở khoá tài khoản :name thành công.',
+        'lock' => 'Khoá tài khoản :name thành công.'
     ],
     'category' => [
-        'store' => 'Create category successfully',
-        'update' => 'Update category successfully',
-        'delete' => 'Delete category successfully'
+        'store' => 'Tạo danh mục thành công.',
+        'update' => 'Cập nhật danh mục thành công.',
+        'delete' => 'Xoá danh mục thành công.'
     ],
     'post' => [
-        'store' => 'Create post successfully',
-        'update' => 'Update post successfully',
-        'delete' => 'Delete post successfully',
-        'stats' => 'Sync stats of this post successfully.'
+        'store' => 'Tạo bài viết thành công.',
+        'update' => 'Cập nhật bài viết thành công.',
+        'delete' => 'Xoá bài viết thành công.',
+        'stats' => 'Đồng bộ số liệu thống kê của bài đăng này thành công.'
     ],
     'chatgpt' => [
-        'delete' => 'Delete chat successfully.'
+        'delete' => 'Xoá trò chuyện thành công.'
     ]
 ];

@@ -18,6 +18,8 @@ const props = defineProps({
     chatgpt: null | Object
 })
 
+const trans = usePage().props.trans
+
 const form = useForm({
     promt: ''
 })
@@ -61,7 +63,7 @@ const title = computed(() => props.chatgpt?.context[0].content ?? 'New Chat')
                 <div class="search">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                     <Link :href="route('admin.chatgpt.index')" class="btn-new-chat">
-                        New chat
+                        {{ trans.general.chatgpt.new_chat }}
                     </Link>
                 </div>
                 <div class="people">
@@ -124,7 +126,7 @@ const title = computed(() => props.chatgpt?.context[0].content ?? 'New Chat')
                             <form class="chat-form" action="javascript:void(0);">
 
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-message-square"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                                <input type="text" class="mail-write-box form-control" placeholder="Enter any question" v-model="form.promt" :disabled="form.processing" ref="promtInput" @keyup.enter="submit"/>
+                                <input type="text" class="mail-write-box form-control" :placeholder="trans.general.chatgpt.enter_question" v-model="form.promt" :disabled="form.processing" ref="promtInput" @keyup.enter="submit"/>
 
                                 <svg v-if="!form.processing" @click="submit" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-send"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
                                 <div v-if="form.processing" class="dot-typing d-content"></div>

@@ -25,7 +25,7 @@ class PostResource extends JsonResource
             'total_view' => $this->total_view,
             'total_comment' => $this->total_comment,
             'status' => $this->status,
-            'status_name' => POST_STATUSES[$this->status],
+            'status_name' => trans('general.post.status')[$this->status]['name'],
             'created_at' => Carbon::parse($this->created_at)->isoFormat('MMM Do YYYY - h\h:m\p'),
             'updated_at' => $this->status === POST_STT_PUBLISHED ? Carbon::parse($this->updated_at)->isoFormat('MMM Do YYYY - h\h:m\p') : 'N/A',
             'schedule_time' => $this->schedule ? Carbon::parse($this->schedule->publish_date)->isoFormat('MMM Do YYYY - h\h:m\p') : 'N/A',

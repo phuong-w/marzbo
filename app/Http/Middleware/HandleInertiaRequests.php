@@ -70,6 +70,12 @@ class HandleInertiaRequests extends Middleware
                 'success' => fn () => $request->session()->get(NOTIFICATION_SUCCESS),
                 'error' => fn () => $request->session()->get(NOTIFICATION_ERROR),
             ],
+            'lang' => app()->getLocale(),
+            'trans' => [
+                'general' => trans('general'),
+                'success' => trans('success'),
+                'error' => trans('error')
+            ]
         ]);
     }
 }

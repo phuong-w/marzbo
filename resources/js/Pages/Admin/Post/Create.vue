@@ -20,7 +20,10 @@ const props = defineProps({
     }
 })
 
-const messageRequired = ref('Please select at least one social media.')
+const general = usePage().props.trans.general
+const error = usePage().props.trans.error
+
+const messageRequired = ref(error.social_media.require_select)
 const socialMediaSelected = ref([])
 const showMessage = ref(false)
 
@@ -84,10 +87,10 @@ onMounted(() => {
 </script>
 
 <template>
-    <Head title="Post" />
+    <Head :title="general.post.title " />
     <AdminLayout>
         <div class="col-12">
-            <h1>Create post</h1>
+            <h1>{{ general.post.title }}</h1>
         </div>
 
         <div id="basic" class="col-lg-12 col-sm-12 col-12 layout-spacing">
@@ -98,12 +101,12 @@ onMounted(() => {
                             <ul role="tablist">
                                 <li @click="backToFirstStep" class="first" :class="{'current': showFirstStep, 'done': doneFirstStep}">
                                     <a href="javascript:" aria-controls="form-wizard-p-0">
-                                        <span class="number">1</span> Select social media
+                                        <span class="number">1</span> {{ general.social_media.select }}
                                     </a>
                                 </li>
                                 <li @click="nextToSecondStep" class="last" :class="{'current': showSecondStep, 'disabled': !showSecondStep && !doneSecondStep, 'done': doneSecondStep}">
                                     <a href="javascript:">
-                                        <span class="number">2</span> Write content
+                                        <span class="number">2</span> {{ general.post.write_content }}
                                     </a>
                                 </li>
                             </ul>
@@ -118,13 +121,13 @@ onMounted(() => {
                         <div class="actions clearfix">
                             <ul>
                                 <li :class="{'disabled': showFirstStep}" @click="backToFirstStep">
-                                    <a href="javascript:">Previous</a>
+                                    <a href="javascript:">{{ general.button.prev }}</a>
                                 </li>
                                 <li v-if="showFirstStep" @click="nextToSecondStep">
-                                    <a href="javascript:">Next</a>
+                                    <a href="javascript:">{{ general.button.next }}</a>
                                 </li>
                                 <li v-else :class="{'disabled': processing}" @click="handleSubmit">
-                                    <a href="javascript:">Finish</a>
+                                    <a href="javascript:">{{ general.button.finish }}</a>
                                 </li>
                             </ul>
                         </div>

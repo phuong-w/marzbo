@@ -76,8 +76,8 @@ class PostController extends Controller
     {
         $categories = $this->categoryRepository->all();
         $socialMedias = auth()->user()->socialMedias;
-//        $facebookGroups = false;
-        $facebookGroups = $this->facebookService->getGroups(auth()->user()->facebook_access_token);
+        $facebookGroups = false;
+//        $facebookGroups = $this->facebookService->getGroups(auth()->user()->facebook_access_token);
 
         return Inertia::render('Admin/Post/Create', [
             'categories' => CategoryResource::collection($categories),

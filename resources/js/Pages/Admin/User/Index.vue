@@ -1,6 +1,6 @@
 <script setup>
 import AdminLayout from '@/Layouts/AdminLayout.vue'
-import {Head, Link, router, useForm} from '@inertiajs/vue3'
+import {Head, Link, router, useForm, usePage} from '@inertiajs/vue3'
 import {inject, onBeforeUnmount, onMounted, onUnmounted, ref} from 'vue'
 import { hasRole, hasPermission} from '@/composables/helpers'
 import DataTable from 'datatables.net-vue3'
@@ -17,6 +17,8 @@ const STT_UNLOCK = 1
 const props = defineProps({
     users: Object,
 })
+
+const trans = usePage().props.trans
 
 let dt
 const params = route().params
@@ -187,18 +189,20 @@ onBeforeUnmount(() => {
         <div class="statbox widget box box-shadow">
             <div class="widget-content widget-content-area">
 
-                <div class="layout-top-spacing col-12">
-                    <Link :href="route('admin.user.create')" class="btn btn-primary">Create</Link>
-                </div>
+<!--                <div class="layout-top-spacing col-12">-->
+<!--                    <Link :href="route('admin.user.create')" class="btn btn-primary">-->
+<!--                        {{ trans.general.button.create }}-->
+<!--                    </Link>-->
+<!--                </div>-->
 
                 <DataTable ref="table" :data="data" :columns="columns" :options="options" class="display table style-3 table-hover">
                     <thead>
                     <tr>
                         <th class="checkbox-column text-center">No.</th>
-                        <th>Name</th>
+                        <th>{{ trans.general.common.name }}</th>
                         <th>Email</th>
-                        <th>Roles</th>
-                        <th class="text-center dt-no-sorting">Actions</th>
+                        <th>{{ trans.general.common.roles }}</th>
+                        <th class="text-center dt-no-sorting">{{ trans.general.common.actions }}</th>
                     </tr>
                     </thead>
                 </DataTable>

@@ -1,13 +1,15 @@
 <script setup>
 import AuthLayout from '@/Layouts/AuthLayout.vue'
 import InputError from '@/components/InputError.vue'
-import { Head, Link, useForm } from '@inertiajs/vue3'
+import {Head, Link, useForm, usePage} from '@inertiajs/vue3'
 
 const form = useForm({
     email: '',
     password: '',
     remember: false,
 });
+
+const trans = usePage().props.trans
 
 const submit = () => {
     form.post(route('admin.login'), {
@@ -22,8 +24,8 @@ const submit = () => {
         <div class="form-form-wrap">
             <div class="form-container">
                 <div class="form-content">
-        <h1 class="">Sign In</h1>
-        <p class="">Log in to your account to continue.</p>
+        <h1 class="">{{ trans.general.login.title }}</h1>
+        <p class="">{{ trans.general.login.subtitle }}</p>
 
         <form @submit.prevent="submit" class="text-left">
             <div class="form">
@@ -43,9 +45,10 @@ const submit = () => {
 
                 <div id="password-field" class="field-wrapper input mb-2">
                     <div class="d-flex justify-content-between">
-                        <label for="password">PASSWORD</label>
-                        <a href="auth_pass_recovery_boxed.html" class="forgot-pass-link">Forgot
-                            Password?</a>
+                        <label for="password">{{ trans.general.login.password }}</label>
+<!--                        <a href="auth_pass_recovery_boxed.html" class="forgot-pass-link">-->
+<!--                            {{ trans.general.login.password }}-->
+<!--                        </a>-->
                     </div>
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                          viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -69,11 +72,13 @@ const submit = () => {
 
                 <div class="d-sm-flex justify-content-between">
                     <div class="field-wrapper">
-                        <button type="submit" class="btn btn-primary">Log In</button>
+                        <button type="submit" class="btn btn-primary">
+                            {{ trans.general.login.button.submit }}
+                        </button>
                     </div>
                 </div>
 
-                <p class="signup-link">Not registered ? <Link :href="route('admin.register.show-form')">Create an account</Link></p>
+                <p class="signup-link">{{ trans.general.login.question }} <Link :href="route('admin.register.show-form')">{{ trans.general.login.button.create }}</Link></p>
 
             </div>
         </form>

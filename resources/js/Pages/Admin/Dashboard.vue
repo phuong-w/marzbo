@@ -1,6 +1,6 @@
 <script setup>
 import AdminLayout from '@/Layouts/AdminLayout.vue'
-import { Head } from '@inertiajs/vue3'
+import {Head, usePage} from '@inertiajs/vue3'
 import {onMounted, inject} from 'vue'
 import ApexCharts from 'apexcharts'
 import { reloadPageWithParamRefresh } from '@/composables/helpers'
@@ -17,6 +17,8 @@ const props = defineProps({
     total_post: Number,
     total_user: Number,
 })
+
+const general = usePage().props.trans.general
 
 const options = {
     chart: {
@@ -57,15 +59,15 @@ const options = {
     },
     series: [
         {
-            name: 'Comment',
+            name: general.common.comment,
             data: props.average_total_comment
         },
         {
-            name: 'React',
+            name: general.common.react,
             data: props.average_total_react
         },
         {
-            name: 'View',
+            name: general.common.view,
             data: props.average_total_view
         }
     ],
@@ -109,27 +111,27 @@ onMounted(() => {
     <AdminLayout>
         <div class="col-12">
             <h1>
-                Dashbroad
+                {{ general.dashboard.title }}
             </h1>
         </div>
 
         <div v-if="hasPermission(Acl.PERMISSION_USER_MANAGE)" class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
             <div class="widget widget-one">
                 <div class="widget-heading">
-                    <h6 class="">Statistics</h6>
+                    <h6 class="">{{ general.common.statistic }}</h6>
                 </div>
                 <div class="w-chart">
 
                     <div class="w-chart-section total-visits-content">
                         <div class="w-detail">
-                            <p class="w-title">Users</p>
+                            <p class="w-title">{{ general.user.title }}</p>
                             <p class="w-stats">{{ props.total_user }}</p>
                         </div>
                     </div>
 
                     <div class="w-chart-section paid-visits-content">
                         <div class="w-detail">
-                            <p class="w-title">Posts</p>
+                            <p class="w-title">{{ general.post.title }}</p>
                             <p class="w-stats">{{ props.total_post }}</p>
                         </div>
                     </div>

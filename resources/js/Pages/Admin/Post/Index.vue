@@ -2,7 +2,7 @@
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 import EditPostModal from './Partials/Modal/EditPostModal.vue'
 
-import {Head, Link, router} from '@inertiajs/vue3'
+import {Head, Link, router, usePage} from '@inertiajs/vue3'
 import {computed, inject, ref, onMounted, onBeforeUnmount} from 'vue'
 import {hasRole, hasPermission} from '@/composables/helpers'
 import DataTable from 'datatables.net-vue3'
@@ -18,6 +18,8 @@ const props = defineProps({
 })
 
 DataTable.use(DataTablesCore)
+
+const trans = usePage().props.trans
 
 let dt
 const params = route().params
@@ -91,9 +93,9 @@ const columns = [
 
                 stats = `<div>
                     <span class="badge badge-info p-2">
-                        <span>React: </span> <span class="badge badge-light mr-2">${post.total_react}</span>
-                        <span>Comment: </span> <span class="badge badge-light mr-2">${post.total_comment}</span>
-                        <span>View: </span> <span class="badge badge-light">${post.total_view}</span>
+                        <span>${trans.general.common.react}: </span> <span class="badge badge-light mr-2">${post.total_react}</span>
+                        <span>${trans.general.common.comment}: </span> <span class="badge badge-light mr-2">${post.total_comment}</span>
+                        <span>${trans.general.common.view}: </span> <span class="badge badge-light">${post.total_view}</span>
                     </span>
                 </div>`
 
@@ -113,11 +115,11 @@ const columns = [
                         <td style="border: none">
                             <div>
                                 <p class="d-flex justify-content-between ">
-                                    <span class="font-weight-bold">Schedule time: </span>
+                                    <span class="font-weight-bold">${trans.general.common.schedule_time}: </span>
                                     <span class="badge outline-badge-dark">${post.schedule_time}</span>
                                 </p>
                                 <p class="d-flex justify-content-between">
-                                    <span class="font-weight-bold">Publish date: </span>
+                                    <span class="font-weight-bold">${trans.general.common.publish_date}: </span>
                                     <span class="${badge}">${post.updated_at}</span>
                                 </p>
                             </div>
@@ -251,12 +253,14 @@ onBeforeUnmount(() => {
                 <div class="widget-content widget-content-area">
 
                     <div class="layout-top-spacing col-12">
-                        <Link v-if="hasPermission(Acl.PERMISSION_POST_ADD)" :href="route('admin.post.create')"
-                              class="btn btn-primary mr-2">Create
+                        <Link v-if="hasPermission(Acl.PERMISSION_POST_ADD)" :href="route('admin.post.create')" class="btn btn-primary mr-2">
+                            {{ trans.general.button.create }}
                         </Link>
-                        <Link :href="route('admin.post.index')" class="btn btn-primary mr-2">Published</Link>
-                        <Link :href="route('admin.post.index', { not_published: true })" class="btn btn-primary">Not
-                            published
+                        <Link :href="route('admin.post.index')" class="btn btn-primary mr-2">
+                            {{ trans.general.button.published }}
+                        </Link>
+                        <Link :href="route('admin.post.index', { not_published: true })" class="btn btn-primary">
+                            {{ trans.general.button.not_published }}
                         </Link>
                     </div>
 
@@ -266,7 +270,7 @@ onBeforeUnmount(() => {
                         <tr>
                             <th class="checkbox-column text-center" style="width: 5%">ID</th>
                             -->
-                            <th>Content</th>
+                            <th>{{ trans.general.post.table_index.group_post }}</th>
                             <!--                            <th>Created At</th>-->
                             <!--                            <th class="text-center dt-no-sorting">Action</th>-->
                         </tr>

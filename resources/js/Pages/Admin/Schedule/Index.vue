@@ -1,7 +1,7 @@
 <script setup>
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 
-import {Head, Link, router} from '@inertiajs/vue3'
+import {Head, Link, router, usePage} from '@inertiajs/vue3'
 import {computed, inject, ref, onMounted, onBeforeUnmount} from 'vue'
 import {hasRole, hasPermission} from '@/composables/helpers'
 import DataTable from 'datatables.net-vue3'
@@ -15,6 +15,8 @@ const Acl = inject('Acl')
 const props = defineProps({
     schedules: Object,
 })
+
+const trans = usePage().props.trans
 
 DataTable.use(DataTablesCore)
 
@@ -165,11 +167,11 @@ onBeforeUnmount(() => {
                         <thead>
                         <tr>
                             <th class="checkbox-column text-center" style="width: 10%">ID</th>
-                            <th style="width: 10%">Social Media</th>
-                            <th style="width: 50%">Content</th>
-                            <th style="width: 10%">Status</th>
-                            <th style="width: 10%">Schedule Time</th>
-                            <th style="width: 10%">Action</th>
+                            <th style="width: 10%">{{ trans.general.common.social_media }}</th>
+                            <th style="width: 50%">{{ trans.general.common.content }}</th>
+                            <th style="width: 10%">{{ trans.general.common.status }}</th>
+                            <th style="width: 10%">{{ trans.general.common.schedule_time }}</th>
+                            <th style="width: 10%">{{ trans.general.common.actions }}</th>
                         </tr>
                         </thead>
                     </DataTable>

@@ -1,9 +1,11 @@
 <script setup>
 import HomeLayout from '@/Layouts/HomeLayout.vue'
-import { Head } from '@inertiajs/vue3'
+import {Head, usePage} from '@inertiajs/vue3'
 import Image from '@/components/Image.vue'
 import { onMounted } from 'vue'
 import { reloadPageWithParamRefresh } from '@/composables/helpers'
+
+const trans = usePage().props.trans
 
 onMounted(() => {
     reloadPageWithParamRefresh()

@@ -2,7 +2,7 @@
 import { onMounted, ref, watch, nextTick } from 'vue'
 import InputLabel from '@/components/InputLabel.vue'
 import InputError from '@/components/InputError.vue'
-import { useForm } from '@inertiajs/vue3'
+import {useForm, usePage} from '@inertiajs/vue3'
 // import Masonry from 'masonry-layout'
 
 const props = defineProps({
@@ -24,6 +24,7 @@ const props = defineProps({
     }
 })
 
+const trans = usePage().props.trans
 const emit = defineEmits(['form-submitted'])
 
 const objData = ref({})
@@ -247,9 +248,9 @@ onMounted(() => {
 <!--            <InputError class="mt-2" :message="form.errors.category_id"/>-->
 <!--        </div>-->
         <div class="d-flex justify-content-end align-items-center mt-5">
-            <InputLabel for="sSchedule" value="Scheduled Time:"/>
+            <InputLabel for="sSchedule" :value="trans.general.common.schedule_time + ':'"/>
             <div class="form-group col-xl-2 col-lg-3 col-12">
-                <input type="text" class="form-control mb-0 flatpickr flatpickr-input active form-control-sm" id="sSchedule" placeholder="Time..." :class="{'is-invalid': form.errors.scheduled_time}" v-model="form.scheduled_time">
+                <input type="text" class="form-control mb-0 flatpickr flatpickr-input active form-control-sm" id="sSchedule" :placeholder="trans.general.common.time + '...'" :class="{'is-invalid': form.errors.scheduled_time}" v-model="form.scheduled_time">
             </div>
         </div>
         <div class="d-flex justify-content-end align-items-center">
@@ -260,7 +261,7 @@ onMounted(() => {
         <div class="clearfix"></div>
 
         <div class="col-12">
-            <InputLabel for="sContent" value="Content"/>
+            <InputLabel for="sContent" :value="trans.general.common.content "/>
             <ul class="nav nav-tabs mb-4 mt-0 justify-content-start" role="tablist">
                 <li class="nav-item" v-for="(item, index) in socialMediaSelected" :key="item.id">
                     <a class="text-uppercase nav-link" :class="{'active': index === 0}"
@@ -283,10 +284,10 @@ onMounted(() => {
 <!--                        </div>-->
 
                         <div class="layout-top-spacing mb-5">
-                            <InputLabel for="sFacebookGroupsSelected" value="Group"/>
+                            <InputLabel for="sFacebookGroupsSelected" :value="trans.general.common.group"/>
 
                             <select id="sFacebookGroupsSelected" class="selectpicker form-control " data-live-search="true" data-size="6" :class="{'is-invalid': form.errors.facebook_group}">
-                                <option value="" disabled>-- Choose a group --</option>
+                                <option value="" disabled>-- {{ trans.general.common.group_select }} --</option>
                                 <template v-for="item in facebookGroups.data" :key="item.id">
                                     <option :value="item.id" :data-group-name="item.name">{{ item.name }}</option>
                                 </template>
@@ -306,7 +307,7 @@ onMounted(() => {
 <!--                        <input class="videos" :id="`sPostvideos${item.name}`" type="file" accept="video/*">-->
                         <div :id="`preview-container-${item.name}`" class="preview-container card mb-3">
                             <div class="card-body">
-                                <h5 class="card-title">Box Preview</h5>
+                                <h5 class="card-title">{{ trans.general.common.box_preview }}</h5>
                                 <div id="preview-content" class="preview-content"></div>
                             </div>
                         </div>

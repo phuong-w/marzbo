@@ -22,7 +22,7 @@ class ScheduleResource extends JsonResource
             'publish_date' => $this->publish_date,
             'publish_date_formated' => Carbon::parse($this->publish_date)->isoFormat('MMM Do YYYY - h\h:m\p'),
             'status' => $this->status,
-            'status_name' => SCHEDULE_STATUSES[$this->status]['name'],
+            'status_name' => trans('general.schedule.status')[$this->status]['name'],
             'badge' => SCHEDULE_STATUSES[$this->status]['badge_outline']
         ];
     }

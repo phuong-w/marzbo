@@ -36,7 +36,7 @@ class DashboardController extends Controller
                 'average_total_comment' => $stats['average_total_comment'],
                 'average_total_react' => $stats['average_total_react'],
                 'total_post' => $this->postRepository->countTotalPosts(),
-                'total_user' => $this->userRepository->countTotalUsers(),
+                'total_user' => $this->userRepository->countTotalUsers()
             ]
         );
     }

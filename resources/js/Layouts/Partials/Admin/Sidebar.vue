@@ -1,35 +1,37 @@
 <script setup>
-import { Link } from '@inertiajs/vue3'
+import {Link, usePage} from '@inertiajs/vue3'
 import VueFeather from 'vue-feather'
 import { inject } from 'vue'
 import { hasRole, hasPermission} from '@/composables/helpers'
 
 const Acl = inject('Acl')
 
+const general = usePage().props.trans.general;
+
 const menuItems = [
     {
-        title: 'Dashboard',
+        title: general.dashboard.menu_title,
         url: route('admin.dashboard'),
         icon: 'home',
         active: route().current('admin.dashboard'),
         show: hasPermission(Acl.PERMISSION_VIEW_MENU_DASHBOARD)
     },
     {
-        title: 'Categories',
+        title: general.category.menu_title,
         url: route('admin.category.index'),
         icon: 'sidebar',
         active: route().current('admin.category.*'),
         show: hasPermission(Acl.PERMISSION_CATEGORY_LIST)
     },
     {
-        title: 'Posts',
+        title: general.post.menu_title,
         url: route('admin.post.index'),
         icon: 'file-text',
         active: route().current('admin.post.*'),
         show: hasPermission(Acl.PERMISSION_POST_LIST)
     },
     {
-        title: 'Schedules',
+        title: general.schedule.menu_title,
         url: route('admin.schedule.index'),
         icon: 'clock',
         active: route().current('admin.schedule.*'),
@@ -43,21 +45,21 @@ const menuItems = [
         show: hasPermission(Acl.PERMISSION_CHATGPT_MANAGE)
     },
     {
-        title: 'Users',
+        title: general.user.menu_title,
         url: route('admin.user.index'),
         icon: 'users',
         active: route().current('admin.user.*'),
         show: hasPermission(Acl.PERMISSION_USER_LIST)
     },
     {
-        title: 'Roles',
+        title: general.role.menu_title,
         url: route('admin.role.index'),
         icon: 'settings',
         active: route().current('admin.role.*'),
         show: hasPermission(Acl.PERMISSION_VIEW_MENU_ROLE_PERMISSION)
     },
     {
-        title: 'Permissions',
+        title: general.permission.menu_title,
         url: route('admin.permission.index'),
         icon: 'anchor',
         active: route().current('admin.permission.*'),
