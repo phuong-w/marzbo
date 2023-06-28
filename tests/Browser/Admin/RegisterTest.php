@@ -45,10 +45,10 @@ class RegisterTest extends DuskTestCase
         parent::tearDown();
     }
 
-    /**
-     * @group main
-     * @throws \Throwable
-     */
+//    /**
+//     * @group main
+//     * @throws \Throwable
+//     */
 //    public function test_view()
 //    {
 //        $this->browse(function (Browser $browser) {
@@ -57,6 +57,10 @@ class RegisterTest extends DuskTestCase
 //        });
 //    }
 
+    /**
+     * @group main
+     * @throws \Throwable
+     */
     public function test_register_phone_error_response()
     {
         $this->browse(function (Browser $browser) {
@@ -74,13 +78,57 @@ class RegisterTest extends DuskTestCase
                 ->press('@register')
                 ->waitForText('Trường số điện thoại phải là một số.')
                 ->assertSee('Trường số điện thoại phải là một số.')
+                ->pause(5000);
+        });
+    }
+
+    /**
+     * @group main
+     * @throws \Throwable
+     */
+    public function test_register_phone2_error_response()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/admin/register')
+                ->waitForInput('first_name')
+                ->typeSlowly('@first_name', $this->first_name, 10)
+                ->typeSlowly('@last_name', $this->last_name, 10)
                 ->typeSlowly('input[name="phone"]', '0123456789')
+                ->typeSlowly('@email', $this->email, 10)
+                ->typeSlowly('@password', $this->password, 1)
+                ->typeSlowly('@password_confirmation', $this->password_confirmation, 1)
+//                ->click('#terms')
+//                ->click('label.new-checkbox')
+//                ->click('div.n-chk span.new-control-indicator')
                 ->press('@register')
-                ->waitForText('Trường phone number có định dạng không hợp lệ')
-                ->assertSee('Trường phone number có định dạng không hợp lệ');
-//                ->press('Ok, got it!')
-//                ->clickAtPoint(0, 0)
-//                ->assertSee('Last Name is required');
+                ->waitForText('Trường phone number có định dạng không hợp lệ.')
+                ->assertSee('Trường phone number có định dạng không hợp lệ.')
+                ->pause(5000);
+        });
+    }
+
+    /**
+     * @group main
+     * @throws \Throwable
+     */
+    public function test_register_phone3_error_response()
+    {
+        $this->browse(function (Browser $browser) {
+            $browser->visit('/admin/register')
+                ->waitForInput('first_name')
+                ->typeSlowly('@first_name', $this->first_name, 10)
+                ->typeSlowly('@last_name', $this->last_name, 10)
+                ->typeSlowly('input[name="phone"]', '096999099088')
+                ->typeSlowly('@email', $this->email, 10)
+                ->typeSlowly('@password', $this->password, 1)
+                ->typeSlowly('@password_confirmation', $this->password_confirmation, 1)
+//                ->click('#terms')
+//                ->click('label.new-checkbox')
+//                ->click('div.n-chk span.new-control-indicator')
+                ->press('@register')
+                ->waitForText('Độ dài của trường phone number phải nằm trong khoảng 10 and 11 chữ số.')
+                ->assertSee('Độ dài của trường phone number phải nằm trong khoảng 10 and 11 chữ số.')
+                ->pause(5000);
         });
     }
 }
